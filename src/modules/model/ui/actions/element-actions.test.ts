@@ -14,6 +14,12 @@ describe("canPlaceElementOnDiagram", () => {
     expect(canPlaceElementOnDiagram("SystemComponent", "SAB")).toBe(true);
     expect(canPlaceElementOnDiagram("SystemFunction", "SCD")).toBe(true);
     expect(canPlaceElementOnDiagram("OperationalActivity", "SAB")).toBe(false);
+    expect(canPlaceElementOnDiagram("OperationalCapability", "OAB")).toBe(false);
+    expect(canPlaceElementOnDiagram("OperationalEntity", "OAB")).toBe(true);
+    expect(canPlaceElementOnDiagram("OperationalActor", "OAB")).toBe(true);
+    expect(canPlaceElementOnDiagram("OperationalActivity", "OAB")).toBe(true);
+    expect(canPlaceElementOnDiagram("OperationalCapability", "OCB")).toBe(true);
+    expect(canPlaceElementOnDiagram("OperationalActivity", "OCB")).toBe(true);
   });
 });
 

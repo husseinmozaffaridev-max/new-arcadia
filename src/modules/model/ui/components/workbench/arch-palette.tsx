@@ -33,7 +33,7 @@ export function ArchPalette({
     <>
       <div className="px-3 pt-2">
         <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Nodes · {activeTab.type}
+          Elements · {activeTab.type}
         </p>
       </div>
 
@@ -93,7 +93,7 @@ export function ArchPalette({
 
       <div className="px-3 py-2 text-center">
         <p className="text-[10px] text-muted-foreground">
-          Drag nodes onto the canvas. Connect by dragging between handles.
+          Drag elements onto the canvas. Connect by dragging between handles.
         </p>
       </div>
     </>

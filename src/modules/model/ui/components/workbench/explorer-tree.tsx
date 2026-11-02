@@ -179,58 +179,62 @@ type CategoryFolder = {
   match: (type: ElementTypeValue | string) => boolean;
 };
 
-const CATEGORY_FOLDERS: CategoryFolder[] = [
-  {
-    key: "actors",
-    label: "Actors & Entities",
-    icon: Users,
-    match: (t) => t.endsWith("Actor") || t.endsWith("Entity"),
-  },
-  {
-    key: "functions",
-    label: "Functions & Activities",
-    icon: Activity,
-    match: (t) => t.endsWith("Function") || t.endsWith("Activity"),
-  },
-  {
-    key: "components",
-    label: "Components & Nodes",
-    icon: Boxes,
-    match: (t) =>
-      t.endsWith("Component") || t === "System" || t === "PhysicalNode",
-  },
-  {
-    key: "capabilities",
-    label: "Capabilities",
-    icon: Target,
-    match: (t) => t.endsWith("Capability"),
-  },
-  {
-    key: "class-elements",
-    label: "Class Diagram Elements",
-    icon: Box,
-    match: (t) =>
-      [
-        "CLASS",
-        "INTERFACE",
-        "ENUM",
-        "DATA_TYPE",
-        "PRIMITIVE",
-        "COLLECTION",
-        "UNION",
-        "PACKAGE",
-        "GROUP",
-      ].includes(t),
-  },
-  // catch-all — Mission, OperationalProcess, FunctionPort, …
-  { key: "other", label: "Other", icon: Folder, match: () => true },
-];
+function getCategoryFolders(layer?: LayerValue): CategoryFolder[] {
+  return [
+    {
+      key: "actors",
+      label: layer === "OA" ? "Entities & Actors" : "Actors & Entities",
+      icon: Users,
+      match: (t) => t.endsWith("Actor") || t.endsWith("Entity"),
+    },
+    {
+      key: "functions",
+      label: layer === "OA" ? "Activities" : "Functions",
+      icon: Activity,
+      match: (t) => t.endsWith("Function") || t.endsWith("Activity"),
+    },
+    {
+      key: "components",
+      label: "Components & Nodes",
+      icon: Boxes,
+      match: (t) =>
+        t.endsWith("Component") || t === "System" || t === "PhysicalNode",
+    },
+    {
+      key: "capabilities",
+      label: "Capabilities",
+      icon: Target,
+      match: (t) => t.endsWith("Capability"),
+    },
+    {
+      key: "class-elements",
+      label: "Class Diagram Elements",
+      icon: Box,
+      match: (t) =>
+        [
+          "CLASS",
+          "INTERFACE",
+          "ENUM",
+          "DATA_TYPE",
+          "PRIMITIVE",
+          "COLLECTION",
+          "UNION",
+          "PACKAGE",
+          "GROUP",
+        ].includes(t),
+    },
+    // catch-all — Mission, OperationalProcess, FunctionPort, …
+    { key: "other", label: "Other", icon: Folder, match: () => true },
+  ];
+}
 
 /** ریشه‌های درخت را به پوشه‌های نوع‌محور (Capella-style) دسته‌بندی می‌کند. */
 function categorizeRoots(
   roots: ElementTreeNode[],
+  layer?: LayerValue,
 ): Array<CategoryFolder & { nodes: ElementTreeNode[] }> {
-  const buckets = CATEGORY_FOLDERS.map((f) => ({
+  const folders = getCategoryFolders(layer);
+  const buckets = folders.map((f) => ({
     ...f,
     nodes: [] as ElementTreeNode[],
   }));
@@ -571,7 +575,7 @@ function ModelNode({
   const archTree = buildElementTree(archElements);
   const classTree = buildClassElementTree(classElements);
   const allRoots = [...archTree, ...classTree];
-  const folders = categorizeRoots(allRoots);
+  const folders = categorizeRoots(allRoots, model.layer);
   const elementTypes = getElementTypesForLayer(model.layer);
   const newElementActions = getNewElementActions(model.layer);
   const nextLayer = getNextOfferedLayer(model.layer);
@@ -716,7 +720,7 @@ function ModelNode({
                   <ChevronRight className="size-2.5 shrink-0" />
                 )}
                 <LayoutDashboard className="size-3 shrink-0" />
-                <span>Architecture Diagrams ({archDiagrams.length})</span>
+                <span>Diagrams ({archDiagrams.length})</span>
               </button>
               {openDiagrams &&
                 archDiagrams.map((diagram) => (

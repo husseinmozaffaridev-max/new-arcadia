@@ -38,7 +38,7 @@ export function ClassPalette({ palette, counts }: ClassPaletteProps) {
 
       <div className="px-3 py-2 text-center">
         <p className="text-[10px] text-muted-foreground">
-          Drag nodes onto the canvas. Connect by dragging between handles.
+          Drag elements onto the canvas. Connect by dragging between handles.
         </p>
       </div>
     </>
