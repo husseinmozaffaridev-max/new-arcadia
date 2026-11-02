@@ -1,4 +1,10 @@
-import { Handle, type Node, type NodeProps, Position } from "@xyflow/react";
+import {
+  Handle,
+  type Node,
+  type NodeProps,
+  NodeResizer,
+  Position,
+} from "@xyflow/react";
 import {
   type DragEventHandler,
   memo,
@@ -12,7 +18,7 @@ import { useUpdateElement } from "../clients/update-element";
 import { getElementTypeInfo, getElementVisual } from "../helpers/element";
 import type { ElementNodeData } from "../stores/canvas";
 import { useCanvasStore } from "../stores/canvas";
-import { useCanEditActiveLayer } from "../stores/workbench";
+import { useCanEditActiveLayer, useWorkbenchStore } from "../stores/workbench";
 
 const STATUS_RING: Record<string, string> = {
   DRAFT: "ring-1 ring-gray-400/50",
@@ -57,6 +63,7 @@ function ArchitectureNodeComponent({
         {
           onSuccess: () => {
             updateNodeData(data.elementId, { ...data, name: trimmed });
+            useWorkbenchStore.getState().setElementName(data.elementId, trimmed);
           },
           onError: ({ message }) =>
             toast.error(message || "Failed to rename element"),
@@ -134,6 +141,15 @@ function ArchitectureNodeComponent({
         )}
       </div>
 
+      {/* ── NodeResizer (only visible when selected) ── */}
+      <NodeResizer
+        isVisible={canEdit && selected}
+        minWidth={140}
+        minHeight={60}
+        lineClassName="border-primary/50"
+        handleClassName="bg-primary"
+      />
+
       <Handle
         type="target"
         position={Position.Top}
@@ -144,6 +160,15 @@ function ArchitectureNodeComponent({
         position={Position.Bottom}
         className="size-2! border! border-current! bg-background!"
       />
+      {/* ── NodeResizer (only visible when selected) ── */}
+      <NodeResizer
+        isVisible={canEdit && selected}
+        minWidth={140}
+        minHeight={60}
+        lineClassName="border-primary/50"
+        handleClassName="bg-primary"
+      />
+
       <Handle
         type="target"
         position={Position.Right}

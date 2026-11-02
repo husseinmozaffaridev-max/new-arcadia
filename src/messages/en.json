@@ -132,10 +132,26 @@
         "capella": "Entity Breakdown Diagram (EBD)"
       },
       "OAB": {
-        "label": "Operational Activity Diagram",
+        "label": "Operational Architecture Blank",
+        "desc": "The overall operational architecture showing entities, actors, and activities in one view.",
+        "purpose": "Give a complete operational picture: who does what, and how activities exchange information.",
+        "contains": "Operational Entities, Operational Actors, Operational Activities, Operational Exchanges, Allocations",
+        "usedFor": "Communicating the full operational architecture at a glance",
+        "capella": "Operational Architecture Blank (OAB)"
+      },
+      "OAIB": {
+        "label": "Operational Activity Interaction Blank",
+        "desc": "Shows the interactions between operational activities — how activities exchange information and trigger each other.",
+        "purpose": "Define interactions between operational activities with data exchanges between them.",
+        "contains": "Operational Activities, Operational Exchanges",
+        "usedFor": "Modeling operational workflows and information flows",
+        "capella": "Operational Activity Interaction Blank (OAIB)"
+      },
+      "OABD": {
+        "label": "Operational Activity Breakdown",
         "desc": "A hierarchical tree of operational activities showing what needs to be done at the operational level.",
-        "purpose": "Decompose high-level missions into concrete operational activities that can be assigned to entities.",
-        "contains": "Operational Activities, Hierarchy relationships",
+        "purpose": "Decompose high-level missions into concrete operational activities.",
+        "contains": "Operational Activities, Hierarchy",
         "usedFor": "Defining what the operational stakeholders need to accomplish",
         "capella": "Activity Breakdown Diagram (ABD)"
       },
@@ -146,6 +162,78 @@
         "contains": "Operational Activities, Operational Exchanges, Functional Chains",
         "usedFor": "Modeling operational workflows and information flows",
         "capella": "Operational Activity Interaction Diagram (OAIB)"
+      },
+      "OCB": {
+        "label": "Operational Capabilities Blank",
+        "desc": "Groups operational activities into capabilities — high-level services the operation needs to provide.",
+        "purpose": "Define what the operation must be capable of achieving, similar to use cases.",
+        "contains": "Operational Capabilities, Involvement Links, Operational Activities, Operational Entities",
+        "usedFor": "Defining operational capabilities and use-case-like scenarios",
+        "capella": "Operational Capabilities Blank (OCB)"
+      },
+      "OAS": {
+        "label": "Operational Activity Scenario",
+        "desc": "A sequence diagram showing how operational entities interact over time to achieve a specific capability.",
+        "purpose": "Define operational scenarios and validate that the operational architecture supports required missions.",
+        "contains": "Lifelines, Messages, Scenario steps",
+        "usedFor": "Validating operational flows through scenario-based analysis",
+        "capella": "Operational Activity Scenario (OAS)"
+      },
+      "MCB": {
+        "label": "Missions / Capabilities Blank",
+        "desc": "Groups system functions into mission capabilities — what the system must be able to do.",
+        "purpose": "Define system-level capabilities and validate against operational needs.",
+        "contains": "System Capabilities, Involvement Links, System Actors, System Functions",
+        "usedFor": "Defining system capabilities aligned with operational needs",
+        "capella": "Missions / Capabilities Blank (MCB)"
+      },
+      "SFBD": {
+        "label": "System Function Breakdown Diagram",
+        "desc": "A hierarchical tree of system functions showing what the system must perform.",
+        "purpose": "Decompose system missions into concrete system functions.",
+        "contains": "System Functions, Hierarchy",
+        "usedFor": "Defining functional decomposition of the system",
+        "capella": "System Function Breakdown Diagram (SFBD)"
+      },
+      "SAS": {
+        "label": "System Architecture Scenario",
+        "desc": "A sequence diagram showing system actors and system exchanging messages over time.",
+        "purpose": "Validate functional interactions between system and external actors.",
+        "contains": "Lifelines, Messages, Scenario steps",
+        "usedFor": "Scenario-based system functional validation",
+        "capella": "System Architecture Scenario (SAS)"
+      },
+      "LFBD": {
+        "label": "Logical Function Breakdown Diagram",
+        "desc": "A hierarchical tree of logical functions.",
+        "purpose": "Decompose logical functions into sub-functions.",
+        "contains": "Logical Functions, Hierarchy",
+        "usedFor": "Logical functional decomposition",
+        "capella": "Logical Function Breakdown Diagram (LFBD)"
+      },
+      "LAS": {
+        "label": "Logical Architecture Scenario",
+        "desc": "A sequence diagram showing logical components and actors exchanging messages over time.",
+        "purpose": "Validate logical architecture behavior.",
+        "contains": "Lifelines, Messages, Scenario steps",
+        "usedFor": "Logical behavioral validation",
+        "capella": "Logical Architecture Scenario (LAS)"
+      },
+      "PFBD": {
+        "label": "Physical Function Breakdown Diagram",
+        "desc": "A hierarchical tree of physical functions.",
+        "purpose": "Decompose physical functions into sub-functions.",
+        "contains": "Physical Functions, Hierarchy",
+        "usedFor": "Physical functional decomposition",
+        "capella": "Physical Function Breakdown Diagram (PFBD)"
+      },
+      "PAS": {
+        "label": "Physical Architecture Scenario",
+        "desc": "A sequence diagram showing physical components and actors exchanging messages over time.",
+        "purpose": "Validate physical implementation behavior.",
+        "contains": "Lifelines, Messages, Scenario steps",
+        "usedFor": "Physical behavioral validation",
+        "capella": "Physical Architecture Scenario (PAS)"
       },
       "OCD": {
         "label": "Operational Capability Blank",

@@ -1,6 +1,14 @@
 "use client";
 
-import { Copy, Eye, FolderOpen, Loader2, Package, Trash2 } from "lucide-react";
+import {
+  Copy,
+  Eye,
+  EyeOff,
+  FolderOpen,
+  Loader2,
+  Package,
+  Trash2,
+} from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import {
@@ -60,7 +68,11 @@ function NodeContextMenu({
   readOnly: boolean;
 }) {
   const node = useCanvasStore((s) => s.nodes.find((n) => n.id === nodeId));
-  const { removeElement, isPending } = useRemoveElementSync();
+  const {
+    removeElementFromDiagram,
+    deleteElementFromModel,
+    isPending,
+  } = useRemoveElementSync();
   const selectNode = useCanvasStore((s) => s.selectNode);
   const { moveToPackage, isPending: isMoving } = useMoveToPackage();
 
@@ -72,10 +84,6 @@ function NodeContextMenu({
         n.id !== nodeId && (n.data as ClassNodeData).elementType === "PACKAGE",
     );
   }, [nodeId]);
-
-  const handleDelete = useCallback(() => {
-    removeElement(nodeId);
-  }, [nodeId, removeElement]);
 
   const data = node ? (node.data as ClassNodeData) : undefined;
   const currentParentId = data?.parentId ?? null;
@@ -159,7 +167,14 @@ function NodeContextMenu({
         <>
           <ContextMenuSeparator />
           <ContextMenuItem
-            onClick={handleDelete}
+            onClick={() => removeElementFromDiagram(nodeId)}
+            disabled={isPending}
+          >
+            <EyeOff className="mr-2 size-3.5 text-muted-foreground" />
+            Remove from Diagram
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => deleteElementFromModel(nodeId)}
             disabled={isPending}
             className="text-destructive focus:text-destructive"
           >
@@ -168,7 +183,7 @@ function NodeContextMenu({
             ) : (
               <Trash2 className="mr-2 size-3.5" />
             )}
-            Delete
+            Delete from Model
           </ContextMenuItem>
         </>
       )}

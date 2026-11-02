@@ -3,7 +3,10 @@ import { getTransitionedDiagramType } from "./diagram-transition";
 
 describe("getTransitionedDiagramType", () => {
   it("carries each architecture diagram to its counterpart type", () => {
-    expect(getTransitionedDiagramType("OAB")).toBe("SFB");
+    expect(getTransitionedDiagramType("OAB")).toBe("SAB");
+    expect(getTransitionedDiagramType("OCB")).toBe("MCB");
+    expect(getTransitionedDiagramType("OAIB")).toBe("SDFB");
+    expect(getTransitionedDiagramType("OABD")).toBe("SFBD");
     expect(getTransitionedDiagramType("OAAB")).toBe("SAB");
     expect(getTransitionedDiagramType("OPD")).toBe("SDFB");
     expect(getTransitionedDiagramType("SAB")).toBe("LAB");

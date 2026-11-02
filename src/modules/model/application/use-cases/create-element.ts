@@ -2,7 +2,10 @@ import type { IUseCase } from "@/modules/shared/application/interfaces/use-case"
 import { resolveErrorMessage } from "@/modules/shared/utils/resolve-error-message";
 import type { ElementProperties } from "../../domain/entities/element";
 import { SHORT_NAME_MAX_LENGTH } from "../../domain/policies/naming";
-import { findAvailableName } from "../../domain/policies/uniqueness";
+import {
+  findAvailableCountedName,
+  findAvailableName,
+} from "../../domain/policies/uniqueness";
 import {
   ElementType,
   type ElementTypeValue,
@@ -31,6 +34,7 @@ export type CreateElementResponse = {
   name: string;
   description?: string;
   type: ElementTypeValue;
+  parentId?: string | null;
   updatedAt: string;
   createdAt: string;
   layer: LayerValue;
@@ -71,13 +75,21 @@ export class CreateElementUseCase
         if (!parent.layer.equals(layer)) {
           throw new Error("Parent element must be in the same layer");
         }
+        if (parent.type.isActor()) {
+          throw new Error("Actors cannot be decomposed or contain child elements");
+        }
+      }
+
+      const elementType = ElementType.from(payload.type);
+      if (payload.parentId && elementType.isActor()) {
+        throw new Error("Actors cannot be decomposed or nested inside other elements");
       }
 
       const siblings = await this.elementRepository.findElementsByModelId({
         modelId: payload.modelId,
       });
 
-      const name = findAvailableName(
+      const name = findAvailableCountedName(
         payload.name,
         siblings.map((sibling) => sibling.name),
         { maxLength: SHORT_NAME_MAX_LENGTH },

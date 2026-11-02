@@ -25,13 +25,23 @@ import { resolveDiagramLayer } from "../helpers/diagram";
 import { getElementTypeInfo } from "../helpers/element";
 import { getLayerInfo } from "../helpers/layer";
 import { useCanvasStore } from "../stores/canvas";
+import { useWorkbenchStore } from "../stores/workbench";
 import type { ClassElementTypeValue } from "../types/class-diagram";
 import type { Diagram, DiagramTypeValue } from "../types/diagram";
 import type { ElementTypeValue } from "../types/element";
 import type { LayerValue } from "../types/layer";
 import type { Model } from "../types/model";
 
-const SCENARIO_TYPES = new Set(["OIS", "SS", "LS", "PS"]);
+const SCENARIO_TYPES = new Set([
+  "OIS",
+  "OAS",
+  "SS",
+  "SAS",
+  "LS",
+  "LAS",
+  "PS",
+  "PAS",
+]);
 
 type ExplorerActionsParams = {
   projectId: string;
@@ -87,6 +97,7 @@ export function useExplorerActions({
         {
           onSuccess: () => {
             toast.success(`${getLayerInfo(layer).label} model created`);
+            useWorkbenchStore.getState().setCurrentLayer(layer);
             onTreeChanged();
           },
           onError: ({ message }) =>
@@ -105,7 +116,7 @@ export function useExplorerActions({
           type,
           layer: model.layer,
           modelId: model.id,
-          name: `New ${info.label}`,
+          name: info.label,
         },
         {
           onSuccess: () => {
@@ -128,7 +139,7 @@ export function useExplorerActions({
           elementType: type,
           layer: model.layer,
           modelId: model.id,
-          name: `New ${info.label}`,
+          name: info.label,
         },
         {
           onSuccess: () => {

@@ -12,6 +12,7 @@ export type UpdateElementPayload = {
     id: string;
     name: string;
     description?: string;
+    parentId?: string | null;
     properties?: ElementProperties;
   };
   context: {
@@ -25,6 +26,7 @@ export type UpdateElementResponse = {
   name: string;
   description?: string;
   type: string;
+  parentId?: string | null;
   updatedAt: string;
   createdAt: string;
   properties: ElementProperties;
@@ -73,6 +75,17 @@ export class UpdateElementUseCase
 
       element.rename(payload.name);
 
+      if (payload.parentId) {
+        if (element.type.isActor()) {
+          throw new Error("Actors cannot be decomposed or nested inside other elements");
+        }
+        const parent = await this.elementRepository.findElementById({ id: payload.parentId });
+        if (!parent) throw new Error(`Parent element "${payload.parentId}" not found`);
+        if (parent.type.isActor()) {
+          throw new Error("Actors cannot be decomposed or contain child elements");
+        }
+      }
+
       element.updateDescription(payload.description);
 
       element.updateProperties({ ...payload.properties });
@@ -81,6 +94,7 @@ export class UpdateElementUseCase
         id: payload.id,
         name: element.name,
         description: element.description,
+        parentId: payload.parentId,
         properties: element.properties,
       });
 

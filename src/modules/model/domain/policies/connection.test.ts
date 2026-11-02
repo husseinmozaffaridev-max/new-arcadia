@@ -99,6 +99,17 @@ describe("ConnectionPolicy", () => {
     );
   });
 
+  it("never allows actors to be composed or decomposed", () => {
+    expect(connect("LogicalActor", "LogicalComponent", "Composition")).toBe(false);
+    expect(connect("LogicalComponent", "LogicalActor", "Composition")).toBe(false);
+    expect(connect("SystemActor", "SystemComponent", "Composition")).toBe(false);
+    expect(connect("SystemComponent", "SystemActor", "Composition")).toBe(false);
+    expect(connect("PhysicalActor", "PhysicalComponent", "Composition")).toBe(false);
+    expect(connect("PhysicalComponent", "PhysicalActor", "Composition")).toBe(false);
+    expect(connect("OperationalActor", "OperationalEntity", "Composition")).toBe(false);
+    expect(connect("OperationalEntity", "OperationalActor", "Composition")).toBe(false);
+  });
+
   it("generalizes components and actors in SA, LA and PA", () => {
     expect(connect("SystemComponent", "SystemActor", "Generalization")).toBe(
       true,
@@ -123,6 +134,18 @@ describe("ConnectionPolicy", () => {
     );
     expect(
       connect("OperationalCapability", "OperationalEntity", "InvolvementLink"),
+    ).toBe(false);
+    expect(
+      connect("OperationalEntity", "OperationalCapability", "InvolvementLink"),
+    ).toBe(true);
+    expect(
+      connect("OperationalActivity", "OperationalCapability", "InvolvementLink"),
+    ).toBe(true);
+    expect(
+      connect("OperationalActor", "OperationalCapability", "InvolvementLink"),
+    ).toBe(true);
+    expect(
+      connect("OperationalEntity", "OperationalEntity", "InvolvementLink"),
     ).toBe(false);
   });
 

@@ -3,6 +3,7 @@
 import { useReactFlow } from "@xyflow/react";
 import {
   Download,
+  EyeOff,
   LayoutGrid,
   Maximize2,
   Redo2,
@@ -49,8 +50,12 @@ export function DiagramToolbarActions({
   const { selectedNodeId, selectedEdgeId, canUndo, canRedo, undo, redo } =
     useCanvasStore();
 
-  const { removeElement, isPending: isRemoveElementPending } =
-    useRemoveElementSync();
+  const {
+    removeElement,
+    removeElementFromDiagram,
+    deleteElementFromModel,
+    isPending: isRemoveElementPending,
+  } = useRemoveElementSync();
 
   const { removeRelationship, isPending: isRemoveRelationshipPending } =
     useRemoveRelationshipSync();
@@ -127,21 +132,56 @@ export function DiagramToolbarActions({
       {/* RBAC: destructive edits require `edit<Layer>` for the diagram layer. */}
       {canEditDiagram && (
         <>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="size-7"
-                onClick={handleDelete}
-                disabled={!hasSelection}
-                loading={isRemoveElementPending || isRemoveRelationshipPending}
-              >
-                <Trash2 className="size-3.5 text-destructive" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Delete selected (Delete)</TooltipContent>
-          </Tooltip>
+          {selectedNodeId ? (
+            <DropdownMenu>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="size-7"
+                      loading={isRemoveElementPending || isRemoveRelationshipPending}
+                    >
+                      <Trash2 className="size-3.5 text-destructive" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                </TooltipTrigger>
+                <TooltipContent>Delete options</TooltipContent>
+              </Tooltip>
+              <DropdownMenuContent align="start">
+                <DropdownMenuItem
+                  onClick={() => removeElementFromDiagram(selectedNodeId)}
+                >
+                  <EyeOff className="mr-2 size-3.5 text-muted-foreground" />
+                  Remove from Diagram
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => deleteElementFromModel(selectedNodeId)}
+                  className="text-destructive focus:text-destructive"
+                >
+                  <Trash2 className="mr-2 size-3.5" />
+                  Delete from Model
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="size-7"
+                  onClick={handleDelete}
+                  disabled={!hasSelection}
+                  loading={isRemoveElementPending || isRemoveRelationshipPending}
+                >
+                  <Trash2 className="size-3.5 text-destructive" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Delete selected</TooltipContent>
+            </Tooltip>
+          )}
 
           <Separator orientation="vertical" className="h-5 w-0.5" />
         </>

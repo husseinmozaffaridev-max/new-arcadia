@@ -1,28 +1,40 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "sonner";
 import { getClassDiagramByIdKey } from "../clients/get-class-diagram-by-id";
 import { getDiagramByIdKey } from "../clients/get-diagram-by-id";
+import { useRemoveClassElement } from "../clients/remove-class-element";
+import { useRemoveElement } from "../clients/remove-element";
 import { useUpdateClassDiagramLayout } from "../clients/update-class-diagram-layout";
 import { useUpdateDiagramLayout } from "../clients/update-diagram-layout";
 import { isContainerType } from "../helpers/class-diagram";
 import { type CanvasNode, useCanvasStore } from "../stores/canvas";
 
+export type DeleteElementMode = "diagram" | "model";
+
 export function useRemoveElementSync() {
+  const router = useRouter();
   const pushHistory = useCanvasStore((s) => s.pushHistory);
   const removeNode = useCanvasStore((s) => s.removeNode);
+  const setEdges = useCanvasStore((s) => s.setEdges);
   const updateNode = useCanvasStore((s) => s.updateNode);
   const updateClassDiagramLayout = useUpdateClassDiagramLayout();
   const updateDiagramLayout = useUpdateDiagramLayout();
+  const removeElementServer = useRemoveElement();
+  const removeClassElementServer = useRemoveClassElement();
   const queryClient = useQueryClient();
 
   const remove = useCallback(
-    (nodeId: string) => {
+    (nodeId: string, mode: DeleteElementMode = "model") => {
       pushHistory();
 
-      const { nodes, diagramId, modelId } = useCanvasStore.getState();
+      const { nodes, edges, diagramId, modelId } = useCanvasStore.getState();
       const node = nodes.find((n) => n.id === nodeId);
       if (!diagramId || !modelId) return;
+
+      // Item 10: "روابط هم حذف می‌شود" — remove connected edges from canvas in both modes
+      setEdges(edges.filter((e) => e.source !== nodeId && e.target !== nodeId));
 
       const isClassNode =
         node?.type === "class-node" || node?.type === "package-node";
@@ -58,7 +70,6 @@ export function useRemoveElementSync() {
               current = parent;
             }
 
-            // Add the removed container's position to get true absolute position
             absX += node!.position.x;
             absY += node!.position.y;
 
@@ -113,6 +124,20 @@ export function useRemoveElementSync() {
 
         removeNode(nodeId);
 
+        if (mode === "model") {
+          removeClassElementServer.mutate(
+            { id: nodeId, modelId },
+            {
+              onSuccess: () => {
+                router.refresh();
+                toast.success("Element deleted from model");
+              },
+            },
+          );
+        } else {
+          toast.success("Element removed from diagram");
+        }
+
         updateClassDiagramLayout.mutate(
           { id: diagramId, modelId, elementLayouts: filteredLayouts },
           {
@@ -141,6 +166,17 @@ export function useRemoveElementSync() {
 
         removeNode(nodeId);
 
+        if (mode === "model") {
+          removeElementServer.mutate(nodeId, {
+            onSuccess: () => {
+              router.refresh();
+              toast.success("Element deleted from model");
+            },
+          });
+        } else {
+          toast.success("Element removed from diagram");
+        }
+
         updateDiagramLayout.mutate(
           { id: diagramId, elementLayouts: filteredLayouts },
           {
@@ -158,17 +194,26 @@ export function useRemoveElementSync() {
     },
     [
       pushHistory,
+      setEdges,
       updateClassDiagramLayout,
       updateDiagramLayout,
+      removeElementServer,
+      removeClassElementServer,
       removeNode,
       updateNode,
       queryClient,
+      router,
     ],
   );
 
   return {
     removeElement: remove,
+    removeElementFromDiagram: (nodeId: string) => remove(nodeId, "diagram"),
+    deleteElementFromModel: (nodeId: string) => remove(nodeId, "model"),
     isPending:
-      updateClassDiagramLayout.isPending || updateDiagramLayout.isPending,
+      updateClassDiagramLayout.isPending ||
+      updateDiagramLayout.isPending ||
+      removeElementServer.isPending ||
+      removeClassElementServer.isPending,
   };
 }

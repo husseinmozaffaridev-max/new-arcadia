@@ -86,15 +86,26 @@ export function nodesToAbsoluteLayouts(
         n,
         nodesById as Map<string, Node<ClassNodeData>>,
       );
+      const parseDim = (val: unknown): number | undefined => {
+        if (typeof val === "number" && !Number.isNaN(val)) return val;
+        if (typeof val === "string") {
+          const parsed = parseInt(val, 10);
+          if (!Number.isNaN(parsed)) return parsed;
+        }
+        return undefined;
+      };
+
       return {
         position: abs,
         elementId: n.data.elementId,
         size: {
           width:
+            parseDim(n.style?.width) ??
             n.width ??
             n.measured?.width ??
             (isContainerType(n.data.elementType) ? 320 : 160),
           height:
+            parseDim(n.style?.height) ??
             n.height ??
             n.measured?.height ??
             (isContainerType(n.data.elementType) ? 240 : 60),

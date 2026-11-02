@@ -5,26 +5,37 @@ export const diagramFormSchema = z.object({
   type: z.enum<DiagramTypeValue[]>(
     [
       "OEB",
+      "OCB",
       "OCD",
       "OAB",
+      "OAIB",
+      "OABD",
       "OPD",
+      "OAS",
       "OIS",
       "OAAB",
+      "MCB",
       "CSA",
       "SCD",
+      "SFBD",
       "SFB",
       "SDFB",
       "SAB",
+      "SAS",
       "SS",
       "LCB",
+      "LFBD",
       "LFB",
       "LDFB",
       "LAB",
+      "LAS",
       "LS",
       "PCB",
+      "PFBD",
       "PFB",
       "PDFB",
       "PAB",
+      "PAS",
       "PS",
       "CDB",
     ],
@@ -38,7 +49,16 @@ export const diagramFormSchema = z.object({
 
 export type DiagramFormValues = z.infer<typeof diagramFormSchema>;
 
-const SCENARIO_TYPE_VALUES = new Set(["OIS", "SS", "LS", "PS"]);
+const SCENARIO_TYPE_VALUES = new Set([
+  "OIS",
+  "OAS",
+  "SS",
+  "SAS",
+  "LS",
+  "LAS",
+  "PS",
+  "PAS",
+]);
 
 function kindLabelFor(type: DiagramFormValues["type"]): string {
   if (type === "CDB") return "class diagram";

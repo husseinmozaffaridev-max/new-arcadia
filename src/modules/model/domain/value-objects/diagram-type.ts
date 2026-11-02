@@ -3,26 +3,37 @@ import { Layer } from "./layer";
 
 export type DiagramTypeValue =
   | "OEB"
+  | "OCB"
   | "OCD"
   | "OAB"
+  | "OAIB"
+  | "OABD"
   | "OPD"
+  | "OAS"
   | "OIS"
   | "OAAB"
+  | "MCB"
   | "CSA"
   | "SCD"
+  | "SFBD"
   | "SFB"
   | "SDFB"
   | "SAB"
+  | "SAS"
   | "SS"
   | "LCB"
+  | "LFBD"
   | "LFB"
   | "LDFB"
   | "LAB"
+  | "LAS"
   | "LS"
   | "PCB"
+  | "PFBD"
   | "PFB"
   | "PDFB"
   | "PAB"
+  | "PAS"
   | "PS"
   | "EAB"
   | "ECB"
@@ -45,9 +56,27 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     layer: Layer.OA,
     description: "سلسله‌مراتب موجودیت‌های عملیاتی",
   },
+  OCB: {
+    label: "Operational Capabilities Blank",
+    labelFa: "بوم قابلیت‌های عملیاتی",
+    layer: Layer.OA,
+    description: "قابلیت‌های عملیاتی و موجودیت‌های درگیر",
+  },
   OAB: {
-    label: "Operational Activity Diagram",
-    labelFa: "دیاگرام فعالیت عملیاتی",
+    label: "Operational Architecture Blank",
+    labelFa: "بوم معماری عملیاتی",
+    layer: Layer.OA,
+    description: "نمای کلی معماری عملیاتی",
+  },
+  OAIB: {
+    label: "Operational Activity Interaction Blank",
+    labelFa: "بوم تعامل فعالیت عملیاتی",
+    layer: Layer.OA,
+    description: "تعامل میان فعالیت‌های عملیاتی",
+  },
+  OABD: {
+    label: "Operational Activity Breakdown",
+    labelFa: "تجزیه فعالیت‌های عملیاتی",
     layer: Layer.OA,
     description: "ساختار تجزیه فعالیت‌های عملیاتی",
   },
@@ -63,6 +92,12 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     layer: Layer.OA,
     description: "قابلیت‌های عملیاتی و موجودیت‌های درگیر",
   },
+  OAS: {
+    label: "Operational Activity Scenario",
+    labelFa: "سناریوی فعالیت عملیاتی",
+    layer: Layer.OA,
+    description: "سناریوی توالی عملیاتی",
+  },
   OIS: {
     label: "Operational Activity Scenario",
     labelFa: "سناریوی فعالیت عملیاتی",
@@ -75,6 +110,12 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     layer: Layer.OA,
     description: "نمای کلی معماری عملیاتی",
   },
+  MCB: {
+    label: "Missions / Capabilities Blank",
+    labelFa: "بوم مأموریت‌ها و قابلیت‌ها",
+    layer: Layer.SA,
+    description: "قابلیت‌های مأموریتی سیستم",
+  },
   CSA: {
     label: "Context System Actors",
     labelFa: "زمینه بازیگران سیستم",
@@ -86,6 +127,12 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     labelFa: "بوم قابلیت مأموریت",
     layer: Layer.SA,
     description: "قابلیت‌های مأموریتی سیستم",
+  },
+  SFBD: {
+    label: "System Function Breakdown Diagram",
+    labelFa: "تجزیه توابع سیستم",
+    layer: Layer.SA,
+    description: "ساختار تجزیه کارکردهای سیستم",
   },
   SFB: {
     label: "System Function Breakdown",
@@ -104,6 +151,12 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     labelFa: "جریان داده سیستم",
     layer: Layer.SA,
     description: "جریان داده در سطح سیستم",
+  },
+  SAS: {
+    label: "System Architecture Scenario",
+    labelFa: "سناریوی معماری سیستم",
+    layer: Layer.SA,
+    description: "سناریوی رفتاری سیستم",
   },
   SS: {
     label: "Functional Scenario",
@@ -129,11 +182,23 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     layer: Layer.LA,
     description: "سلسله‌مراتب مؤلفه‌های منطقی",
   },
+  LFBD: {
+    label: "Logical Function Breakdown Diagram",
+    labelFa: "تجزیه توابع منطقی",
+    layer: Layer.LA,
+    description: "ساختار تجزیه کارکردهای منطقی",
+  },
   LFB: {
     label: "Logical Function Breakdown",
     labelFa: "تجزیه کارکرد منطقی",
     layer: Layer.LA,
     description: "ساختار تجزیه کارکردهای منطقی",
+  },
+  LAS: {
+    label: "Logical Architecture Scenario",
+    labelFa: "سناریوی معماری منطقی",
+    layer: Layer.LA,
+    description: "سناریوی رفتاری منطقی",
   },
   LS: {
     label: "Functional Scenario",
@@ -159,11 +224,23 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     layer: Layer.PA,
     description: "سلسله‌مراتب مؤلفه‌های فیزیکی",
   },
+  PFBD: {
+    label: "Physical Function Breakdown Diagram",
+    labelFa: "تجزیه توابع فیزیکی",
+    layer: Layer.PA,
+    description: "ساختار تجزیه کارکردهای فیزیکی",
+  },
   PFB: {
     label: "Physical Function Breakdown",
     labelFa: "تجزیه کارکرد فیزیکی",
     layer: Layer.PA,
     description: "ساختار تجزیه کارکردهای فیزیکی",
+  },
+  PAS: {
+    label: "Physical Architecture Scenario",
+    labelFa: "سناریوی معماری فیزیکی",
+    layer: Layer.PA,
+    description: "سناریوی رفتاری در سطح فیزیکی",
   },
   PS: {
     label: "Functional Scenario Diagram",
@@ -197,6 +274,20 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     description: "دیاگرام کلاس UML برای مدل‌سازی ساختار داده",
   },
 };
+
+const BREAKDOWN_TYPES: ReadonlySet<DiagramTypeValue> = new Set([
+  "OEB",
+  "OABD",
+  "SFB",
+  "SFBD",
+  "LFB",
+  "LFBD",
+  "PFB",
+  "PFBD",
+  "LCB",
+  "PCB",
+  "ECB",
+]);
 
 const ALL_VALUES = Object.keys(META) as DiagramTypeValue[];
 
@@ -245,7 +336,7 @@ export class DiagramType extends ValueObject<DiagramTypeProps> {
   }
 
   isBreakdown(): boolean {
-    return this.props.value.endsWith("B") || this.props.value.endsWith("CB");
+    return BREAKDOWN_TYPES.has(this.props.value);
   }
 
   toString(): string {

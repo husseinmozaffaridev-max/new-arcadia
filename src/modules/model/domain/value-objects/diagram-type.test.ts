@@ -23,9 +23,13 @@ describe("DiagramType", () => {
   it("lists the diagrams offered by a layer", () => {
     expect(DiagramType.allForLayer(Layer.OA).map((d) => d.value)).toEqual([
       "OEB",
+      "OCB",
       "OAB",
+      "OAIB",
+      "OABD",
       "OPD",
       "OCD",
+      "OAS",
       "OIS",
       "OAAB",
       "CDB",
@@ -34,7 +38,9 @@ describe("DiagramType", () => {
       "LAB",
       "LDFB",
       "LCB",
+      "LFBD",
       "LFB",
+      "LAS",
       "LS",
       "CDB",
     ]);
@@ -56,17 +62,29 @@ describe("DiagramType", () => {
   });
 
   it("recognises the scenario diagrams", () => {
-    for (const scenario of ["OIS", "SS", "LS", "PS"] as const) {
+    for (const scenario of [
+      "OIS",
+      "OAS",
+      "SS",
+      "SAS",
+      "LS",
+      "LAS",
+      "PS",
+      "PAS",
+    ] as const) {
       expect(DiagramType.from(scenario).isScenario()).toBe(true);
     }
     expect(DiagramType.from("SAB").isScenario()).toBe(false);
+    expect(DiagramType.from("OCB").isScenario()).toBe(false);
     expect(DiagramType.from("OCD").isScenario()).toBe(false);
   });
 
   it("recognises the breakdown diagrams", () => {
     expect(DiagramType.from("OEB").isBreakdown()).toBe(true);
     expect(DiagramType.from("LCB").isBreakdown()).toBe(true);
+    expect(DiagramType.from("SFBD").isBreakdown()).toBe(true);
     expect(DiagramType.from("SCD").isBreakdown()).toBe(false);
+    expect(DiagramType.from("MCB").isBreakdown()).toBe(false);
     expect(DiagramType.from("OCD").isBreakdown()).toBe(false);
   });
 

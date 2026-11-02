@@ -64,15 +64,40 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   // ─── OA ───
   OEB: {
     elementTypes: ["OperationalEntity", "OperationalActor"],
-    relationshipTypes: ["Composition", "Generalization"],
+    relationshipTypes: ["Generalization"],
   },
   OAB: {
+    elementTypes: [
+      "OperationalEntity",
+      "OperationalActor",
+      "OperationalActivity",
+    ],
+    relationshipTypes: [
+      "OperationalExchange",
+      "Allocation",
+      "Generalization",
+    ],
+  },
+  OAIB: {
     elementTypes: ["OperationalActivity"],
-    relationshipTypes: ["Composition"],
+    relationshipTypes: ["OperationalExchange"],
+  },
+  OABD: {
+    elementTypes: ["OperationalActivity"],
+    relationshipTypes: [],
   },
   OPD: {
     elementTypes: ["OperationalActivity"],
     relationshipTypes: ["OperationalExchange"],
+  },
+  OCB: {
+    elementTypes: [
+      "OperationalCapability",
+      "OperationalEntity",
+      "OperationalActor",
+      "OperationalActivity",
+    ],
+    relationshipTypes: ["InvolvementLink"],
   },
   OCD: {
     elementTypes: [
@@ -82,6 +107,14 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "OperationalActivity",
     ],
     relationshipTypes: ["InvolvementLink"],
+  },
+  OAS: {
+    elementTypes: [
+      "OperationalEntity",
+      "OperationalActor",
+      "OperationalActivity",
+    ],
+    relationshipTypes: ["OperationalExchange"],
   },
   OIS: {
     elementTypes: [
@@ -96,19 +129,26 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "OperationalEntity",
       "OperationalActor",
       "OperationalActivity",
-      "OperationalCapability",
     ],
     relationshipTypes: [
       "OperationalExchange",
-      "InvolvementLink",
-      "Composition",
+      "Allocation",
       "Generalization",
     ],
   },
   // ─── SA ───
+  MCB: {
+    elementTypes: [
+      "SystemCapability",
+      "SystemActor",
+      "SystemFunction",
+      "System",
+    ],
+    relationshipTypes: ["InvolvementLink"],
+  },
   CSA: {
     elementTypes: ["System", "SystemActor"],
-    relationshipTypes: ["SystemExchange"],
+    relationshipTypes: ["SystemExchange", "Generalization"],
   },
   SAB: {
     elementTypes: [
@@ -119,9 +159,9 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     ],
     relationshipTypes: [
       "SystemExchange",
+      "ComponentExchange",
       "FunctionalExchange",
       "Allocation",
-      "Composition",
       "Generalization",
     ],
   },
@@ -129,13 +169,26 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     elementTypes: ["SystemFunction", "FunctionPort"],
     relationshipTypes: ["FunctionalExchange"],
   },
-  SCD: {
-    elementTypes: ["SystemCapability", "SystemActor", "SystemFunction"],
+  SFBD: {
+    elementTypes: ["SystemFunction"],
     relationshipTypes: [],
+  },
+  SCD: {
+    elementTypes: [
+      "SystemCapability",
+      "SystemActor",
+      "SystemFunction",
+      "System",
+    ],
+    relationshipTypes: ["InvolvementLink"],
   },
   SFB: {
     elementTypes: ["SystemFunction"],
-    relationshipTypes: ["Composition"],
+    relationshipTypes: [],
+  },
+  SAS: {
+    elementTypes: ["SystemActor", "SystemFunction"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   SS: {
     elementTypes: ["SystemActor", "SystemFunction"],
@@ -144,7 +197,15 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   // ─── LA ───
   LAB: {
     elementTypes: ["LogicalComponent", "LogicalActor", "LogicalFunction"],
-    relationshipTypes: ["ComponentExchange", "Allocation", "Generalization"],
+    relationshipTypes: [
+      "ComponentExchange",
+      "LogicalExchange",
+      "FunctionalExchange",
+      "Allocation",
+      "ProvidedInterface",
+      "RequiredInterface",
+      "Generalization",
+    ],
   },
   LDFB: {
     elementTypes: ["LogicalFunction"],
@@ -152,11 +213,19 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   LCB: {
     elementTypes: ["LogicalComponent"],
-    relationshipTypes: ["Composition", "Generalization"],
+    relationshipTypes: ["Generalization"],
+  },
+  LFBD: {
+    elementTypes: ["LogicalFunction"],
+    relationshipTypes: [],
   },
   LFB: {
     elementTypes: ["LogicalFunction"],
-    relationshipTypes: ["Composition"],
+    relationshipTypes: [],
+  },
+  LAS: {
+    elementTypes: ["LogicalActor", "LogicalFunction"],
+    relationshipTypes: ["LogicalExchange"],
   },
   LS: {
     elementTypes: ["LogicalActor", "LogicalFunction"],
@@ -171,8 +240,10 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "PhysicalFunction",
     ],
     relationshipTypes: [
+      "ComponentExchange",
       "PhysicalExchange",
       "PhysicalLink",
+      "DeploymentLink",
       "Allocation",
       "Generalization",
     ],
@@ -183,11 +254,19 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   PCB: {
     elementTypes: ["PhysicalComponent", "PhysicalNode"],
-    relationshipTypes: ["Composition", "DeploymentLink", "Generalization"],
+    relationshipTypes: ["DeploymentLink", "Generalization"],
+  },
+  PFBD: {
+    elementTypes: ["PhysicalFunction"],
+    relationshipTypes: [],
   },
   PFB: {
     elementTypes: ["PhysicalFunction"],
-    relationshipTypes: ["Composition"],
+    relationshipTypes: [],
+  },
+  PAS: {
+    elementTypes: ["PhysicalActor", "PhysicalFunction"],
+    relationshipTypes: ["PhysicalExchange"],
   },
   PS: {
     elementTypes: ["PhysicalActor", "PhysicalFunction"],

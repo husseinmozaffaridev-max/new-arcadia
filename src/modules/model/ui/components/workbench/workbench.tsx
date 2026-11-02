@@ -139,15 +139,6 @@ export function Workbench({
     useShallow((s): LayerValue[] => s.visibleLayers()),
   );
 
-  // Keep the workbench on a layer the user can actually read.
-  useEffect(() => {
-    if (!permissionsResolved) return;
-    if (visibleLayers.includes(currentLayer)) return;
-
-    const [fallback] = visibleLayers;
-    if (fallback) setCurrentLayer(fallback);
-  }, [permissionsResolved, visibleLayers, currentLayer, setCurrentLayer]);
-
   /**
    * RBAC: only models whose layer the requester may read. The explorer,
    * deep links and layer switching all read from this list, so a hidden
@@ -162,6 +153,29 @@ export function Workbench({
       ),
     [modelData, visibleLayers],
   );
+
+  // Keep the workbench on a readable layer, prioritizing layers with existing models
+  useEffect(() => {
+    if (!permissionsResolved) return;
+
+    if (visibleLayers.includes(currentLayer)) {
+      const currentHasModel = visibleModelData.some(
+        (d) => d.model.layer === currentLayer,
+      );
+      if (!currentHasModel && visibleModelData.length > 0) {
+        const firstWithModel = visibleModelData[0].model.layer;
+        setCurrentLayer(firstWithModel);
+      }
+      return;
+    }
+
+    const firstWithModel = visibleModelData.find((d) =>
+      visibleLayers.includes(d.model.layer),
+    )?.model.layer;
+    const [fallback] = visibleLayers;
+    const target = firstWithModel ?? fallback;
+    if (target) setCurrentLayer(target);
+  }, [permissionsResolved, visibleLayers, visibleModelData, currentLayer, setCurrentLayer]);
 
   const deepLinkDiagramId = searchParams.get("diagram");
   const openedDeepLinkRef = useRef<string | null>(null);

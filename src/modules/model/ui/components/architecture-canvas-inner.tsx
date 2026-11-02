@@ -17,6 +17,7 @@ import { useConnectElements } from "../clients/connect-elements";
 import { useCreateElement } from "../clients/create-element";
 import { getElementRelationsKey } from "../clients/get-element-relations";
 import { useUpdateDiagramLayout } from "../clients/update-diagram-layout";
+import { useUpdateElement } from "../clients/update-element";
 import {
   buildArchEdges,
   buildArchNodes,
@@ -68,6 +69,7 @@ export function ArchitectureCanvasInner({
   const canEdit = useCanEditActiveLayer();
 
   const createElement = useCreateElement();
+  const updateElement = useUpdateElement();
   const connectElements = useConnectElements();
   const updateDiagramLayout = useUpdateDiagramLayout();
   const router = useRouter();
@@ -182,10 +184,26 @@ export function ArchitectureCanvasInner({
       const targetType = getElementTypeInfo(targetNode.data.elementType).value;
       if (!sourceType || !targetType) return;
 
-      const allowedTypes = ConnectionPolicy.getAllowedTypes(
+      let allowedTypes = ConnectionPolicy.getAllowedTypes(
         sourceType,
         targetType,
       ).map((rt) => rt.value) as RelationshipTypeValue[];
+
+      let effectiveSource = connection.source;
+      let effectiveTarget = connection.target;
+
+      if (allowedTypes.length === 0) {
+        const reverseAllowed = ConnectionPolicy.getAllowedTypes(
+          targetType,
+          sourceType,
+        ).map((rt) => rt.value) as RelationshipTypeValue[];
+
+        if (reverseAllowed.length > 0) {
+          allowedTypes = reverseAllowed;
+          effectiveSource = connection.target;
+          effectiveTarget = connection.source;
+        }
+      }
 
       if (allowedTypes.length === 0) {
         toast.error("Cannot create a connection between these two elements.");
@@ -196,20 +214,114 @@ export function ArchitectureCanvasInner({
         createRelationship({
           name: allowedTypes[0],
           type: allowedTypes[0],
-          sourceElementId: connection.source,
-          targetElementId: connection.target,
+          sourceElementId: effectiveSource,
+          targetElementId: effectiveTarget,
         });
         return;
       }
 
       setPendingConnection({
         allowedTypes,
-        sourceNodeId: connection.source,
-        targetNodeId: connection.target,
+        sourceNodeId: effectiveSource,
+        targetNodeId: effectiveTarget,
       });
     },
     [setPendingConnection, createRelationship],
   );
+
+  function findContainerAtPosition(
+    nodes: Array<{
+      id: string;
+      position: { x: number; y: number };
+      parentId?: string;
+      style?: { width?: number | string; height?: number | string };
+      measured?: { width?: number; height?: number };
+      width?: number;
+      height?: number;
+      data: { elementType?: string };
+    }>,
+    pos: { x: number; y: number },
+    draggedType: string,
+  ): { id: string; absPosition: { x: number; y: number } } | null {
+    const isActor =
+      draggedType === "OperationalActor" ||
+      draggedType === "Actor" ||
+      draggedType === "LogicalActor" ||
+      draggedType === "PhysicalActor";
+    if (isActor) return null;
+
+    const nodesById = new Map(nodes.map((n) => [n.id, n]));
+    const getAbs = (node: (typeof nodes)[number]): { x: number; y: number } => {
+      let x = node.position.x;
+      let y = node.position.y;
+      let current = node;
+      const visited = new Set<string>();
+      while (current.parentId && !visited.has(current.parentId)) {
+        visited.add(current.parentId);
+        const parent = nodesById.get(current.parentId);
+        if (!parent) break;
+        x += parent.position.x;
+        y += parent.position.y;
+        current = parent;
+      }
+      return { x, y };
+    };
+
+    const candidates: Array<{
+      id: string;
+      absPosition: { x: number; y: number };
+      area: number;
+    }> = [];
+
+    for (const node of nodes) {
+      const elType = node.data?.elementType;
+      if (
+        !elType ||
+        elType === "OperationalActor" ||
+        elType === "Actor" ||
+        elType === "LogicalActor" ||
+        elType === "PhysicalActor"
+      ) {
+        continue;
+      }
+
+      const parseDim = (val: unknown, fallback: number): number => {
+        if (typeof val === "number" && !Number.isNaN(val)) return val;
+        if (typeof val === "string") {
+          const parsed = parseInt(val, 10);
+          if (!Number.isNaN(parsed)) return parsed;
+        }
+        return fallback;
+      };
+
+      const width = parseDim(
+        node.style?.width ?? node.measured?.width ?? node.width,
+        160,
+      );
+      const height = parseDim(
+        node.style?.height ?? node.measured?.height ?? node.height,
+        60,
+      );
+
+      const abs = getAbs(node);
+      if (
+        pos.x >= abs.x &&
+        pos.x <= abs.x + width &&
+        pos.y >= abs.y &&
+        pos.y <= abs.y + height
+      ) {
+        candidates.push({
+          id: node.id,
+          absPosition: abs,
+          area: width * height,
+        });
+      }
+    }
+
+    if (candidates.length === 0) return null;
+    candidates.sort((a, b) => a.area - b.area);
+    return { id: candidates[0].id, absPosition: candidates[0].absPosition };
+  }
 
   const handleExplorerDrop = useCallback(
     (rawData: string, position: { x: number; y: number }) => {
@@ -242,6 +354,27 @@ export function ArchitectureCanvasInner({
 
         pushHistory();
 
+        const targetContainer = findContainerAtPosition(
+          currentNodes as any,
+          position,
+          elementType,
+        );
+        const parentId = targetContainer?.id;
+        const nodePos = targetContainer
+          ? {
+              x: Math.max(10, position.x - targetContainer.absPosition.x),
+              y: Math.max(10, position.y - targetContainer.absPosition.y),
+            }
+          : position;
+
+        if (parentId) {
+          updateElement.mutate({
+            id: elementId,
+            name,
+            parentId,
+          });
+        }
+
         const elementLayouts = nodesToArchLayouts(currentNodes);
 
         updateDiagramLayout.mutate(
@@ -257,7 +390,9 @@ export function ArchitectureCanvasInner({
               addNode({
                 id: elementId,
                 type: getNodeTypeForElementType(elementType),
-                position,
+                position: nodePos,
+                parentId,
+                extent: parentId ? "parent" : undefined,
                 data: {
                   name,
                   elementId,
@@ -265,6 +400,7 @@ export function ArchitectureCanvasInner({
                   modelId: String(modelId),
                   description: description ?? "",
                   status: status ?? "DRAFT",
+                  parentId,
                 },
               });
               selectNode(elementId);
@@ -286,6 +422,7 @@ export function ArchitectureCanvasInner({
       modelId,
       diagramId,
       pushHistory,
+      updateElement,
       updateDiagramLayout,
       addNode,
       selectNode,
@@ -301,6 +438,19 @@ export function ArchitectureCanvasInner({
       pushHistory();
 
       const elementTypeInfo = getElementTypeInfo(elementType);
+      const currentNodes = useCanvasStore.getState().nodes;
+      const targetContainer = findContainerAtPosition(
+        currentNodes as any,
+        position,
+        elementType,
+      );
+      const parentId = targetContainer?.id;
+      const nodePos = targetContainer
+        ? {
+            x: Math.max(10, position.x - targetContainer.absPosition.x),
+            y: Math.max(10, position.y - targetContainer.absPosition.y),
+          }
+        : position;
 
       createElement.mutate(
         {
@@ -308,11 +458,12 @@ export function ArchitectureCanvasInner({
           layer: elementTypeInfo.layer,
           modelId: String(modelId),
           name: elementTypeInfo.label,
+          parentId,
         },
         {
           onSuccess: ({ data: element }) => {
-            const currentNodes = useCanvasStore.getState().nodes;
-            const elementLayouts = nodesToArchLayouts(currentNodes);
+            const currentNodesAfter = useCanvasStore.getState().nodes;
+            const elementLayouts = nodesToArchLayouts(currentNodesAfter);
 
             updateDiagramLayout.mutate(
               {
@@ -334,7 +485,9 @@ export function ArchitectureCanvasInner({
                   addNode({
                     id: element.id,
                     type: getNodeTypeForElementType(element.type),
-                    position,
+                    position: nodePos,
+                    parentId,
+                    extent: parentId ? "parent" : undefined,
                     data: {
                       name: element.name,
                       elementId: element.id,
@@ -342,6 +495,7 @@ export function ArchitectureCanvasInner({
                       modelId: String(modelId),
                       description: element.description,
                       status: element.properties.status,
+                      parentId: parentId ?? undefined,
                     },
                   });
                   router.refresh();

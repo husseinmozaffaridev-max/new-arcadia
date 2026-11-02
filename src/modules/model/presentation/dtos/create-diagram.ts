@@ -2,26 +2,37 @@ import { validateRequiredName } from "../../domain/policies/naming";
 
 type DiagramType =
   | "OEB"
+  | "OCB"
   | "OCD"
   | "OAB"
+  | "OAIB"
+  | "OABD"
   | "OPD"
+  | "OAS"
   | "OIS"
   | "OAAB"
+  | "MCB"
   | "CSA"
   | "SCD"
+  | "SFBD"
   | "SFB"
   | "SDFB"
   | "SAB"
+  | "SAS"
   | "SS"
   | "LCB"
+  | "LFBD"
   | "LFB"
   | "LDFB"
   | "LAB"
+  | "LAS"
   | "LS"
   | "PCB"
+  | "PFBD"
   | "PFB"
   | "PDFB"
   | "PAB"
+  | "PAS"
   | "PS"
   | "EPBB"
   | "EAB"
@@ -66,6 +77,8 @@ export class CreateDiagramDTO {
       "OEB",
       "OCD",
       "OAB",
+      "OAIB",
+      "OABD",
       "OPD",
       "OIS",
       "OAAB",

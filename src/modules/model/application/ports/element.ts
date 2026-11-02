@@ -26,6 +26,7 @@ export type UpdateElementPayload = {
   id: string;
   name: string;
   description?: string;
+  parentId?: string | null;
   properties?: ElementProperties;
 };
 

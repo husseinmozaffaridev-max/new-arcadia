@@ -35,13 +35,13 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "InvolvementLink",
     layer: Layer.OA,
-    allowedSources: ["OperationalEntity", "OperationalActor"],
-    allowedTargets: [
-      "OperationalCapability",
+    allowedSources: [
+      "OperationalEntity",
+      "OperationalActor",
       "OperationalActivity",
-      "OperationalProcess",
     ],
-    descriptionFa: "پیوند مشارکت بین موجودیت/بازیگر و قابلیت/فعالیت",
+    allowedTargets: ["OperationalCapability"],
+    descriptionFa: "پیوند مشارکت بین موجودیت/بازیگر/فعالیت و قابلیت عملیاتی",
   },
   {
     relationshipType: "Composition",
@@ -64,6 +64,13 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     allowedSources: ["OperationalEntity", "OperationalActor"],
     allowedTargets: ["OperationalEntity", "OperationalActor"],
     descriptionFa: "تعمیم بین موجودیت‌ها/بازیگرهای عملیاتی",
+  },
+  {
+    relationshipType: "Allocation",
+    layer: Layer.OA,
+    allowedSources: ["OperationalActivity"],
+    allowedTargets: ["OperationalEntity", "OperationalActor"],
+    descriptionFa: "فعالیت عملیاتی به موجودیت/بازیگر عملیاتی تخصیص می‌یابد",
   },
   // ─── SA ────────────────────────────────────────────────────────────────────
   {
@@ -146,9 +153,9 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "Composition",
     layer: Layer.LA,
-    allowedSources: ["LogicalComponent", "LogicalActor", "LogicalFunction"],
-    allowedTargets: ["LogicalComponent", "LogicalActor", "LogicalFunction"],
-    descriptionFa: "ترکیب بین مؤلفه‌ها/بازیگران/توابع منطقی",
+    allowedSources: ["LogicalComponent", "LogicalFunction"],
+    allowedTargets: ["LogicalComponent", "LogicalFunction"],
+    descriptionFa: "ترکیب بین مؤلفه‌ها/توابع منطقی",
   },
   {
     relationshipType: "Allocation",

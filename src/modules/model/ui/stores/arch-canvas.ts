@@ -9,6 +9,7 @@ export type ElementNodeData = {
   description?: string;
   elementType: ElementTypeValue;
   status: "DRAFT" | "VALIDATED" | "DEPRECATED";
+  parentId?: string | null;
 };
 
 export type RelationshipEdgeData = {

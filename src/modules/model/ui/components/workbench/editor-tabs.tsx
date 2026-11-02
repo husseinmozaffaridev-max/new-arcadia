@@ -18,19 +18,22 @@ import { useWorkbenchStore } from "../../stores/workbench";
 export function EditorTabs() {
   const tabs = useWorkbenchStore((s) => s.tabs);
   const activeDiagramId = useWorkbenchStore((s) => s.activeDiagramId);
+  const currentLayer = useWorkbenchStore((s) => s.currentLayer);
   const setActiveTab = useWorkbenchStore((s) => s.setActiveTab);
   const closeTab = useWorkbenchStore((s) => s.closeTab);
+
+  const visibleTabs = tabs.filter((t) => t.layer === currentLayer);
 
   const handleDragOver: DragEventHandler = useCallback((e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "copy";
   }, []);
 
-  if (tabs.length === 0) return null;
+  if (visibleTabs.length === 0) return null;
 
   return (
     <div className="flex h-9 shrink-0 items-stretch overflow-x-auto border-b bg-muted/40">
-      {tabs.map((tab) => {
+      {visibleTabs.map((tab) => {
         const isActive = tab.diagramId === activeDiagramId;
 
         const handleDrop: DragEventHandler = (e) => {

@@ -49,6 +49,10 @@ interface WorkbenchState {
   /** لایه فعلی برای نمایش در Layer Switcher */
   currentLayer: LayerValue;
 
+  /** Overrides for element names so edits in canvas/properties instantly reflect in the tree. */
+  elementNameOverrides: Record<string, string>;
+  setElementName: (elementId: string, name: string) => void;
+
   /** Permissions of the requesting user for the loaded project (RBAC). */
   projectPermissions: string[];
 
@@ -136,6 +140,11 @@ export const useWorkbenchStore = create<WorkbenchState>((set, get) => ({
   activeDiagramId: null,
   selectedElementId: null,
   currentLayer: "OA",
+  elementNameOverrides: {},
+  setElementName: (elementId, name) =>
+    set((s) => ({
+      elementNameOverrides: { ...s.elementNameOverrides, [elementId]: name },
+    })),
   projectPermissions: [],
   permissionsResolved: false,
   panels: { ...DEFAULT_PANELS },
@@ -219,6 +228,7 @@ export const useWorkbenchStore = create<WorkbenchState>((set, get) => ({
       activeDiagramId: null,
       selectedElementId: null,
       currentLayer: "OA",
+      elementNameOverrides: {},
       projectPermissions: [],
       permissionsResolved: false,
       panels: { ...DEFAULT_PANELS },

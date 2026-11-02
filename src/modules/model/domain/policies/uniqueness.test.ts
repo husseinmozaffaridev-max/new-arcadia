@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   duplicateNameMessage,
+  findAvailableCountedName,
   findAvailableName,
   isDuplicateName,
 } from "./uniqueness";
@@ -98,6 +99,37 @@ describe("uniqueness policy", () => {
     it("keeps a free base untouched even above the suffix threshold", () => {
       const base = "c".repeat(100);
       expect(findAvailableName(base, [])).toBe(base);
+    });
+  });
+
+  describe("findAvailableCountedName", () => {
+    it("starts with 1 on first occurrence", () => {
+      expect(findAvailableCountedName("Operational Activity", [])).toBe(
+        "Operational Activity 1",
+      );
+    });
+
+    it("increments to 2, 3, etc. when previous numbers are taken", () => {
+      expect(
+        findAvailableCountedName("Operational Activity", [
+          "Operational Activity 1",
+        ]),
+      ).toBe("Operational Activity 2");
+
+      expect(
+        findAvailableCountedName("Operational Activity", [
+          "Operational Activity 1",
+          "Operational Activity 2",
+        ]),
+      ).toBe("Operational Activity 3");
+    });
+
+    it("cleans up 'New ' prefix and extracts base", () => {
+      expect(
+        findAvailableCountedName("New Operational Activity", [
+          "Operational Activity 1",
+        ]),
+      ).toBe("Operational Activity 2");
     });
   });
 

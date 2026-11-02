@@ -8,6 +8,7 @@ export type UpdateElementDTOProps = {
   id: string;
   name: string;
   description?: string;
+  parentId?: string | null;
   properties?: ElementProperties;
 };
 
@@ -15,12 +16,14 @@ export class UpdateElementDTO {
   public readonly id: string;
   public readonly name: string;
   public readonly description?: string;
+  public readonly parentId?: string | null;
   public readonly properties?: ElementProperties;
 
   private constructor(props: UpdateElementDTOProps) {
     this.id = props.id;
     this.name = props.name;
     this.description = props.description;
+    this.parentId = props.parentId;
     this.properties = props.properties;
   }
 
@@ -28,12 +31,14 @@ export class UpdateElementDTO {
     id: string;
     name: string;
     description?: string;
+    parentId?: string | null;
     properties?: ElementProperties;
   }): UpdateElementDTO {
     return new UpdateElementDTO({
       id: UpdateElementDTO.validateId(props.id),
       name: UpdateElementDTO.validateName(props.name),
       description: UpdateElementDTO.validateDescription(props.description),
+      parentId: props.parentId,
       properties: UpdateElementDTO.validateProperties(props.properties),
     });
   }

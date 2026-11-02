@@ -22,18 +22,24 @@ export function buildArchNodes(
 ): ArchCanvasNode[] {
   const layoutMap = new Map(elementLayouts.map((l) => [l.elementId, l]));
 
-  return elements
+  const nodes = elements
     .filter((el) => layoutMap.has(el.id))
     .map((el): ArchCanvasNode | null => {
       const layout = layoutMap.get(el.id);
       if (!layout) return null;
 
+      const effectiveParentId =
+        el.parentId && layoutMap.has(el.parentId) ? el.parentId : undefined;
+
       return {
         id: el.id,
         width: layout.size.width,
         type: getNodeTypeForElement(el.type),
-        position: layout.position,
+        position: effectiveParentId ? { x: 0, y: 0 } : layout.position,
+        parentId: effectiveParentId,
+        extent: effectiveParentId ? ("parent" as const) : undefined,
         height: layout.size.height,
+        zIndex: effectiveParentId ? 1 : 0,
         data: {
           name: el.name,
           elementId: el.id,
@@ -41,10 +47,31 @@ export function buildArchNodes(
           modelId,
           elementType: el.type,
           description: el.description,
+          parentId: el.parentId,
         },
       };
     })
     .filter((n): n is ArchCanvasNode => n !== null);
+
+  // Calculate relative positions for nested children
+  const nodesById = new Map(nodes.map((n) => [n.id, n]));
+  for (const node of nodes) {
+    if (node.parentId) {
+      const parent = nodesById.get(node.parentId);
+      if (parent) {
+        const parentAbs =
+          layoutMap.get(parent.data.elementId)?.position ?? parent.position;
+        const childAbs =
+          layoutMap.get(node.data.elementId)?.position ?? node.position;
+        node.position = {
+          x: Math.max(0, childAbs.x - parentAbs.x),
+          y: Math.max(0, childAbs.y - parentAbs.y),
+        };
+      }
+    }
+  }
+
+  return nodes;
 }
 
 /**
@@ -90,20 +117,40 @@ export function buildArchEdges(
  */
 export function nodesToArchLayouts(
   nodes: Array<{
+    id?: string;
     position: XYPosition;
-    data: { elementId: string };
+    data: { elementId: string; parentId?: string | null };
+    parentId?: string;
     width?: number;
     height?: number;
   }>,
 ): ElementLayout[] {
-  return nodes.map((node) => ({
-    position: node.position,
-    elementId: node.data.elementId,
-    size: {
-      width: node.width ?? DEFAULT_NODE_SIZE.width,
-      height: node.height ?? DEFAULT_NODE_SIZE.height,
-    },
-  }));
+  const nodesById = new Map(nodes.map((n) => [n.id ?? n.data.elementId, n]));
+
+  return nodes.map((node) => {
+    let absX = node.position.x;
+    let absY = node.position.y;
+    let current = node;
+    const visited = new Set<string>();
+
+    while (current.parentId && !visited.has(current.parentId)) {
+      visited.add(current.parentId);
+      const parent = nodesById.get(current.parentId);
+      if (!parent) break;
+      absX += parent.position.x;
+      absY += parent.position.y;
+      current = parent;
+    }
+
+    return {
+      position: { x: absX, y: absY },
+      elementId: node.data.elementId,
+      size: {
+        width: node.width ?? DEFAULT_NODE_SIZE.width,
+        height: node.height ?? DEFAULT_NODE_SIZE.height,
+      },
+    };
+  });
 }
 
 /**

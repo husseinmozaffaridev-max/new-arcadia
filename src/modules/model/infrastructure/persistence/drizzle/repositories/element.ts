@@ -129,6 +129,7 @@ export class DrizzleElementRepository implements IElementRepository {
         name: payload.name,
         properties: newProps,
         description: payload.description ?? existing.description,
+        ...(payload.parentId !== undefined && { parentId: payload.parentId }),
         updatedAt: now,
       })
       .where(eq(elements.id, payload.id))

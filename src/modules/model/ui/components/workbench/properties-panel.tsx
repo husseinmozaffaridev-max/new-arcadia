@@ -22,7 +22,16 @@ import {
 import { DiagramPropertiesPanel } from "../diagram-properties-panel";
 import { ScenarioPropertiesPanel } from "../scenario-properties-panel";
 
-const SCENARIO_DIAGRAM_TYPES = ["OIS", "SS", "LS", "PS"];
+const SCENARIO_DIAGRAM_TYPES = [
+  "OIS",
+  "OAS",
+  "SS",
+  "SAS",
+  "LS",
+  "LAS",
+  "PS",
+  "PAS",
+];
 
 /**
  * PropertiesPanel

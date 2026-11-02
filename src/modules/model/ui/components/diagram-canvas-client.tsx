@@ -11,7 +11,16 @@ type DiagramCanvasClientProps = {
   diagramType: DiagramTypeValue;
 };
 
-const SCENARIO_TYPES = new Set(["OIS", "SS", "LS", "PS"]);
+const SCENARIO_TYPES = new Set([
+  "OIS",
+  "OAS",
+  "SS",
+  "SAS",
+  "LS",
+  "LAS",
+  "PS",
+  "PAS",
+]);
 
 export function DiagramCanvasClient({
   diagramId,

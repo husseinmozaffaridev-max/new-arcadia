@@ -619,6 +619,66 @@ export function ScenarioCanvasInner({
     (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
       if (!canEdit) return;
+
+      // Item 16: Drag & drop from left model explorer tree into Scenario canvas
+      const explorerRaw = event.dataTransfer.getData(
+        "application/explorer-element",
+      );
+      if (explorerRaw) {
+        try {
+          const { elementId, elementType, name } = JSON.parse(explorerRaw);
+
+          const mapToLifelineType = (type: string): string => {
+            switch (type) {
+              case "OperationalActor":
+              case "Actor":
+              case "SystemActor":
+              case "LogicalActor":
+              case "PhysicalActor":
+                return "ACTOR";
+              case "OperationalActivity":
+              case "SystemFunction":
+              case "LogicalFunction":
+              case "PhysicalFunction":
+                return "FUNCTION";
+              case "OperationalEntity":
+              case "System":
+              case "SystemComponent":
+              case "LogicalComponent":
+              case "PhysicalComponent":
+              case "PhysicalNode":
+                return "COMPONENT";
+              default:
+                return "COMPONENT";
+            }
+          };
+
+          const lifelineType = mapToLifelineType(elementType);
+
+          createLifeline.mutate(
+            {
+              name: name || `New ${lifelineType.toLowerCase()}`,
+              representedElementType: lifelineType,
+              representedElementId: elementId,
+              columnIndex: sortedLifelines.length,
+            },
+            {
+              onSuccess: () => {
+                queryClient.invalidateQueries({
+                  queryKey: getLifelinesByScenarioIdKey(diagram.id),
+                });
+                toast.success(`Lifeline "${name}" added to scenario`);
+              },
+              onError: ({ message }) =>
+                toast.error(message || "Error adding lifeline"),
+            },
+          );
+          return;
+        } catch {
+          // ignore parse error and proceed to palette check
+        }
+      }
+
       const raw = event.dataTransfer.getData("application/scenario-palette");
       if (!raw) return;
 

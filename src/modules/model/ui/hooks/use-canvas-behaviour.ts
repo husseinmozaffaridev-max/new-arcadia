@@ -63,7 +63,11 @@ export function useCanvasBehaviour({ onConfirm }: UseCanvasBehaviourProps) {
     clearInsertRequest,
   } = useCanvasStore();
 
-  const { removeElement } = useRemoveElementSync();
+  const {
+    removeElement,
+    removeElementFromDiagram,
+    deleteElementFromModel,
+  } = useRemoveElementSync();
   const { removeRelationship } = useRemoveRelationshipSync();
   const queryClient = useQueryClient();
 
@@ -83,8 +87,16 @@ export function useCanvasBehaviour({ onConfirm }: UseCanvasBehaviourProps) {
     (changes) => {
       const currentNodes = useCanvasStore.getState().nodes;
       setNodes(applyNodeChanges(changes, currentNodes) as CanvasNode[]);
+
+      const hasDimensionChange = changes.some(
+        (c) =>
+          c.type === "dimensions" && !(c as { resizing?: boolean }).resizing,
+      );
+      if (hasDimensionChange) {
+        notifyChange();
+      }
     },
-    [setNodes],
+    [setNodes, notifyChange],
   );
 
   const onEdgesChange: OnEdgesChange = useCallback(
@@ -156,7 +168,11 @@ export function useCanvasBehaviour({ onConfirm }: UseCanvasBehaviourProps) {
         e.target === document.body
       ) {
         if (selectedNodeId) {
-          removeElement(selectedNodeId);
+          if (e.shiftKey || e.ctrlKey || e.metaKey) {
+            deleteElementFromModel(selectedNodeId);
+          } else {
+            removeElementFromDiagram(selectedNodeId);
+          }
         } else if (selectedEdgeId) {
           removeRelationship(selectedEdgeId);
         }
@@ -165,7 +181,8 @@ export function useCanvasBehaviour({ onConfirm }: UseCanvasBehaviourProps) {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [
-    removeElement,
+    removeElementFromDiagram,
+    deleteElementFromModel,
     removeRelationship,
     undo,
     redo,
@@ -197,6 +214,8 @@ export function useCanvasBehaviour({ onConfirm }: UseCanvasBehaviourProps) {
     handleDragOver,
     handleConfirm,
     removeElement,
+    removeElementFromDiagram,
+    deleteElementFromModel,
     removeRelationship,
   };
 }

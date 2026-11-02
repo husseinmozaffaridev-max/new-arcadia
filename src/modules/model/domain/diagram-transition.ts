@@ -19,18 +19,23 @@ const DIAGRAM_TYPE_TRANSITIONS: Partial<
 > = {
   // OA → SA
   OEB: "CSA",
+  OCB: "MCB",
   OCD: "SCD",
-  OAB: "SFB",
-  OPD: "SDFB",
+  OAB: "SAB",
   OAAB: "SAB",
+  OAIB: "SDFB",
+  OPD: "SDFB",
+  OABD: "SFBD",
   // SA → LA
   CSA: "LAB",
   SAB: "LAB",
+  SFBD: "LFBD",
   SFB: "LFB",
   SDFB: "LDFB",
   // LA → PA
   LCB: "PCB",
   LAB: "PAB",
+  LFBD: "PFBD",
   LFB: "PFB",
   LDFB: "PDFB",
   // PA is the last offered layer — nothing to transition into.

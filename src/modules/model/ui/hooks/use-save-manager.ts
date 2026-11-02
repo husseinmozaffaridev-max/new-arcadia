@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { useUpdateClassDiagramLayout } from "../clients/update-class-diagram-layout";
 import { useUpdateDiagramLayout } from "../clients/update-diagram-layout";
+import { nodesToArchLayouts } from "../helpers/arch-canvas";
 import { nodesToAbsoluteLayouts } from "../helpers/class-diagram";
 import { useCanvasStore } from "../stores/canvas";
 import { useModelStore } from "../stores/model";
@@ -42,13 +43,15 @@ export function useSaveManager() {
 
     setSaveStatus("saving");
 
-    const layouts = nodesToAbsoluteLayouts(currentNodes);
-
     // Determine which mutation to use based on node type
     const isClassDiagram =
       currentNodes.length > 0 &&
       (currentNodes[0]?.type === "class-node" ||
         currentNodes[0]?.type === "package-node");
+
+    const layouts = isClassDiagram
+      ? nodesToAbsoluteLayouts(currentNodes)
+      : nodesToArchLayouts(currentNodes as any);
 
     if (isClassDiagram) {
       updateClassDiagramLayout.mutate(

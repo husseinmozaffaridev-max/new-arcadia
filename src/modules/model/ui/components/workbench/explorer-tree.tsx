@@ -304,6 +304,8 @@ function ElementTreeItem({
   const [open, setOpen] = useState(true);
   const hasChildren = node.children.length > 0;
   const selectedElementId = useWorkbenchStore((s) => s.selectedElementId);
+  const displayName =
+    useWorkbenchStore((s) => s.elementNameOverrides[node.id]) ?? node.name;
 
   const ElementIcon = getElementTypeIcon(node.type);
   const visual = getElementVisual(node.type);
@@ -315,7 +317,7 @@ function ElementTreeItem({
       JSON.stringify({
         elementId: node.id,
         elementType: node.type,
-        name: node.name,
+        name: displayName,
         status: node.status,
         description: node.description ?? "",
       }),
@@ -357,7 +359,7 @@ function ElementTreeItem({
         className="size-3.5 shrink-0"
         style={{ color: visual.strokeColor }}
       />
-      <span className="truncate flex-1 text-left">{node.name}</span>
+      <span className="truncate flex-1 text-left">{displayName}</span>
     </button>
   );
 
@@ -368,7 +370,7 @@ function ElementTreeItem({
         <ContextMenu>
           <ContextMenuTrigger asChild>{row}</ContextMenuTrigger>
           <ContextMenuContent>
-            <ContextMenuLabel>{node.name}</ContextMenuLabel>
+            <ContextMenuLabel>{displayName}</ContextMenuLabel>
             <ContextMenuSeparator />
             <ContextMenuSub>
               <ContextMenuSubTrigger>
@@ -437,7 +439,16 @@ function ElementTreeItem({
 
 // ─── Diagram tree item ──────────────────────────────────────────────────────
 
-const SCENARIO_DIAGRAM_TYPES = ["OIS", "SS", "LS", "PS"];
+const SCENARIO_DIAGRAM_TYPES = [
+  "OIS",
+  "OAS",
+  "SS",
+  "SAS",
+  "LS",
+  "LAS",
+  "PS",
+  "PAS",
+];
 
 function DiagramTreeItem({
   model,

@@ -27,6 +27,7 @@ describe("connection rules", () => {
     expect(connectionLayersFor("ComponentExchange")).toEqual(["SA", "LA"]);
     expect(connectionLayersFor("Allocation").sort()).toEqual([
       "LA",
+      "OA",
       "PA",
       "SA",
     ]);
@@ -73,7 +74,7 @@ describe("connection rules", () => {
 
   it("offers allocation for every architecture layer", () => {
     expect(connectionLayersFor("Allocation")).toEqual(
-      expect.arrayContaining(["SA", "LA", "PA"]),
+      expect.arrayContaining(["OA", "SA", "LA", "PA"]),
     );
   });
 });

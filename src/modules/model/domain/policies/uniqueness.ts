@@ -58,6 +58,33 @@ export function isDuplicateName(
 }
 
 /**
+ * Generates an initial name with a 1-based sequential counter (e.g. "Activity 1", "Activity 2")
+ * according to Capella conventions.
+ */
+export function findAvailableCountedName(
+  base: string,
+  takenNames: readonly string[],
+  options: FindAvailableNameOptions = {},
+): string {
+  const maxLength = options.maxLength ?? NAME_MAX_LENGTH;
+  const trimmed = base.trim().replace(/^New\s+/i, "");
+  const taken = new Set(takenNames.map(normalise));
+
+  const match = trimmed.match(/^(.*?)(?:\s+(\d+)|\s*\((\d+)\))$/);
+  const cleanBase = match ? match[1].trim() : trimmed;
+
+  for (let count = 1; count <= taken.size + 2; count++) {
+    const suffix = ` ${count}`;
+    const candidate = `${trimTo(cleanBase, maxLength - suffix.length)}${suffix}`;
+    if (!taken.has(normalise(candidate))) {
+      return candidate;
+    }
+  }
+
+  return `${cleanBase} 1`;
+}
+
+/**
  * Returns `base` when it is free, otherwise the first free `base (2)`,
  * `base (3)`, … The base is truncated when needed so the returned name never
  * exceeds `maxLength`.
