@@ -324,6 +324,18 @@ export class ValidationPolicy {
     const elementById = new Map(ctx.elements.map((e) => [e.id, e]));
     for (const el of ctx.elements) {
       if (el.parentId) {
+        if (el.type.endsWith("Actor")) {
+          issues.push({
+            id: nextId(),
+            severity: "error",
+            rule: "actor-has-parent",
+            message: `Actor "${el.name}" cannot be decomposed or nested inside another element`,
+            elementId: el.id,
+            elementName: el.name,
+            elementType: el.type,
+            layer: el.layer as LayerValue,
+          });
+        }
         const parent = elementById.get(el.parentId);
         if (!parent) {
           issues.push({
@@ -342,6 +354,17 @@ export class ValidationPolicy {
             severity: "error",
             rule: "cross-layer-parent",
             message: `Parent "${parent.name}" is in a different layer`,
+            elementId: el.id,
+            elementName: el.name,
+            elementType: el.type,
+            layer: el.layer as LayerValue,
+          });
+        } else if (parent.type.endsWith("Actor")) {
+          issues.push({
+            id: nextId(),
+            severity: "error",
+            rule: "actor-cannot-be-decomposed",
+            message: `Actor "${parent.name}" cannot be decomposed or contain child elements`,
             elementId: el.id,
             elementName: el.name,
             elementType: el.type,

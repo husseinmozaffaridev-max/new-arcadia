@@ -86,17 +86,40 @@ describe("ConnectionPolicy", () => {
     ).toBe(true);
   });
 
-  it("composes components and functions in SA", () => {
+  it("does not allow composition edges in SA or any layer", () => {
     expect(connect("SystemComponent", "SystemComponent", "Composition")).toBe(
-      true,
+      false,
     );
     expect(connect("SystemFunction", "SystemFunction", "Composition")).toBe(
-      true,
+      false,
     );
-    expect(connect("System", "SystemComponent", "Composition")).toBe(true);
+    expect(connect("System", "SystemComponent", "Composition")).toBe(false);
     expect(connect("SystemActor", "SystemComponent", "Composition")).toBe(
       false,
     );
+  });
+
+  it("allows interaction exchanges between entities and actors in OA", () => {
+    expect(
+      connect("OperationalEntity", "OperationalEntity", "OperationalExchange"),
+    ).toBe(true);
+    expect(
+      connect("OperationalEntity", "OperationalActor", "OperationalExchange"),
+    ).toBe(true);
+    expect(
+      connect("OperationalActor", "OperationalEntity", "OperationalExchange"),
+    ).toBe(true);
+    expect(
+      connect("OperationalActor", "OperationalActor", "OperationalExchange"),
+    ).toBe(true);
+  });
+
+  it("allows component and system exchanges between system and actors in SA", () => {
+    expect(connect("System", "SystemActor", "ComponentExchange")).toBe(true);
+    expect(connect("SystemComponent", "SystemActor", "ComponentExchange")).toBe(
+      true,
+    );
+    expect(connect("System", "SystemActor", "SystemExchange")).toBe(true);
   });
 
   it("never allows actors to be composed or decomposed", () => {
@@ -183,9 +206,9 @@ describe("ConnectionPolicy.resolveTransitionType", () => {
       ConnectionPolicy.resolveTransitionType(
         "LogicalComponent",
         "LogicalComponent",
-        "Composition",
+        "ProvidedInterface",
       ),
-    ).toBe("Composition");
+    ).toBe("ProvidedInterface");
   });
 
   it("re-homes an exchange on the exchange of the target layer", () => {
@@ -217,21 +240,21 @@ describe("ConnectionPolicy.resolveTransitionType", () => {
       ConnectionPolicy.resolveTransitionType(
         "SystemActor",
         "SystemCapability",
-        "Composition",
+        "DeploymentLink",
       ),
     ).toBeNull();
     expect(
       ConnectionPolicy.resolveTransitionType(
-        "SystemActor",
-        "SystemCapability",
+        "SystemFunction",
+        "SystemComponent",
         "InvolvementLink",
       ),
     ).toBeNull();
     expect(
       ConnectionPolicy.resolveTransitionType(
-        "PhysicalComponent",
-        "PhysicalComponent",
-        "ComponentExchange",
+        "PhysicalNode",
+        "PhysicalNode",
+        "Allocation",
       ),
     ).toBeNull();
   });

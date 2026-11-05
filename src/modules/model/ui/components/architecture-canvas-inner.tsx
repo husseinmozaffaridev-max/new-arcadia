@@ -24,6 +24,7 @@ import {
   cascadePosition,
   nodesToArchLayouts,
 } from "../helpers/arch-canvas";
+import { canNestOnDiagram, getDiagramPalette } from "../helpers/diagram";
 import { getElementTypeInfo, getElementVisual } from "../helpers/element";
 import { useCanvasBehaviour } from "../hooks/use-canvas-behaviour";
 import { useCanvasStore } from "../stores/canvas";
@@ -40,11 +41,13 @@ import { ClassDiagramContextMenu } from "./class-diagram-context-menu";
 import { ConnectionDialog } from "./connection-dialog";
 import { ActorNode } from "./nodes/actor-node";
 import { ComponentNode } from "./nodes/component-node";
+import { EntityNode } from "./nodes/entity-node";
 import { FunctionNode } from "./nodes/function-node";
 
 const NODE_TYPES = {
   "architecture-node": ArchitectureNode,
   "actor-node": ActorNode,
+  "entity-node": EntityNode,
   "function-node": FunctionNode,
   "component-node": ComponentNode,
 } as const;
@@ -58,6 +61,11 @@ type ArchitectureCanvasInnerProps = {
   elements: Element[];
   relationships: Relationship[];
 };
+
+function isActorType(type?: string): boolean {
+  if (!type) return false;
+  return type.endsWith("Actor");
+}
 
 export function ArchitectureCanvasInner({
   diagram,
@@ -163,13 +171,14 @@ export function ArchitectureCanvasInner({
       elements,
       diagram.elementLayouts,
       diagram.modelId,
+      diagram.type,
     );
     const nodeIds = new Set(newNodes.map((n) => n.id));
     const newEdges = buildArchEdges(relationships, nodeIds, diagram.modelId);
 
     initCanvas(diagram.id, diagram.modelId, newNodes, newEdges);
     return () => reset();
-  }, [initCanvas, reset]);
+  }, [initCanvas, reset, diagram.type]);
 
   const handleConnect = useCallback(
     (connection: { source?: string | null; target?: string | null }) => {
@@ -184,19 +193,34 @@ export function ArchitectureCanvasInner({
       const targetType = getElementTypeInfo(targetNode.data.elementType).value;
       if (!sourceType || !targetType) return;
 
+      const activeTab = useWorkbenchStore
+        .getState()
+        .tabs.find((t) => t.diagramId === diagramId);
+      const diagramType = activeTab?.type ?? diagram.type;
+      const diagramPalette = getDiagramPalette(diagramType);
+
       let allowedTypes = ConnectionPolicy.getAllowedTypes(
         sourceType,
         targetType,
       ).map((rt) => rt.value) as RelationshipTypeValue[];
 
+      // Filter by active diagram's allowed relationship types
+      allowedTypes = allowedTypes.filter((rt) =>
+        diagramPalette.relationshipTypes.includes(rt),
+      );
+
       let effectiveSource = connection.source;
       let effectiveTarget = connection.target;
 
       if (allowedTypes.length === 0) {
-        const reverseAllowed = ConnectionPolicy.getAllowedTypes(
+        let reverseAllowed = ConnectionPolicy.getAllowedTypes(
           targetType,
           sourceType,
         ).map((rt) => rt.value) as RelationshipTypeValue[];
+
+        reverseAllowed = reverseAllowed.filter((rt) =>
+          diagramPalette.relationshipTypes.includes(rt),
+        );
 
         if (reverseAllowed.length > 0) {
           allowedTypes = reverseAllowed;
@@ -206,7 +230,7 @@ export function ArchitectureCanvasInner({
       }
 
       if (allowedTypes.length === 0) {
-        toast.error("Cannot create a connection between these two elements.");
+        toast.error(`Cannot connect these elements in ${diagramType} diagram.`);
         return;
       }
 
@@ -226,7 +250,7 @@ export function ArchitectureCanvasInner({
         targetNodeId: effectiveTarget,
       });
     },
-    [setPendingConnection, createRelationship],
+    [setPendingConnection, createRelationship, diagramId, diagram.type],
   );
 
   function findContainerAtPosition(
@@ -242,13 +266,9 @@ export function ArchitectureCanvasInner({
     }>,
     pos: { x: number; y: number },
     draggedType: string,
+    diagramType?: string,
   ): { id: string; absPosition: { x: number; y: number } } | null {
-    const isActor =
-      draggedType === "OperationalActor" ||
-      draggedType === "Actor" ||
-      draggedType === "LogicalActor" ||
-      draggedType === "PhysicalActor";
-    if (isActor) return null;
+    if (isActorType(draggedType)) return null;
 
     const nodesById = new Map(nodes.map((n) => [n.id, n]));
     const getAbs = (node: (typeof nodes)[number]): { x: number; y: number } => {
@@ -275,14 +295,14 @@ export function ArchitectureCanvasInner({
 
     for (const node of nodes) {
       const elType = node.data?.elementType;
-      if (
-        !elType ||
-        elType === "OperationalActor" ||
-        elType === "Actor" ||
-        elType === "LogicalActor" ||
-        elType === "PhysicalActor"
-      ) {
-        continue;
+      if (!elType) continue;
+
+      if (diagramType) {
+        if (!canNestOnDiagram(draggedType, elType, diagramType)) {
+          continue;
+        }
+      } else {
+        if (isActorType(elType)) continue;
       }
 
       const parseDim = (val: unknown, fallback: number): number => {
@@ -340,25 +360,28 @@ export function ArchitectureCanvasInner({
         const activeTab = useWorkbenchStore
           .getState()
           .tabs.find((t) => t.diagramId === diagramId);
-        if (activeTab) {
-          const placementError = getElementPlacementError(
-            name,
-            elementType,
-            activeTab.type,
-          );
-          if (placementError) {
-            toast.error(placementError);
-            return;
-          }
+        const diagramType = activeTab?.type ?? diagram.type;
+        const placementError = getElementPlacementError(
+          name,
+          elementType,
+          diagramType,
+        );
+        if (placementError) {
+          toast.error(placementError);
+          return;
         }
 
         pushHistory();
 
-        const targetContainer = findContainerAtPosition(
-          currentNodes as any,
-          position,
-          elementType,
-        );
+        const isActor = isActorType(elementType);
+        const targetContainer = isActor
+          ? null
+          : findContainerAtPosition(
+              currentNodes as any,
+              position,
+              elementType,
+              diagramType,
+            );
         const parentId = targetContainer?.id;
         const nodePos = targetContainer
           ? {
@@ -437,13 +460,22 @@ export function ArchitectureCanvasInner({
 
       pushHistory();
 
+      const activeTab = useWorkbenchStore
+        .getState()
+        .tabs.find((t) => t.diagramId === diagramId);
+      const diagramType = activeTab?.type ?? diagram.type;
+
       const elementTypeInfo = getElementTypeInfo(elementType);
       const currentNodes = useCanvasStore.getState().nodes;
-      const targetContainer = findContainerAtPosition(
-        currentNodes as any,
-        position,
-        elementType,
-      );
+      const isActor = isActorType(elementType);
+      const targetContainer = isActor
+        ? null
+        : findContainerAtPosition(
+            currentNodes as any,
+            position,
+            elementType,
+            diagramType,
+          );
       const parentId = targetContainer?.id;
       const nodePos = targetContainer
         ? {
@@ -462,6 +494,7 @@ export function ArchitectureCanvasInner({
         },
         {
           onSuccess: ({ data: element }) => {
+            queryClient.invalidateQueries({ queryKey: ["workbench-data"] });
             const currentNodesAfter = useCanvasStore.getState().nodes;
             const elementLayouts = nodesToArchLayouts(currentNodesAfter);
 
@@ -498,6 +531,9 @@ export function ArchitectureCanvasInner({
                       parentId: parentId ?? undefined,
                     },
                   });
+                  queryClient.invalidateQueries({
+                    queryKey: ["workbench-data"],
+                  });
                   router.refresh();
                 },
               },
@@ -517,6 +553,7 @@ export function ArchitectureCanvasInner({
       updateDiagramLayout,
       addNode,
       router,
+      queryClient,
     ],
   );
 
@@ -567,6 +604,21 @@ export function ArchitectureCanvasInner({
     const currentNodes = useCanvasStore.getState().nodes;
     if (currentNodes.some((n) => n.id === insertRequest.elementId)) {
       selectNode(insertRequest.elementId);
+      clearInsertRequest();
+      return;
+    }
+
+    const activeTab = useWorkbenchStore
+      .getState()
+      .tabs.find((t) => t.diagramId === diagramId);
+    const diagramType = activeTab?.type ?? diagram.type;
+    const placementError = getElementPlacementError(
+      insertRequest.name,
+      insertRequest.elementType,
+      diagramType,
+    );
+    if (placementError) {
+      toast.error(placementError);
       clearInsertRequest();
       return;
     }
@@ -694,8 +746,14 @@ export function ArchitectureCanvasInner({
 
 function getNodeTypeForElementType(
   type: string,
-): "actor-node" | "function-node" | "component-node" | "architecture-node" {
-  if (type.endsWith("Actor") || type.endsWith("Entity")) return "actor-node";
+):
+  | "actor-node"
+  | "entity-node"
+  | "function-node"
+  | "component-node"
+  | "architecture-node" {
+  if (type.endsWith("Actor")) return "actor-node";
+  if (type.endsWith("Entity")) return "entity-node";
   if (type.endsWith("Function") || type.endsWith("Activity"))
     return "function-node";
   if (type.endsWith("Component")) return "component-node";

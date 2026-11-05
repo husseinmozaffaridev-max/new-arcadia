@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { ReactFlowProvider } from "@xyflow/react";
 import {
   GitMerge,
@@ -14,7 +15,7 @@ import {
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
 import { isProjectLayer } from "@/modules/project/domain/constants/permissions";
 import { canAny } from "@/modules/project/domain/services/permissions";
@@ -175,7 +176,13 @@ export function Workbench({
     const [fallback] = visibleLayers;
     const target = firstWithModel ?? fallback;
     if (target) setCurrentLayer(target);
-  }, [permissionsResolved, visibleLayers, visibleModelData, currentLayer, setCurrentLayer]);
+  }, [
+    permissionsResolved,
+    visibleLayers,
+    visibleModelData,
+    currentLayer,
+    setCurrentLayer,
+  ]);
 
   const deepLinkDiagramId = searchParams.get("diagram");
   const openedDeepLinkRef = useRef<string | null>(null);
@@ -225,7 +232,11 @@ export function Workbench({
     [visibleModelData],
   );
 
-  const refreshTree = () => router.refresh();
+  const queryClient = useQueryClient();
+  const refreshTree = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ["workbench-data"] });
+    router.refresh();
+  }, [queryClient, router]);
 
   const showRightDock = panels.outline || panels.semantic || panels.validation;
 

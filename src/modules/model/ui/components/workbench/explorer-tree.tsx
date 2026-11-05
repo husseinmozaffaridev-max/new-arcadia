@@ -95,7 +95,16 @@ function buildElementTree(elements: Element[]): ElementTreeNode[] {
     const node = map.get(el.id)!;
     if (el.status === "DEPRECATED") continue;
     if (el.parentId && map.has(el.parentId)) {
-      map.get(el.parentId)!.children.push(node);
+      const parentNode = map.get(el.parentId)!;
+      // In Arcadia/Capella, actors cannot be decomposed or contain child elements.
+      if (
+        typeof parentNode.type === "string" &&
+        parentNode.type.endsWith("Actor")
+      ) {
+        roots.push(node);
+      } else {
+        parentNode.children.push(node);
+      }
     } else {
       roots.push(node);
     }
@@ -125,7 +134,16 @@ function buildClassElementTree(
     const node = map.get(el.id)!;
     if (el.status === "DEPRECATED") continue;
     if (el.parentId && map.has(el.parentId)) {
-      map.get(el.parentId)!.children.push(node);
+      const parentNode = map.get(el.parentId)!;
+      // In Arcadia/Capella, actors cannot be decomposed or contain child elements.
+      if (
+        typeof parentNode.type === "string" &&
+        parentNode.type.endsWith("Actor")
+      ) {
+        roots.push(node);
+      } else {
+        parentNode.children.push(node);
+      }
     } else {
       roots.push(node);
     }

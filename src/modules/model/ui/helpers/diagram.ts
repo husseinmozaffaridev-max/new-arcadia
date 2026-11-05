@@ -75,7 +75,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     relationshipTypes: [
       "OperationalExchange",
       "Allocation",
-      "Generalization",
     ],
   },
   OAIB: {
@@ -133,7 +132,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     relationshipTypes: [
       "OperationalExchange",
       "Allocation",
-      "Generalization",
     ],
   },
   // ─── SA ───
@@ -148,7 +146,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   CSA: {
     elementTypes: ["System", "SystemActor"],
-    relationshipTypes: ["SystemExchange", "Generalization"],
+    relationshipTypes: ["SystemExchange"],
   },
   SAB: {
     elementTypes: [
@@ -162,7 +160,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "ComponentExchange",
       "FunctionalExchange",
       "Allocation",
-      "Generalization",
     ],
   },
   SDFB: {
@@ -204,7 +201,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "Allocation",
       "ProvidedInterface",
       "RequiredInterface",
-      "Generalization",
     ],
   },
   LDFB: {
@@ -245,7 +241,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "PhysicalLink",
       "DeploymentLink",
       "Allocation",
-      "Generalization",
     ],
   },
   PDFB: {
@@ -281,7 +276,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "ConfigurationItemInterface",
     ],
     relationshipTypes: [
-      "Composition",
       "ProvidedInterface",
       "RequiredInterface",
       "Generalization",
@@ -295,7 +289,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "ConfigurationItemInterface",
     ],
     relationshipTypes: [
-      "Composition",
       "ProvidedInterface",
       "RequiredInterface",
       "Generalization",
@@ -370,4 +363,118 @@ export function getDiagramPalette(typeValue: string): DiagramPalette {
     ) as string[],
     relationshipTypes: palette.relationshipTypes,
   };
+}
+
+/**
+ * Determines whether childType may be nested/contained inside parentType on diagramType
+ * according to Arcadia / Capella methodology.
+ *
+ * Rules:
+ * - Actors can NEVER contain anything and can NEVER be nested inside other elements
+ *   (Exception: In OAB, an OperationalActivity can be allocated into an OperationalActor).
+ * - OAB (Operational Architecture Blank): No structural breakdown of entities or activities!
+ *   Only OperationalActivity allocation into OperationalEntity or OperationalActor is allowed.
+ * - Breakdown diagrams (OEB, LCB, PCB): Entities/Components decompose into sub-entities/components.
+ * - Function Breakdown diagrams (OABD, SFBD, LFBD, PFBD): Functions decompose into sub-functions.
+ * - Architecture Blank diagrams (SAB, LAB, PAB): Components decompose into sub-components,
+ *   and functions are allocated inside components. Functions do NOT decompose into sub-functions.
+ * - Dataflow and Capability diagrams: Flat (no nesting).
+ */
+export function canNestOnDiagram(
+  childType: string,
+  parentType: string,
+  diagramType: string,
+): boolean {
+  if (childType.endsWith("Actor")) {
+    return false;
+  }
+  if (parentType.endsWith("Actor")) {
+    return (
+      childType === "OperationalActivity" &&
+      parentType === "OperationalActor" &&
+      diagramType === "OAB"
+    );
+  }
+
+  // ─── OA ───
+  if (diagramType === "OAB") {
+    return (
+      childType === "OperationalActivity" &&
+      (parentType === "OperationalEntity" || parentType === "OperationalActor")
+    );
+  }
+  if (diagramType === "OEB") {
+    return (
+      childType === "OperationalEntity" && parentType === "OperationalEntity"
+    );
+  }
+  if (diagramType === "OABD") {
+    return (
+      childType === "OperationalActivity" && parentType === "OperationalActivity"
+    );
+  }
+
+  // ─── SA ───
+  if (diagramType === "SAB") {
+    if (childType === "SystemComponent") {
+      return parentType === "System" || parentType === "SystemComponent";
+    }
+    if (childType === "SystemFunction") {
+      return parentType === "System" || parentType === "SystemComponent";
+    }
+    return false;
+  }
+  if (diagramType === "SFBD" || diagramType === "SFB") {
+    return childType === "SystemFunction" && parentType === "SystemFunction";
+  }
+
+  // ─── LA ───
+  if (diagramType === "LAB") {
+    if (childType === "LogicalComponent") {
+      return parentType === "LogicalComponent";
+    }
+    if (childType === "LogicalFunction") {
+      return parentType === "LogicalComponent";
+    }
+    return false;
+  }
+  if (diagramType === "LCB") {
+    return (
+      childType === "LogicalComponent" && parentType === "LogicalComponent"
+    );
+  }
+  if (diagramType === "LFBD" || diagramType === "LFB") {
+    return childType === "LogicalFunction" && parentType === "LogicalFunction";
+  }
+
+  // ─── PA ───
+  if (diagramType === "PAB") {
+    if (
+      childType === "PhysicalComponent" ||
+      childType === "PhysicalNode"
+    ) {
+      return (
+        parentType === "PhysicalComponent" || parentType === "PhysicalNode"
+      );
+    }
+    if (childType === "PhysicalFunction") {
+      return (
+        parentType === "PhysicalComponent" || parentType === "PhysicalNode"
+      );
+    }
+    return false;
+  }
+  if (diagramType === "PCB") {
+    return (
+      (childType === "PhysicalComponent" || childType === "PhysicalNode") &&
+      (parentType === "PhysicalComponent" || parentType === "PhysicalNode")
+    );
+  }
+  if (diagramType === "PFBD" || diagramType === "PFB") {
+    return (
+      childType === "PhysicalFunction" && parentType === "PhysicalFunction"
+    );
+  }
+
+  return false;
 }

@@ -192,15 +192,6 @@ function ActorNodeComponent({ data, selected }: NodeProps<ActorNodeType>) {
         position={Position.Bottom}
         className="size-2! border! border-current! bg-background!"
       />
-      {/* ── NodeResizer (only visible when selected) ── */}
-      <NodeResizer
-        isVisible={canEdit && selected}
-        minWidth={100}
-        minHeight={60}
-        lineClassName="border-primary/50"
-        handleClassName="bg-primary"
-      />
-
       <Handle
         type="target"
         position={Position.Left}

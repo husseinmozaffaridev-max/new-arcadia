@@ -69,32 +69,4 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     allowedSources: ["PhysicalComponent"],
     allowedTargets: ["PhysicalNode"],
   },
-  // ─── Cross-layer (all layers) ──────────────────────────────────────────────
-  {
-    // ← BUG FIX: was missing entirely — needed for IFE containment
-    relationshipType: "Composition",
-    allowedSources: [
-      "OperationalEntity",
-      "OperationalActivity",
-      "OperationalCapability",
-      "SystemComponent",
-      "LogicalComponent",
-      "LogicalActor",
-      "PhysicalComponent",
-      "PhysicalNode",
-    ],
-    allowedTargets: [
-      "OperationalEntity",
-      "OperationalActivity",
-      "OperationalCapability",
-      "SystemFunction",
-      "SystemComponent",
-      "LogicalFunction",
-      "LogicalComponent",
-      "LogicalActor",
-      "PhysicalFunction",
-      "PhysicalComponent",
-      "PhysicalNode",
-    ],
-  },
 ];

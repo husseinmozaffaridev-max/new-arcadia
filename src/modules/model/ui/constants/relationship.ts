@@ -7,12 +7,14 @@ import type {
 } from "../types/relationship";
 
 export const RELATIONSHIP_TYPES: RelationshipTypeInfo[] =
-  relationshipDefinitionsOfKind("connection").map((definition) => ({
-    value: definition.value as RelationshipTypeValue,
-    label: definition.label,
-    labelFa: definition.labelFa,
-    allowedFor: connectionLayersFor(definition.value as RelationshipTypeValue),
-  }));
+  relationshipDefinitionsOfKind("connection")
+    .map((definition) => ({
+      value: definition.value as RelationshipTypeValue,
+      label: definition.label,
+      labelFa: definition.labelFa,
+      allowedFor: connectionLayersFor(definition.value as RelationshipTypeValue),
+    }))
+    .filter((rel) => rel.allowedFor.length > 0);
 
 export const RELATIONSHIP_VISUAL: Record<
   RelationshipTypeValue,

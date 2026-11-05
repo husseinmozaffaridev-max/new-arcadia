@@ -572,6 +572,56 @@ describe("ValidationPolicy", () => {
       expect(rulesOf(issues)).not.toContain("missing-parent");
       expect(rulesOf(issues)).not.toContain("cross-layer-parent");
     });
+
+    it("flags an actor that has a parent (actors cannot be decomposed or nested)", () => {
+      const issues = validate({
+        elements: [
+          element({ id: "parent", name: "System Component", type: "SystemComponent" }),
+          element({
+            id: "actor",
+            name: "Radar Operator",
+            type: "SystemActor",
+            parentId: "parent",
+          }),
+        ],
+      });
+
+      expect(rulesOf(issues)).toContain("actor-has-parent");
+      expect(issues).toContainEqual(
+        expect.objectContaining({
+          severity: "error",
+          rule: "actor-has-parent",
+          elementId: "actor",
+        }),
+      );
+    });
+
+    it("flags an element whose parent is an actor (actors cannot be decomposed or contain child elements)", () => {
+      const issues = validate({
+        elements: [
+          element({
+            id: "actor",
+            name: "Pilot",
+            type: "SystemActor",
+          }),
+          element({
+            id: "child",
+            name: "Sub Component",
+            type: "SystemComponent",
+            parentId: "actor",
+          }),
+        ],
+      });
+
+      expect(rulesOf(issues)).toContain("actor-cannot-be-decomposed");
+      expect(issues).toContainEqual(
+        expect.objectContaining({
+          severity: "error",
+          rule: "actor-cannot-be-decomposed",
+          elementId: "child",
+        }),
+      );
+    });
   });
 
   describe("rule 6 · duplicate names", () => {

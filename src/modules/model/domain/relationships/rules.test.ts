@@ -24,7 +24,11 @@ describe("connection rules", () => {
 
   it("derives the layers a relationship type can be created in", () => {
     expect(connectionLayersFor("OperationalExchange")).toEqual(["OA"]);
-    expect(connectionLayersFor("ComponentExchange")).toEqual(["SA", "LA"]);
+    expect(connectionLayersFor("ComponentExchange")).toEqual([
+      "SA",
+      "LA",
+      "PA",
+    ]);
     expect(connectionLayersFor("Allocation").sort()).toEqual([
       "LA",
       "OA",
@@ -50,26 +54,18 @@ describe("connection rules", () => {
     }
   });
 
-  it("offers composition and generalization in every architecture layer", () => {
-    expect(connectionLayersFor("Composition")).toEqual(
-      expect.arrayContaining(["OA", "SA", "LA", "PA", "EPBS"]),
-    );
+  it("does not offer composition in any architecture layer (Capella removes Composition edge)", () => {
+    expect(connectionLayersFor("Composition")).toEqual([]);
     expect(connectionLayersFor("Generalization")).toEqual(
       expect.arrayContaining(["OA", "SA", "LA", "PA", "EPBS"]),
     );
   });
 
-  it("allows every layer to compose its own breakdown", () => {
-    const compositionSources = (layer: string) =>
-      CONNECTION_RULES.filter(
-        (r) => r.relationshipType === "Composition" && r.layer.value === layer,
-      ).flatMap((r) => r.allowedSources);
-
-    expect(compositionSources("OA")).toContain("OperationalActivity");
-    expect(compositionSources("SA")).toContain("SystemFunction");
-    expect(compositionSources("SA")).toContain("SystemComponent");
-    expect(compositionSources("LA")).toContain("LogicalFunction");
-    expect(compositionSources("PA")).toContain("PhysicalFunction");
+  it("supports interaction and functional exchanges across architecture layers", () => {
+    expect(connectionLayersFor("OperationalExchange")).toEqual(["OA"]);
+    expect(connectionLayersFor("FunctionalExchange")).toEqual(["SA"]);
+    expect(connectionLayersFor("LogicalExchange")).toEqual(["LA"]);
+    expect(connectionLayersFor("PhysicalExchange")).toEqual(["PA"]);
   });
 
   it("offers allocation for every architecture layer", () => {

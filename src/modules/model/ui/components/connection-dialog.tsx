@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/modules/shared/ui/components/ui/button";
 import {
   Dialog,
@@ -42,6 +42,12 @@ export function ConnectionDialog({
 
   const [selectedType, setSelectedType] =
     useState<RelationshipTypeValue | null>(allowedTypes[0] ?? null);
+
+  useEffect(() => {
+    if (open && allowedTypes.length > 0) {
+      setSelectedType(allowedTypes[0]);
+    }
+  }, [open, allowedTypes]);
 
   function handleConfirm() {
     if (!selectedType) return;

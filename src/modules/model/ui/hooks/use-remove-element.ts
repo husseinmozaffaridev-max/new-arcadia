@@ -169,6 +169,9 @@ export function useRemoveElementSync() {
         if (mode === "model") {
           removeElementServer.mutate(nodeId, {
             onSuccess: () => {
+              queryClient.invalidateQueries({
+                queryKey: ["workbench-data"],
+              });
               router.refresh();
               toast.success("Element deleted from model");
             },

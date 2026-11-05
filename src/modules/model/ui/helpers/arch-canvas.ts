@@ -1,4 +1,5 @@
 import type { Edge, Node, XYPosition } from "@xyflow/react";
+import { canNestOnDiagram } from "../helpers/diagram";
 import { getNodeTypeForElement } from "../helpers/element";
 import type {
   ElementNodeData,
@@ -19,6 +20,7 @@ export function buildArchNodes(
   elements: Element[],
   elementLayouts: ElementLayout[],
   modelId: string,
+  diagramType?: string,
 ): ArchCanvasNode[] {
   const layoutMap = new Map(elementLayouts.map((l) => [l.elementId, l]));
 
@@ -28,8 +30,25 @@ export function buildArchNodes(
       const layout = layoutMap.get(el.id);
       if (!layout) return null;
 
+      const parentElement = el.parentId
+        ? elements.find((p) => p.id === el.parentId)
+        : undefined;
+      const isParentActor = parentElement?.type?.endsWith("Actor");
+      const isSelfActor = el.type?.endsWith("Actor");
+
+      const canNest =
+        diagramType && parentElement
+          ? canNestOnDiagram(el.type, parentElement.type, diagramType)
+          : true;
+
       const effectiveParentId =
-        el.parentId && layoutMap.has(el.parentId) ? el.parentId : undefined;
+        canNest &&
+        !isParentActor &&
+        !isSelfActor &&
+        el.parentId &&
+        layoutMap.has(el.parentId)
+          ? el.parentId
+          : undefined;
 
       return {
         id: el.id,

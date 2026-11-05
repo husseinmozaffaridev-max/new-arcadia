@@ -392,6 +392,9 @@ export function ClassCanvasInner({
                   queryClient.invalidateQueries({
                     queryKey: ["class-elements"],
                   });
+                  queryClient.invalidateQueries({
+                    queryKey: ["workbench-data"],
+                  });
                   router.refresh();
                 },
               },

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { canNestOnDiagram } from "../helpers/diagram";
 import {
   canPlaceElementOnDiagram,
   getDiagramPlacements,
@@ -80,5 +81,64 @@ describe("getNewElementActions", () => {
       expect(action.fillColor, action.value).toMatch(/^#/);
       expect(action.label.length, action.value).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("canNestOnDiagram", () => {
+  it("strictly prohibits entity breakdown and activity breakdown on OAB", () => {
+    // Entities cannot be decomposed on OAB (breakdown belongs to OEB)
+    expect(
+      canNestOnDiagram("OperationalEntity", "OperationalEntity", "OAB"),
+    ).toBe(false);
+    // Activities cannot be decomposed on OAB (breakdown belongs to OABD)
+    expect(
+      canNestOnDiagram("OperationalActivity", "OperationalActivity", "OAB"),
+    ).toBe(false);
+  });
+
+  it("permits activity allocation into entities and actors on OAB", () => {
+    expect(
+      canNestOnDiagram("OperationalActivity", "OperationalEntity", "OAB"),
+    ).toBe(true);
+    expect(
+      canNestOnDiagram("OperationalActivity", "OperationalActor", "OAB"),
+    ).toBe(true);
+  });
+
+  it("permits entity breakdown only on OEB and activity breakdown only on OABD", () => {
+    expect(
+      canNestOnDiagram("OperationalEntity", "OperationalEntity", "OEB"),
+    ).toBe(true);
+    expect(
+      canNestOnDiagram("OperationalActivity", "OperationalActivity", "OABD"),
+    ).toBe(true);
+  });
+
+  it("permits component decomposition and function allocation on SAB, but not function breakdown", () => {
+    expect(canNestOnDiagram("SystemComponent", "System", "SAB")).toBe(true);
+    expect(
+      canNestOnDiagram("SystemComponent", "SystemComponent", "SAB"),
+    ).toBe(true);
+    expect(canNestOnDiagram("SystemFunction", "SystemComponent", "SAB")).toBe(
+      true,
+    );
+    expect(canNestOnDiagram("SystemFunction", "SystemFunction", "SAB")).toBe(
+      false,
+    );
+    expect(canNestOnDiagram("SystemFunction", "SystemFunction", "SFBD")).toBe(
+      true,
+    );
+  });
+
+  it("disallows any nesting on flat diagrams like OCB, OAIB, and SDFB", () => {
+    expect(
+      canNestOnDiagram("OperationalActivity", "OperationalEntity", "OCB"),
+    ).toBe(false);
+    expect(
+      canNestOnDiagram("OperationalActivity", "OperationalActivity", "OAIB"),
+    ).toBe(false);
+    expect(canNestOnDiagram("SystemFunction", "SystemFunction", "SDFB")).toBe(
+      false,
+    );
   });
 });

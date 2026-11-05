@@ -1,4 +1,5 @@
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon, LucideProps } from "lucide-react";
+import React, { forwardRef } from "react";
 import {
   Activity,
   Box,
@@ -13,11 +14,80 @@ import {
   Plug,
   Target,
   User,
-  Users,
   Workflow,
 } from "lucide-react";
 import type { ClassElementTypeValue } from "../types/class-diagram";
 import type { ElementTypeValue } from "../types/element";
+
+/**
+ * نماد اختصاصی Operational Entity مشابه Capella (جعبه کامپوننت با دو زبانه و حروف OE)
+ */
+export const OperationalEntityIcon = forwardRef<SVGSVGElement, LucideProps>(
+  ({ size = 16, className, style, ...props }, ref) =>
+    React.createElement(
+      "svg",
+      {
+        ref,
+        width: size,
+        height: size,
+        viewBox: "0 0 16 16",
+        fill: "none",
+        stroke: "currentColor",
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        className,
+        style,
+        "aria-hidden": true,
+        ...props,
+      },
+      React.createElement("rect", {
+        x: 3.5,
+        y: 1.5,
+        width: 11,
+        height: 13,
+        rx: 1,
+        strokeWidth: 1.2,
+        fill: "currentColor",
+        fillOpacity: 0.15,
+      }),
+      React.createElement("rect", {
+        x: 1,
+        y: 3.5,
+        width: 4,
+        height: 2.5,
+        rx: 0.5,
+        strokeWidth: 1,
+        fill: "currentColor",
+        fillOpacity: 0.25,
+      }),
+      React.createElement("rect", {
+        x: 1,
+        y: 8.5,
+        width: 4,
+        height: 2.5,
+        rx: 0.5,
+        strokeWidth: 1,
+        fill: "currentColor",
+        fillOpacity: 0.25,
+      }),
+      React.createElement(
+        "text",
+        {
+          x: 9,
+          y: 9.8,
+          textAnchor: "middle",
+          fontSize: 5,
+          fontWeight: "bold",
+          fill: "currentColor",
+          stroke: "none",
+          letterSpacing: "-0.3",
+          fontFamily: "system-ui, sans-serif",
+        },
+        "OE",
+      ),
+    ),
+);
+OperationalEntityIcon.displayName = "OperationalEntityIcon";
 
 /**
  * Icon for every element type the domain knows about.
@@ -26,7 +96,7 @@ import type { ElementTypeValue } from "../types/element";
 const DOMAIN_ICONS: Record<ElementTypeValue, LucideIcon> = {
   // ── OA ──
   Mission: Monitor,
-  OperationalEntity: Users,
+  OperationalEntity: OperationalEntityIcon as unknown as LucideIcon,
   OperationalActor: User,
   OperationalActivity: Activity,
   OperationalCapability: Target,

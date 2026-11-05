@@ -91,6 +91,18 @@ describe("ModelElement.create", () => {
       'Element type "Logical Component" does not belong to layer "System Analysis"',
     );
   });
+
+  it("rejects creating an Actor with a parentId (actors cannot be decomposed)", () => {
+    expect(() =>
+      ModelElement.create(
+        createProps({
+          type: "LogicalActor",
+          layer: "LA",
+          parentId: "parent-1",
+        }),
+      ),
+    ).toThrow("Actors cannot be decomposed or nested inside other elements");
+  });
 });
 
 describe("ModelElement.reconstitute", () => {
