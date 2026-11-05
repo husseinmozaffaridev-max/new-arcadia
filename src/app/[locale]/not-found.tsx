@@ -1,3 +1,5 @@
+"use client";
+
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/modules/shared/ui/components/ui/button";
 import { FileQuestion } from "lucide-react";

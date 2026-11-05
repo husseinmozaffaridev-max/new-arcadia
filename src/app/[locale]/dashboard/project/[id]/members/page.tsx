@@ -1,26 +1,14 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { notFound, useParams } from "next/navigation";
+import { useGetMe } from "@/modules/auth/ui/clients/get-me";
 import { getProjectById } from "@/modules/project/presentation/server-actions/get-by-id";
 import { getProjectMembers } from "@/modules/project/presentation/server-actions/get-members";
 import { getProjectRoles } from "@/modules/project/presentation/server-actions/get-roles";
 import { MembersPanel } from "@/modules/project/ui/components/members-panel";
-import { cookiesStorageService } from "@/modules/shared/infrastructure/services";
-import { extractUserIdFromJwt } from "@/modules/shared/libs/extract-jwt";
 import { Skeleton } from "@/modules/shared/ui/components/ui/skeleton";
 
-type Props = {
-  params: Promise<{ id: string }>;
-};
-
-export const metadata: Metadata = {
-  title: "Members",
-};
-
-/**
- * Skeleton shown while the RBAC data (project, members, roles) streams in.
- * Kept local because it mirrors the members table layout.
- */
 function MembersSkeleton() {
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 p-6">
@@ -47,54 +35,55 @@ function MembersSkeleton() {
   );
 }
 
-async function MembersSection({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default function MembersPage() {
+  const params = useParams<{ id: string }>();
+  const id = params?.id;
   const projectId = Number(id);
 
-  if (!Number.isFinite(projectId) || projectId <= 0) {
+  const { data: user } = useGetMe();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["project-members-page", projectId],
+    queryFn: async () => {
+      if (!Number.isFinite(projectId) || projectId <= 0) {
+        throw new Error("Invalid project ID");
+      }
+
+      const [projectResult, membersResult, rolesResult] = await Promise.all([
+        getProjectById(projectId),
+        getProjectMembers({ projectId }),
+        getProjectRoles(),
+      ]);
+
+      if (!projectResult.success || !projectResult.data) {
+        throw new Error("Project not found");
+      }
+
+      return {
+        project: projectResult.data,
+        members: membersResult.data ?? [],
+        roles: rolesResult.data ?? [],
+      };
+    },
+    enabled: Boolean(id),
+  });
+
+  if (isLoading) {
+    return <MembersSkeleton />;
+  }
+
+  if (isError || !data) {
     notFound();
-  }
-
-  const token = await cookiesStorageService.get("token");
-  const currentUserId = token ? extractUserIdFromJwt(token) : null;
-
-  const [projectResult, membersResult, rolesResult] = await Promise.all([
-    getProjectById(projectId),
-    getProjectMembers({ projectId }),
-    getProjectRoles(),
-  ]);
-
-  if (!projectResult.success || !projectResult.data) {
-    notFound();
-  }
-
-  if (!membersResult.success) {
-    throw new Error(membersResult.message || "Failed to load project members");
-  }
-
-  if (!rolesResult.success) {
-    throw new Error(rolesResult.message || "Failed to load project roles");
   }
 
   return (
     <MembersPanel
-      variant="page"
       projectId={projectId}
-      projectName={projectResult.data.name}
-      permissions={projectResult.data.permissions}
-      currentUserId={currentUserId}
-      initialMembers={membersResult.data ?? []}
-      initialRoles={rolesResult.data ?? []}
+      projectName={data.project.name}
+      permissions={data.project.permissions}
+      currentUserId={user?.id ?? null}
+      initialMembers={data.members}
+      initialRoles={data.roles}
     />
-  );
-}
-
-export default function Page({ params }: Props) {
-  return (
-    <div className="min-h-screen bg-background">
-      <Suspense fallback={<MembersSkeleton />}>
-        <MembersSection params={params} />
-      </Suspense>
-    </div>
   );
 }

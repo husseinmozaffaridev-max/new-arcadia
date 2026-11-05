@@ -1,57 +1,84 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 import { isProjectLayer } from "@/modules/project/domain/constants/permissions";
 import { canViewLayer } from "@/modules/project/domain/services/permissions";
 import { getProjectById } from "@/modules/project/presentation/server-actions/get-by-id";
-import { getElementsByModelId } from "../../presentation/server-actions/get-elements-by-model-id"; // Same server action used by the client hook
+import { getElementsByModelId } from "../../presentation/server-actions/get-elements-by-model-id";
 import { getModelsByProjectId } from "../../presentation/server-actions/get-models-by-project-id";
 import { getTraceLinksByProjectId } from "../../presentation/server-actions/get-trace-links-by-project-id";
 import { LAYER_PAIRS } from "../constants/trace-link";
 import type { Element } from "../types/element";
 import type { LayerValue } from "../types/layer";
 import { TraceLayerPair } from "./trace-layer-pair";
+import { TraceLayerPairListSkeleton } from "./trace-layer-pair-list-skeleton";
 
 type TraceLayerPairListProps = {
-  params: Promise<{ id: string }>;
+  params?: Promise<{ id: string }>;
 };
 
-export async function TraceLayerPairList({ params }: TraceLayerPairListProps) {
-  const { id: projectId } = await params;
+export function TraceLayerPairList({}: TraceLayerPairListProps = {}) {
+  const routeParams = useParams<{ id: string }>();
+  const projectId = routeParams?.id;
 
-  const [models, traceLinks, projectRes] = await Promise.all([
-    getModelsByProjectId(projectId),
-    getTraceLinksByProjectId(projectId),
-    getProjectById(Number(projectId)).catch(() => null),
-  ]);
+  const { data, isLoading } = useQuery({
+    queryKey: ["trace-layer-pair-list", projectId],
+    queryFn: async () => {
+      if (!projectId) return null;
 
-  // RBAC: fail closed — an unreadable project yields no permissions, which
-  // hides every pair.
-  const permissions = projectRes?.data?.permissions ?? [];
+      const [models, traceLinks, projectRes] = await Promise.all([
+        getModelsByProjectId(projectId),
+        getTraceLinksByProjectId(projectId),
+        getProjectById(Number(projectId)).catch(() => null),
+      ]);
+
+      const permissions = projectRes?.data?.permissions ?? [];
+      const modelList = models.data ?? [];
+      const modelIds = modelList.map((model) => model.id);
+
+      const elementsResults = await Promise.all(
+        modelIds.map((id) => getElementsByModelId(id)),
+      );
+
+      const elementsByModelId = new Map<string, Element[]>();
+
+      modelIds.forEach((id, index) => {
+        const elements = elementsResults[index]?.data ?? [];
+        elementsByModelId.set(
+          id,
+          elements.map((element) => ({
+            id: element.id,
+            name: element.name,
+            type: element.type,
+            modelId: element.modelId,
+            updatedAt: element.updatedAt,
+            createdAt: element.createdAt,
+            description: element.description,
+            parentId: element.parentId,
+            status: element.properties.status,
+          })),
+        );
+      });
+
+      return {
+        permissions,
+        models: modelList,
+        traceLinks: traceLinks.data ?? [],
+        elementsByModelId,
+      };
+    },
+    enabled: Boolean(projectId),
+  });
+
+  if (isLoading || !data || !projectId) {
+    return <TraceLayerPairListSkeleton />;
+  }
+
+  const { permissions, models, traceLinks, elementsByModelId } = data;
+
   const canView = (layer: LayerValue) =>
     isProjectLayer(layer) ? canViewLayer(permissions, layer) : true;
-
-  const modelIds = (models.data ?? []).map((model) => model.id);
-
-  const elementsResults = await Promise.all(
-    modelIds.map((id) => getElementsByModelId(id)),
-  );
-
-  const elementsByModelId = new Map<string, Element[]>();
-
-  modelIds.forEach((id, index) => {
-    elementsByModelId.set(
-      id,
-      elementsResults[index].data.map((element) => ({
-        id: element.id,
-        name: element.name,
-        type: element.type,
-        modelId: element.modelId,
-        updatedAt: element.updatedAt,
-        createdAt: element.createdAt,
-        description: element.description,
-        parentId: element.parentId,
-        status: element.properties.status,
-      })) ?? [],
-    );
-  });
 
   const visiblePairs = LAYER_PAIRS.filter(
     ({ upper, lower }) => canView(upper) && canView(lower),
@@ -76,8 +103,8 @@ export async function TraceLayerPairList({ params }: TraceLayerPairListProps) {
           lower={lower}
           label={label}
           projectId={projectId}
-          models={models.data ?? []}
-          traceLinks={traceLinks.data ?? []}
+          models={models}
+          traceLinks={traceLinks}
           elementsByModelId={elementsByModelId}
         />
       ))}

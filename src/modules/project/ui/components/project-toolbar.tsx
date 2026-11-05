@@ -1,3 +1,5 @@
+"use client";
+
 import { Home } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -13,7 +15,7 @@ import { NewProjectButton } from "./new-project-button";
 import { SearchInput } from "./search-input";
 
 type ProjectToolbarProps = {
-  searchParams: Promise<{ search?: string }>;
+  searchParams?: Promise<{ search?: string }>;
 };
 
 export function ProjectToolbar({ searchParams }: ProjectToolbarProps) {

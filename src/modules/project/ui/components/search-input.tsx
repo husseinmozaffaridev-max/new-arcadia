@@ -6,7 +6,7 @@ import { startTransition, use, useCallback } from "react";
 import { Input } from "@/modules/shared/ui/components/ui/input";
 
 type SearchInputProps = {
-  params: Promise<{ search?: string }>;
+  params?: Promise<{ search?: string }>;
 };
 
 export function SearchInput({ params }: SearchInputProps) {
@@ -14,7 +14,8 @@ export function SearchInput({ params }: SearchInputProps) {
 
   const searchParams = useSearchParams();
 
-  const { search: defaultValue } = use(params);
+  const paramValue = params ? use(params).search : undefined;
+  const defaultValue = paramValue ?? searchParams.get("search") ?? "";
 
   const handleSearch = useCallback(
     (value: string) => {

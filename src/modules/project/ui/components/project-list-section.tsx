@@ -1,18 +1,25 @@
-import { getAllProjects } from "../../presentation/server-actions/get-all";
+"use client";
+
+import { useSearchParams } from "next/navigation";
+import { useGetAllProjects } from "../clients/get-all";
 import { ProjectCardWrapper } from "./project-card-wrapper";
 import { ProjectListEmpty } from "./project-list-empty";
+import { ProjectListSkeleton } from "./project-list-skeleton";
 
 type ProjectListSectionProps = {
-  searchParams: Promise<{ search?: string }>;
+  searchParams?: Promise<{ search?: string }>;
 };
 
-export async function ProjectListSection({
-  searchParams,
-}: ProjectListSectionProps) {
-  const { data: projects } = await getAllProjects();
-  const allProjects = projects ?? [];
+export function ProjectListSection({}: ProjectListSectionProps = {}) {
+  const { data: projects, isLoading } = useGetAllProjects();
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
 
-  const { search } = await searchParams;
+  if (isLoading) {
+    return <ProjectListSkeleton />;
+  }
+
+  const allProjects = projects ?? [];
 
   const filteredProjects = search
     ? allProjects.filter(

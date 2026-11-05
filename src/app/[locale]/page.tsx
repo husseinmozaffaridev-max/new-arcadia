@@ -1,21 +1,16 @@
+"use client";
+
 import { Link } from "@/i18n/navigation";
 import { ThemeToggle } from "@/modules/shared/ui/components/common/theme-toggle";
 import { Button } from "@/modules/shared/ui/components/ui/button";
 import { cn } from "@/modules/shared/ui/libs/cn";
 import { ArrowRight, GitMerge, Layers, Shield, Users } from "lucide-react";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
-
-export default async function Home({ params }: Props) {
-  const { locale } = await params;
-  setRequestLocale(locale);
-
-  const t = await getTranslations({ locale });
-  const tLayers = await getTranslations({ locale, namespace: "layers" });
-  const tFeatures = await getTranslations({ locale, namespace: "features" });
+export default function Home() {
+  const t = useTranslations();
+  const tLayers = useTranslations("layers");
+  const tFeatures = useTranslations("features");
 
   const LAYERS = [
     {

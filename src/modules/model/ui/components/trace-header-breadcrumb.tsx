@@ -1,21 +1,44 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, GitMerge } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { getProjectById } from "@/modules/project/presentation/server-actions/get-by-id";
 import { Button } from "@/modules/shared/ui/components/ui/button";
+import { Skeleton } from "@/modules/shared/ui/components/ui/skeleton";
 import { getTraceLinksByProjectId } from "../../presentation/server-actions/get-trace-links-by-project-id";
 
-export type TraceHeaderBreadcrumbProps = {
-  params: Promise<{ id: string }>;
+type TraceHeaderBreadcrumbProps = {
+  params?: Promise<{ id: string }>;
 };
-export async function TraceHeaderBreadcrumb({
-  params,
-}: TraceHeaderBreadcrumbProps) {
-  const { id: projectId } = await params;
 
-  const [project, traceLinks] = await Promise.all([
-    getProjectById(+projectId),
-    getTraceLinksByProjectId(projectId),
-  ]);
+export function TraceHeaderBreadcrumb({}: TraceHeaderBreadcrumbProps = {}) {
+  const routeParams = useParams<{ id: string }>();
+  const projectId = routeParams?.id;
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["trace-header-breadcrumb", projectId],
+    queryFn: async () => {
+      if (!projectId) return null;
+      const [project, traceLinks] = await Promise.all([
+        getProjectById(+projectId),
+        getTraceLinksByProjectId(projectId),
+      ]);
+      return { project, traceLinks };
+    },
+    enabled: Boolean(projectId),
+  });
+
+  if (isLoading || !data) {
+    return (
+      <div className="max-w-6xl mx-auto w-full">
+        <Skeleton className="w-full h-8" />
+      </div>
+    );
+  }
+
+  const { project, traceLinks } = data;
 
   return (
     <div className="flex items-start gap-4">
