@@ -22,7 +22,7 @@ export async function NextIntlProvider({
 
   const messages = await getMessages({ locale });
   return (
-    <NextIntlClientProvider messages={messages}>
+    <NextIntlClientProvider messages={messages} locale={locale}>
       {children}
     </NextIntlClientProvider>
   );
