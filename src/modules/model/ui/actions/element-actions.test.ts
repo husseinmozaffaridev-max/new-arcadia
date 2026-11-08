@@ -160,14 +160,8 @@ describe("canNestOnDiagram", () => {
     ).toBe(true);
   });
 
-  it("permits component decomposition and function allocation on SAB, but not function breakdown", () => {
-    expect(canNestOnDiagram("SystemComponent", "System", "SAB")).toBe(true);
-    expect(canNestOnDiagram("SystemComponent", "SystemComponent", "SAB")).toBe(
-      true,
-    );
-    expect(canNestOnDiagram("SystemFunction", "SystemComponent", "SAB")).toBe(
-      true,
-    );
+  it("permits function allocation to System on SAB, but not function breakdown", () => {
+    expect(canNestOnDiagram("SystemFunction", "System", "SAB")).toBe(true);
     expect(canNestOnDiagram("SystemFunction", "SystemFunction", "SAB")).toBe(
       false,
     );

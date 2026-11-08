@@ -421,11 +421,8 @@ export function canNestOnDiagram(
 
   // ─── SA ───
   if (diagramType === "SAB") {
-    if (childType === "SystemComponent") {
-      return parentType === "System" || parentType === "SystemComponent";
-    }
     if (childType === "SystemFunction") {
-      return parentType === "System" || parentType === "SystemComponent";
+      return parentType === "System";
     }
     return false;
   }
