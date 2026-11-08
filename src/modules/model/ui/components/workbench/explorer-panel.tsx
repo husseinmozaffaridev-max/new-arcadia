@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, FolderTree, Plus } from "lucide-react";
+import { useLocale } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { toast } from "sonner";
 import { DiagramFormDialog } from "@/modules/project/ui/components/diagram-form-dialog";
@@ -43,6 +44,7 @@ export function ExplorerPanel({
   onTreeChanged,
   onTransition,
 }: ExplorerPanelProps) {
+  const locale = useLocale();
   const confirm = useConfirm();
 
   const openTab = useWorkbenchStore((s) => s.openTab);
@@ -184,6 +186,7 @@ export function ExplorerPanel({
         element.name,
         element.type,
         diagram.type,
+        locale,
       );
       if (placementError) {
         toast.error(placementError);
@@ -191,7 +194,7 @@ export function ExplorerPanel({
       }
       onAddElementToDiagram(element, diagram);
     },
-    [onAddElementToDiagram],
+    [onAddElementToDiagram, locale],
   );
 
   const handleOpenDiagram = useCallback(

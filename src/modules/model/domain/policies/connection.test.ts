@@ -32,13 +32,16 @@ describe("ConnectionPolicy", () => {
     ).toBe(false);
   });
 
-  it("allows generalization between entities and actors in OA", () => {
+  it("allows generalization between entities in OA, but not actors", () => {
+    expect(
+      connect("OperationalEntity", "OperationalEntity", "Generalization"),
+    ).toBe(true);
     expect(
       connect("OperationalEntity", "OperationalActor", "Generalization"),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       connect("OperationalActor", "OperationalEntity", "Generalization"),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       connect("OperationalActivity", "OperationalEntity", "Generalization"),
     ).toBe(false);
@@ -99,7 +102,7 @@ describe("ConnectionPolicy", () => {
     );
   });
 
-  it("allows interaction exchanges between entities and actors in OA", () => {
+  it("allows interaction exchanges between entities and actors in OA, but never actor to actor", () => {
     expect(
       connect("OperationalEntity", "OperationalEntity", "OperationalExchange"),
     ).toBe(true);
@@ -111,7 +114,40 @@ describe("ConnectionPolicy", () => {
     ).toBe(true);
     expect(
       connect("OperationalActor", "OperationalActor", "OperationalExchange"),
-    ).toBe(true);
+    ).toBe(false);
+  });
+
+  it("never allows an actor to connect to another actor in any layer", () => {
+    // OA
+    expect(
+      connect("OperationalActor", "OperationalActor", "OperationalExchange"),
+    ).toBe(false);
+    expect(
+      connect("OperationalActor", "OperationalActor", "Generalization"),
+    ).toBe(false);
+
+    // SA
+    expect(connect("SystemActor", "SystemActor", "SystemExchange")).toBe(false);
+    expect(connect("SystemActor", "SystemActor", "ComponentExchange")).toBe(
+      false,
+    );
+    expect(connect("SystemActor", "SystemActor", "Generalization")).toBe(false);
+
+    // LA
+    expect(connect("LogicalActor", "LogicalActor", "ComponentExchange")).toBe(
+      false,
+    );
+    expect(connect("LogicalActor", "LogicalActor", "Generalization")).toBe(
+      false,
+    );
+
+    // PA
+    expect(connect("PhysicalActor", "PhysicalActor", "ComponentExchange")).toBe(
+      false,
+    );
+    expect(connect("PhysicalActor", "PhysicalActor", "Generalization")).toBe(
+      false,
+    );
   });
 
   it("allows component and system exchanges between system and actors in SA", () => {
@@ -149,19 +185,25 @@ describe("ConnectionPolicy", () => {
     ).toBe(false);
   });
 
-  it("generalizes components and actors in SA, LA and PA", () => {
-    expect(connect("SystemComponent", "SystemActor", "Generalization")).toBe(
+  it("generalizes components in SA, LA and PA, but never actors", () => {
+    expect(connect("SystemComponent", "SystemComponent", "Generalization")).toBe(
       true,
     );
-    expect(connect("SystemFunction", "SystemComponent", "Generalization")).toBe(
+    expect(connect("SystemComponent", "SystemActor", "Generalization")).toBe(
       false,
     );
-    expect(connect("LogicalComponent", "LogicalActor", "Generalization")).toBe(
+    expect(connect("LogicalComponent", "LogicalComponent", "Generalization")).toBe(
       true,
     );
+    expect(connect("LogicalComponent", "LogicalActor", "Generalization")).toBe(
+      false,
+    );
+    expect(
+      connect("PhysicalComponent", "PhysicalComponent", "Generalization"),
+    ).toBe(true);
     expect(
       connect("PhysicalComponent", "PhysicalActor", "Generalization"),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       connect("LogicalFunction", "LogicalFunction", "Generalization"),
     ).toBe(false);

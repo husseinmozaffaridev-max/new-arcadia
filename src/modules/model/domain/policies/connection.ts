@@ -30,6 +30,15 @@ export class ConnectionPolicy {
     targetType: ElementType,
     relationshipType: RelationshipType,
   ): void {
+    if (
+      sourceType.value.endsWith("Actor") &&
+      targetType.value.endsWith("Actor")
+    ) {
+      throw new Error(
+        `Connecting two actors ("${sourceType.label}" to "${targetType.label}") is not allowed. According to Arcadia methodology, actors cannot be connected to each other.`,
+      );
+    }
+
     const rule = CONNECTION_RULES.find(
       (r) =>
         r.relationshipType === relationshipType.value &&
@@ -39,7 +48,7 @@ export class ConnectionPolicy {
 
     if (!rule) {
       throw new Error(
-        `Connection from "${sourceType.labelFa}" to "${targetType.labelFa}" via "${relationshipType.labelFa}" is not allowed.`,
+        `Connection from "${sourceType.label}" to "${targetType.label}" via "${relationshipType.label}" is not allowed.`,
       );
     }
   }
@@ -50,6 +59,11 @@ export class ConnectionPolicy {
   ): RelationshipType[] {
     const source = ElementType.from(sourceType.toString()).value;
     const target = ElementType.from(targetType.toString()).value;
+
+    if (source.endsWith("Actor") && target.endsWith("Actor")) {
+      return [];
+    }
+
     const values = CONNECTION_RULES.filter(
       (r) =>
         r.allowedSources.includes(source) && r.allowedTargets.includes(target),

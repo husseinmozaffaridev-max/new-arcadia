@@ -322,6 +322,31 @@ export class ValidationPolicy {
 
     // ── Rule 5: Parent-child consistency ───────────────────────────────────
     const elementById = new Map(ctx.elements.map((e) => [e.id, e]));
+
+    // ── Rule 5b: No connection between two actors ─────────────────────────
+    for (const rel of ctx.relationships) {
+      const source = elementById.get(rel.sourceElementId);
+      const target = elementById.get(rel.targetElementId);
+      if (
+        source &&
+        target &&
+        source.type.endsWith("Actor") &&
+        target.type.endsWith("Actor")
+      ) {
+        issues.push({
+          id: nextId(),
+          severity: "error",
+          rule: "actor-connected-to-actor",
+          message: `Actor "${source.name}" cannot be connected to Actor "${target.name}". Actors cannot be connected to other actors.`,
+          elementId: source.id,
+          elementName: source.name,
+          elementType: source.type,
+          relationshipId: rel.id,
+          layer: source.layer as LayerValue,
+        });
+      }
+    }
+
     for (const el of ctx.elements) {
       if (el.parentId) {
         if (el.type.endsWith("Actor")) {

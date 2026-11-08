@@ -9,6 +9,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 import { type DragEventHandler, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import { ConnectionPolicy } from "../../domain/policies/connection";
@@ -72,6 +73,9 @@ export function ArchitectureCanvasInner({
   elements,
   relationships,
 }: ArchitectureCanvasInnerProps) {
+  const locale = useLocale();
+  const isFa = locale === "fa";
+
   // RBAC: without `edit<layer>` the canvas is fully static (no drop, no
   // connect, no drag-persist, no delete key, no mutating menu items).
   const canEdit = useCanEditActiveLayer();
@@ -121,12 +125,15 @@ export function ArchitectureCanvasInner({
             });
           },
           onError: ({ message }) => {
-            toast.error(message || "Error creating relationship");
+            toast.error(
+              message ||
+                (isFa ? "خطا در ایجاد رابطه" : "Error creating relationship"),
+            );
           },
         },
       );
     },
-    [connectElements],
+    [connectElements, isFa],
   );
 
   const {
@@ -193,6 +200,15 @@ export function ArchitectureCanvasInner({
       const targetType = getElementTypeInfo(targetNode.data.elementType).value;
       if (!sourceType || !targetType) return;
 
+      if (sourceType.endsWith("Actor") && targetType.endsWith("Actor")) {
+        toast.error(
+          isFa
+            ? "اتصال بین دو بازیگر مجاز نیست؛ طبق منبع منطق برنامه، بازیگرها نباید به یکدیگر متصل شوند."
+            : "Connecting two actors is not allowed. According to Arcadia methodology, actors cannot be connected to each other.",
+        );
+        return;
+      }
+
       const activeTab = useWorkbenchStore
         .getState()
         .tabs.find((t) => t.diagramId === diagramId);
@@ -230,7 +246,11 @@ export function ArchitectureCanvasInner({
       }
 
       if (allowedTypes.length === 0) {
-        toast.error(`Cannot connect these elements in ${diagramType} diagram.`);
+        toast.error(
+          isFa
+            ? `اتصال این عناصر در دیاگرام ${diagramType} مجاز نیست.`
+            : `Cannot connect these elements in ${diagramType} diagram.`,
+        );
         return;
       }
 
@@ -250,7 +270,7 @@ export function ArchitectureCanvasInner({
         targetNodeId: effectiveTarget,
       });
     },
-    [setPendingConnection, createRelationship, diagramId, diagram.type],
+    [setPendingConnection, createRelationship, diagramId, diagram.type, isFa],
   );
 
   function findContainerAtPosition(
@@ -353,7 +373,11 @@ export function ArchitectureCanvasInner({
 
         const currentNodes = useCanvasStore.getState().nodes;
         if (currentNodes.some((n) => n.id === elementId)) {
-          toast.info(`"${name}" is already on this diagram`);
+          toast.info(
+            isFa
+              ? `«${name}» قبلاً روی این دیاگرام قرار دارد`
+              : `"${name}" is already on this diagram`,
+          );
           return;
         }
 
@@ -365,6 +389,7 @@ export function ArchitectureCanvasInner({
           name,
           elementType,
           diagramType,
+          locale,
         );
         if (placementError) {
           toast.error(placementError);
@@ -431,10 +456,19 @@ export function ArchitectureCanvasInner({
                 queryKey: getElementRelationsKey(elementId),
               });
               router.refresh();
-              toast.success(`Added "${name}" to diagram`);
+              toast.success(
+                isFa
+                  ? `«${name}» به دیاگرام اضافه شد`
+                  : `Added "${name}" to diagram`,
+              );
             },
             onError: ({ message }) =>
-              toast.error(message || "Error adding element to diagram"),
+              toast.error(
+                message ||
+                  (isFa
+                    ? "خطا در افزودن عنصر به دیاگرام"
+                    : "Error adding element to diagram"),
+              ),
           },
         );
       } catch {
@@ -451,6 +485,8 @@ export function ArchitectureCanvasInner({
       selectNode,
       queryClient,
       router,
+      locale,
+      isFa,
     ],
   );
 
@@ -512,7 +548,10 @@ export function ArchitectureCanvasInner({
               },
               {
                 onError: ({ message }) => {
-                  toast.error(message || "Error adding element");
+                  toast.error(
+                    message ||
+                      (isFa ? "خطا در افزودن عنصر" : "Error adding element"),
+                  );
                 },
                 onSuccess: () => {
                   addNode({
@@ -540,7 +579,10 @@ export function ArchitectureCanvasInner({
             );
           },
           onError: ({ message }) => {
-            toast.error(message || "Error adding element");
+            toast.error(
+              message ||
+                (isFa ? "خطا در افزودن عنصر" : "Error adding element"),
+            );
           },
         },
       );
@@ -554,6 +596,7 @@ export function ArchitectureCanvasInner({
       addNode,
       router,
       queryClient,
+      isFa,
     ],
   );
 
@@ -616,6 +659,7 @@ export function ArchitectureCanvasInner({
       insertRequest.name,
       insertRequest.elementType,
       diagramType,
+      locale,
     );
     if (placementError) {
       toast.error(placementError);
@@ -661,7 +705,12 @@ export function ArchitectureCanvasInner({
           });
         },
         onError: ({ message }) =>
-          toast.error(message || "Error adding element to diagram"),
+          toast.error(
+            message ||
+              (isFa
+                ? "خطا در افزودن عنصر به دیاگرام"
+                : "Error adding element to diagram"),
+          ),
       },
     );
 
@@ -677,6 +726,8 @@ export function ArchitectureCanvasInner({
     selectNode,
     clearInsertRequest,
     queryClient,
+    locale,
+    isFa,
   ]);
 
   const getNodeColor = useCallback(

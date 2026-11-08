@@ -44,6 +44,18 @@ describe("getElementPlacementError", () => {
     expect(message).toContain("SystemFunction");
     expect(message).not.toContain("SystemComponent");
   });
+
+  it("returns Persian error message when locale is fa", () => {
+    const message = getElementPlacementError(
+      "Render Video",
+      "SystemComponent",
+      "SDFB",
+      "fa",
+    );
+
+    expect(message).toContain("افزودن «Render Video» به دیاگرام SDFB مجاز نیست.");
+    expect(message).toContain("SystemFunction");
+  });
 });
 
 describe("getDiagramPlacements", () => {
@@ -87,7 +99,7 @@ describe("getNewElementActions", () => {
 });
 
 describe("canNestOnDiagram", () => {
-  it("strictly prohibits entity breakdown and activity breakdown on OAB", () => {
+  it("strictly prohibits any breakdown or decomposition on OAB", () => {
     // Entities cannot be decomposed on OAB (breakdown belongs to OEB)
     expect(
       canNestOnDiagram("OperationalEntity", "OperationalEntity", "OAB"),
@@ -96,15 +108,13 @@ describe("canNestOnDiagram", () => {
     expect(
       canNestOnDiagram("OperationalActivity", "OperationalActivity", "OAB"),
     ).toBe(false);
-  });
-
-  it("permits activity allocation into entities and actors on OAB", () => {
+    // Activities cannot be nested into entities or actors on OAB (allocation is via relationship edge)
     expect(
       canNestOnDiagram("OperationalActivity", "OperationalEntity", "OAB"),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       canNestOnDiagram("OperationalActivity", "OperationalActor", "OAB"),
-    ).toBe(true);
+    ).toBe(false);
   });
 
   it("permits entity breakdown only on OEB and activity breakdown only on OABD", () => {

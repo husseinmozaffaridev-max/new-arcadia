@@ -9,6 +9,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 import { type DragEventHandler, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import { ClassConnectionPolicy } from "../../domain/policies/class-connection";
@@ -69,6 +70,9 @@ export function ClassCanvasInner({
   elements,
   relationships,
 }: ClassCanvasInnerProps) {
+  const locale = useLocale();
+  const isFa = locale === "fa";
+
   // RBAC: without `edit<layer>` the canvas is fully static.
   const canEdit = useCanEditActiveLayer();
 
@@ -131,12 +135,17 @@ export function ClassCanvasInner({
             });
           },
           onError: ({ message }) => {
-            toast.error(message || "Error creating class relationship");
+            toast.error(
+              message ||
+                (isFa
+                  ? "خطا در ایجاد رابطه"
+                  : "Error creating class relationship"),
+            );
           },
         },
       );
     },
-    [createClassRelationship],
+    [createClassRelationship, isFa],
   );
 
   const {
@@ -212,7 +221,11 @@ export function ClassCanvasInner({
       ).map((rt) => rt.value as unknown as ClassRelationshipTypeValue);
 
       if (allowedTypes.length === 0) {
-        toast.error("Cannot create a connection between these two elements.");
+        toast.error(
+          isFa
+            ? "امکان برقراری اتصال بین این دو عنصر وجود ندارد."
+            : "Cannot create a connection between these two elements.",
+        );
         return;
       }
 
@@ -233,7 +246,7 @@ export function ClassCanvasInner({
         targetNodeId: connection.target,
       });
     },
-    [setPendingConnection, createRelationship],
+    [setPendingConnection, createRelationship, isFa],
   );
 
   const handleExplorerDrop = useCallback(
@@ -246,7 +259,11 @@ export function ClassCanvasInner({
 
         const currentNodes = useCanvasStore.getState().nodes;
         if (currentNodes.some((n) => n.id === elementId)) {
-          toast.info(`"${name}" is already on this diagram`);
+          toast.info(
+            isFa
+              ? `«${name}» قبلاً روی این دیاگرام قرار دارد`
+              : `"${name}" is already on this diagram`,
+          );
           return;
         }
 
@@ -258,6 +275,7 @@ export function ClassCanvasInner({
             name,
             elementType,
             activeTab.type,
+            locale,
           );
           if (placementError) {
             toast.error(placementError);
@@ -306,10 +324,19 @@ export function ClassCanvasInner({
               queryClient.invalidateQueries({
                 queryKey: getClassDiagramByIdKey(String(diagramId)),
               });
-              toast.success(`Added "${name}" to diagram`);
+              toast.success(
+                isFa
+                  ? `«${name}» به دیاگرام اضافه شد`
+                  : `Added "${name}" to diagram`,
+              );
             },
             onError: ({ message }) =>
-              toast.error(message || "Error adding element to diagram"),
+              toast.error(
+                message ||
+                  (isFa
+                    ? "خطا در افزودن عنصر به دیاگرام"
+                    : "Error adding element to diagram"),
+              ),
           },
         );
       } catch {
@@ -324,6 +351,8 @@ export function ClassCanvasInner({
       addNode,
       selectNode,
       queryClient,
+      locale,
+      isFa,
     ],
   );
 
@@ -368,7 +397,10 @@ export function ClassCanvasInner({
               },
               {
                 onError: ({ message }) => {
-                  toast.error(message || "Error adding element");
+                  toast.error(
+                    message ||
+                      (isFa ? "خطا در افزودن عنصر" : "Error adding element"),
+                  );
                 },
                 onSuccess: () => {
                   addNode({
@@ -401,7 +433,12 @@ export function ClassCanvasInner({
             );
           },
           onError: ({ message }) => {
-            toast.error(message || "Error adding class element");
+            toast.error(
+              message ||
+                (isFa
+                  ? "خطا در افزودن عنصر کلاس"
+                  : "Error adding class element"),
+            );
           },
         },
       );
@@ -415,6 +452,7 @@ export function ClassCanvasInner({
       addNode,
       queryClient,
       router,
+      isFa,
     ],
   );
 
@@ -509,7 +547,12 @@ export function ClassCanvasInner({
           });
         },
         onError: ({ message }) =>
-          toast.error(message || "Error adding element to diagram"),
+          toast.error(
+            message ||
+              (isFa
+                ? "خطا در افزودن عنصر به دیاگرام"
+                : "Error adding element to diagram"),
+          ),
       },
     );
 
@@ -525,6 +568,7 @@ export function ClassCanvasInner({
     selectNode,
     clearInsertRequest,
     queryClient,
+    isFa,
   ]);
 
   const getNodeColor = useCallback(

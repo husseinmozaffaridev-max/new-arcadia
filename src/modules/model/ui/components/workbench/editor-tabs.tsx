@@ -1,6 +1,7 @@
 "use client";
 
 import { LayoutDashboard, X } from "lucide-react";
+import { useLocale } from "next-intl";
 import { type DragEventHandler, useCallback } from "react";
 import { toast } from "sonner";
 import { cn } from "@/modules/shared/ui/libs/cn";
@@ -16,6 +17,9 @@ import { useWorkbenchStore } from "../../stores/workbench";
  * از拖 و افت المنت‌ها از کانواس دیگر پشتیبانی می‌کند.
  */
 export function EditorTabs() {
+  const locale = useLocale();
+  const isFa = locale === "fa";
+
   const tabs = useWorkbenchStore((s) => s.tabs);
   const activeDiagramId = useWorkbenchStore((s) => s.activeDiagramId);
   const currentLayer = useWorkbenchStore((s) => s.currentLayer);
@@ -53,6 +57,7 @@ export function EditorTabs() {
               name,
               elementType,
               tab.type,
+              locale,
             );
             if (placementError) {
               toast.error(placementError);
@@ -69,7 +74,11 @@ export function EditorTabs() {
               status: "DRAFT",
             });
 
-            toast.success(`Added "${name}" to ${tab.type} diagram`);
+            toast.success(
+              isFa
+                ? `«${name}» به دیاگرام ${tab.type} اضافه شد`
+                : `Added "${name}" to ${tab.type} diagram`,
+            );
           } catch {
             // ignore
           }

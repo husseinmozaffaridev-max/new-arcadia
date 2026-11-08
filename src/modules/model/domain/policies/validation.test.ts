@@ -626,6 +626,40 @@ describe("ValidationPolicy", () => {
         }),
       );
     });
+
+    it("flags a relationship between two actors (actors cannot connect to other actors)", () => {
+      const issues = validate({
+        elements: [
+          element({
+            id: "actor1",
+            name: "Pilot",
+            type: "SystemActor",
+          }),
+          element({
+            id: "actor2",
+            name: "Co-Pilot",
+            type: "SystemActor",
+          }),
+        ],
+        relationships: [
+          relationship({
+            id: "rel1",
+            sourceElementId: "actor1",
+            targetElementId: "actor2",
+            type: "SystemExchange",
+          }),
+        ],
+      });
+
+      expect(rulesOf(issues)).toContain("actor-connected-to-actor");
+      expect(issues).toContainEqual(
+        expect.objectContaining({
+          severity: "error",
+          rule: "actor-connected-to-actor",
+          elementId: "actor1",
+        }),
+      );
+    });
   });
 
   describe("rule 6 · duplicate names", () => {

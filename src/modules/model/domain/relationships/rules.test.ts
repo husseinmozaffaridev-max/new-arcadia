@@ -73,6 +73,21 @@ describe("connection rules", () => {
       expect.arrayContaining(["OA", "SA", "LA", "PA"]),
     );
   });
+
+  it("never allows any connection rule between two actors", () => {
+    for (const rule of CONNECTION_RULES) {
+      const hasActorSource = rule.allowedSources.some((s) =>
+        s.endsWith("Actor"),
+      );
+      const hasActorTarget = rule.allowedTargets.some((t) =>
+        t.endsWith("Actor"),
+      );
+      expect(
+        hasActorSource && hasActorTarget,
+        `Rule ${rule.relationshipType} in layer ${rule.layer.value} must not allow both actor source and actor target`,
+      ).toBe(false);
+    }
+  });
 });
 
 describe("trace rules", () => {

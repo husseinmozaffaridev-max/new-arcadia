@@ -364,11 +364,11 @@ export function getDiagramPalette(typeValue: string): DiagramPalette {
  * according to Arcadia / Capella methodology.
  *
  * Rules:
- * - Actors can NEVER contain anything and can NEVER be nested inside other elements
- *   (Exception: In OAB, an OperationalActivity can be allocated into an OperationalActor).
- * - OAB (Operational Architecture Blank): No structural breakdown of entities or activities!
- *   Only OperationalActivity allocation into OperationalEntity or OperationalActor is allowed.
- * - Breakdown diagrams (OEB, LCB, PCB): Entities/Components decompose into sub-entities/components.
+ * - Actors can NEVER contain anything, can NEVER be nested, and have NO children.
+ * - OAB (Operational Architecture Blank): Flat canvas — NO structural breakdown (ساختار شکست)
+ *   and NO decomposition (تجزیه) of any element (entities, actors, activities).
+ *   Allocation of activities to entities/actors is modeled via Allocation relationship links.
+ * - Breakdown diagrams (OEB/OEBD, LCB, PCB): Entities/Components decompose into sub-entities/components.
  * - Function Breakdown diagrams (OABD, SFBD, LFBD, PFBD): Functions decompose into sub-functions.
  * - Architecture Blank diagrams (SAB, LAB, PAB): Components decompose into sub-components,
  *   and functions are allocated inside components. Functions do NOT decompose into sub-functions.
@@ -379,25 +379,16 @@ export function canNestOnDiagram(
   parentType: string,
   diagramType: string,
 ): boolean {
-  if (childType.endsWith("Actor")) {
+  if (childType.endsWith("Actor") || parentType.endsWith("Actor")) {
     return false;
-  }
-  if (parentType.endsWith("Actor")) {
-    return (
-      childType === "OperationalActivity" &&
-      parentType === "OperationalActor" &&
-      diagramType === "OAB"
-    );
   }
 
   // ─── OA ───
+  // In OAB, no structural breakdown or decomposition occurs (no nesting).
   if (diagramType === "OAB") {
-    return (
-      childType === "OperationalActivity" &&
-      (parentType === "OperationalEntity" || parentType === "OperationalActor")
-    );
+    return false;
   }
-  if (diagramType === "OEB") {
+  if (diagramType === "OEB" || diagramType === "OEBD") {
     return (
       childType === "OperationalEntity" && parentType === "OperationalEntity"
     );

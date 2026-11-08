@@ -35,9 +35,16 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "OperationalExchange",
     layer: Layer.OA,
-    allowedSources: ["OperationalEntity", "OperationalActor"],
+    allowedSources: ["OperationalEntity"],
     allowedTargets: ["OperationalEntity", "OperationalActor"],
     descriptionFa: "تعامل / تبادل عملیاتی بین موجودیت‌ها و بازیگران عملیاتی",
+  },
+  {
+    relationshipType: "OperationalExchange",
+    layer: Layer.OA,
+    allowedSources: ["OperationalActor"],
+    allowedTargets: ["OperationalEntity"],
+    descriptionFa: "تعامل / تبادل عملیاتی از بازیگر به موجودیت‌های عملیاتی",
   },
   {
     relationshipType: "InvolvementLink",
@@ -55,9 +62,9 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "Generalization",
     layer: Layer.OA,
-    allowedSources: ["OperationalEntity", "OperationalActor"],
-    allowedTargets: ["OperationalEntity", "OperationalActor"],
-    descriptionFa: "تعمیم بین موجودیت‌ها/بازیگرهای عملیاتی",
+    allowedSources: ["OperationalEntity"],
+    allowedTargets: ["OperationalEntity"],
+    descriptionFa: "تعمیم بین موجودیت‌های عملیاتی",
   },
   {
     relationshipType: "Allocation",
@@ -77,16 +84,30 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "SystemExchange",
     layer: Layer.SA,
-    allowedSources: ["System", "SystemActor"],
-    allowedTargets: ["System", "SystemActor"],
-    descriptionFa: "تبادل سیستمی بین سیستم و بازیگران خارجی",
+    allowedSources: ["System"],
+    allowedTargets: ["SystemActor"],
+    descriptionFa: "تبادل سیستمی از سیستم به بازیگران خارجی",
+  },
+  {
+    relationshipType: "SystemExchange",
+    layer: Layer.SA,
+    allowedSources: ["SystemActor"],
+    allowedTargets: ["System"],
+    descriptionFa: "تبادل سیستمی از بازیگران خارجی به سیستم",
   },
   {
     relationshipType: "ComponentExchange",
     layer: Layer.SA,
-    allowedSources: ["System", "SystemComponent", "SystemActor"],
+    allowedSources: ["System", "SystemComponent"],
     allowedTargets: ["System", "SystemComponent", "SystemActor"],
-    descriptionFa: "تبادل مؤلفه بین سیستم، مؤلفه‌ها و بازیگران سیستم",
+    descriptionFa: "تبادل مؤلفه بین سیستم و مؤلفه‌ها با بازیگران سیستم",
+  },
+  {
+    relationshipType: "ComponentExchange",
+    layer: Layer.SA,
+    allowedSources: ["SystemActor"],
+    allowedTargets: ["System", "SystemComponent"],
+    descriptionFa: "تبادل مؤلفه از بازیگر به سیستم یا مؤلفه‌ها",
   },
   {
     relationshipType: "InvolvementLink",
@@ -103,9 +124,9 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "Generalization",
     layer: Layer.SA,
-    allowedSources: ["SystemComponent", "SystemActor"],
-    allowedTargets: ["SystemComponent", "SystemActor"],
-    descriptionFa: "تعمیم بین مؤلفه‌ها/بازیگرهای سیستم",
+    allowedSources: ["SystemComponent"],
+    allowedTargets: ["SystemComponent"],
+    descriptionFa: "تعمیم بین مؤلفه‌های سیستم",
   },
   // ─── Allocation (function → component, same layer) ─────────────────────────
   {
@@ -126,9 +147,16 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "ComponentExchange",
     layer: Layer.LA,
-    allowedSources: ["LogicalComponent", "LogicalActor"],
+    allowedSources: ["LogicalComponent"],
     allowedTargets: ["LogicalComponent", "LogicalActor"],
     descriptionFa: "تبادل مؤلفه بین مؤلفه‌ها و بازیگران منطقی",
+  },
+  {
+    relationshipType: "ComponentExchange",
+    layer: Layer.LA,
+    allowedSources: ["LogicalActor"],
+    allowedTargets: ["LogicalComponent"],
+    descriptionFa: "تبادل مؤلفه از بازیگر به مؤلفه‌های منطقی",
   },
   {
     relationshipType: "ProvidedInterface",
@@ -154,9 +182,9 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "Generalization",
     layer: Layer.LA,
-    allowedSources: ["LogicalComponent", "LogicalActor"],
-    allowedTargets: ["LogicalComponent", "LogicalActor"],
-    descriptionFa: "تعمیم بین مؤلفه‌ها/بازیگرهای منطقی",
+    allowedSources: ["LogicalComponent"],
+    allowedTargets: ["LogicalComponent"],
+    descriptionFa: "تعمیم بین مؤلفه‌های منطقی",
   },
   // ─── PA ────────────────────────────────────────────────────────────────────
   {
@@ -169,9 +197,16 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "ComponentExchange",
     layer: Layer.PA,
-    allowedSources: ["PhysicalComponent", "PhysicalActor"],
+    allowedSources: ["PhysicalComponent"],
     allowedTargets: ["PhysicalComponent", "PhysicalActor"],
     descriptionFa: "تبادل مؤلفه بین مؤلفه‌ها و بازیگران فیزیکی",
+  },
+  {
+    relationshipType: "ComponentExchange",
+    layer: Layer.PA,
+    allowedSources: ["PhysicalActor"],
+    allowedTargets: ["PhysicalComponent"],
+    descriptionFa: "تبادل مؤلفه از بازیگر به مؤلفه‌های فیزیکی",
   },
   {
     relationshipType: "PhysicalLink",
@@ -197,9 +232,9 @@ export const CONNECTION_RULES: ConnectionRule[] = [
   {
     relationshipType: "Generalization",
     layer: Layer.PA,
-    allowedSources: ["PhysicalComponent", "PhysicalNode", "PhysicalActor"],
-    allowedTargets: ["PhysicalComponent", "PhysicalNode", "PhysicalActor"],
-    descriptionFa: "تعمیم بین مؤلفه‌ها/گره‌ها/بازیگرهای فیزیکی",
+    allowedSources: ["PhysicalComponent", "PhysicalNode"],
+    allowedTargets: ["PhysicalComponent", "PhysicalNode"],
+    descriptionFa: "تعمیم بین مؤلفه‌ها و گره‌های فیزیکی",
   },
   // ─── EPBS ──────────────────────────────────────────────────────────────────
   {

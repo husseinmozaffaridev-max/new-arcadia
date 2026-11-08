@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import { Button } from "@/modules/shared/ui/components/ui/button";
 import {
   Dialog,
@@ -37,6 +38,9 @@ export function ConnectionDialog({
   onConfirm,
   onOpenChange,
 }: ConnectionDialogProps) {
+  const locale = useLocale();
+  const isFa = locale === "fa";
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -61,9 +65,13 @@ export function ConnectionDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>Select Relationship Type</DialogTitle>
+          <DialogTitle>
+            {isFa ? "انتخاب نوع رابطه" : "Select Relationship Type"}
+          </DialogTitle>
           <DialogDescription>
-            What type of relationship connects these two elements?
+            {isFa
+              ? "کدام نوع رابطه این دو عنصر را به یکدیگر متصل می‌کند؟"
+              : "What type of relationship connects these two elements?"}
           </DialogDescription>
         </DialogHeader>
 
@@ -79,7 +87,8 @@ export function ConnectionDialog({
                   key={typeValue}
                   onClick={() => setSelectedType(typeValue)}
                   className={cn(
-                    "flex items-center gap-3 rounded-md border px-3 py-2 text-sm text-left transition-colors",
+                    "flex items-center gap-3 rounded-md border px-3 py-2 text-sm transition-colors",
+                    isFa ? "text-right flex-row-reverse" : "text-left",
                     isSelected
                       ? "border-primary bg-primary/5"
                       : "border-border hover:border-primary/40 hover:bg-accent",
@@ -89,29 +98,42 @@ export function ConnectionDialog({
                     className="h-1 w-6 rounded-full shrink-0"
                     style={{ backgroundColor: spec.strokeColor }}
                   />
-                  <span className="flex-1 text-left">
-                    {relationshipInfo.label}
+                  <span
+                    className={cn(
+                      "flex-1",
+                      isFa ? "text-right" : "text-left",
+                    )}
+                  >
+                    {isFa ? relationshipInfo.labelFa : relationshipInfo.label}
                   </span>
                 </button>
               );
             })}
           </div>
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="rel-name">Relationship Name (optional)</Label>
+            <Label htmlFor="rel-name">
+              {isFa ? "نام رابطه (اختیاری)" : "Relationship Name (optional)"}
+            </Label>
             <Input
               id="rel-name"
-              placeholder="e.g. requestData"
+              placeholder={isFa ? "مثلاً requestData" : "e.g. requestData"}
               value={name}
               onChange={(e) => setName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleConfirm()}
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="rel-description">Description (optional)</Label>
+            <Label htmlFor="rel-description">
+              {isFa ? "توضیحات (اختیاری)" : "Description (optional)"}
+            </Label>
             <Textarea
               id="rel-description"
               value={description}
-              placeholder="e.g. Handles incoming data requests"
+              placeholder={
+                isFa
+                  ? "مثلاً مدیریت درخواست‌های داده ورودی"
+                  : "e.g. Handles incoming data requests"
+              }
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
@@ -119,10 +141,10 @@ export function ConnectionDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            {isFa ? "انصراف" : "Cancel"}
           </Button>
           <Button onClick={handleConfirm} disabled={!selectedType}>
-            Create Relationship
+            {isFa ? "ایجاد رابطه" : "Create Relationship"}
           </Button>
         </DialogFooter>
       </DialogContent>

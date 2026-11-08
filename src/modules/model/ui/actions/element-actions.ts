@@ -26,14 +26,15 @@ export function getElementPlacementError(
   elementLabel: string,
   elementType: ElementTypeValue | string,
   diagramType: string,
+  locale?: string,
 ): string | null {
   const supported = getDiagramPalette(diagramType).elementTypes;
   if (supported.includes(elementType as ElementTypeValue)) return null;
 
-  return (
-    `Cannot add "${elementLabel}" to ${diagramType} diagram. ` +
-    `This diagram only supports: ${supported.join(", ")}`
-  );
+  const isFa = locale === "fa";
+  return isFa
+    ? `افزودن «${elementLabel}» به دیاگرام ${diagramType} مجاز نیست. این دیاگرام فقط از موارد زیر پشتیبانی می‌کند: ${supported.join(", ")}`
+    : `Cannot add "${elementLabel}" to ${diagramType} diagram. This diagram only supports: ${supported.join(", ")}`;
 }
 
 export type DiagramPlacement = {
