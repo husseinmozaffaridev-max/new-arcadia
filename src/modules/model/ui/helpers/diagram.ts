@@ -17,8 +17,16 @@ export function getDiagramTypeInfo(value: string): DiagramTypeInfo | undefined {
 export function getDiagramTypesForLayer(
   layerValue: LayerValue | string,
 ): DiagramTypeInfo[] {
-  const allowed = new Set(DIAGRAMS_BY_LAYER[layerValue as LayerValue] ?? []);
-  return DIAGRAM_TYPES.filter((d) => allowed.has(d.value));
+  const allowedTypes = DIAGRAMS_BY_LAYER[layerValue as LayerValue] ?? [];
+  return allowedTypes
+    .map((typeValue) => {
+      const exact = DIAGRAM_TYPES.find(
+        (d) => d.value === typeValue && d.layer === layerValue,
+      );
+      if (exact) return exact;
+      return DIAGRAM_TYPES.find((d) => d.value === typeValue);
+    })
+    .filter((d): d is DiagramTypeInfo => d !== undefined);
 }
 
 export function getDiagramLayer(typeValue: string): LayerValue {

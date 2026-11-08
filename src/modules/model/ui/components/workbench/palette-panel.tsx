@@ -143,7 +143,7 @@ export function PalettePanel({ modelData }: { modelData: PaletteModelData }) {
                 <div className="flex flex-col gap-1 p-2">
                   {layerDiagramTypes.map((dt) => (
                     <div
-                      key={dt.value}
+                      key={`${layer}-${dt.value}`}
                       className="flex items-center gap-2 rounded-md px-2.5 py-1.5 text-xs text-muted-foreground"
                     >
                       <Boxes className="size-3 shrink-0" />
