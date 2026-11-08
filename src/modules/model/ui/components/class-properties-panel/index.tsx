@@ -8,7 +8,6 @@ import {
   RotateCcw,
   Trash2,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/modules/shared/ui/components/ui/badge";
@@ -24,11 +23,6 @@ import {
 } from "@/modules/shared/ui/components/ui/select";
 import { Separator } from "@/modules/shared/ui/components/ui/separator";
 import { Textarea } from "@/modules/shared/ui/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/modules/shared/ui/components/ui/tooltip";
 import { getClassDiagramByIdKey } from "../../clients/get-class-diagram-by-id";
 import { useUpdateClassElement } from "../../clients/update-class-element";
 import { getClassElementTypeInfo } from "../../constants/class-diagram";
@@ -61,10 +55,6 @@ type ClassNodePropertiesProps = {
   node: CanvasNode;
 };
 
-type ClassEdgePropertiesProps = {
-  edge: import("../../stores/canvas").CanvasEdge;
-};
-
 const STATUS_LABELS = {
   DRAFT: "Draft",
   VALIDATED: "Validated",
@@ -89,7 +79,6 @@ export function ClassNodeProperties({ node }: ClassNodePropertiesProps) {
   const currentLayer = useWorkbenchStore((s) => s.currentLayer);
   const diagramId = useCanvasStore((s) => s.diagramId);
   const queryClient = useQueryClient();
-  const router = useRouter();
   const { moveToPackage, isPending: isMoving } = useMoveToPackage();
 
   // Get all Package nodes in the canvas (excluding current node)
@@ -107,13 +96,15 @@ export function ClassNodeProperties({ node }: ClassNodePropertiesProps) {
     queryClient.invalidateQueries({
       queryKey: ["class-elements", data.modelId],
     });
+    queryClient.invalidateQueries({
+      queryKey: ["workbench-data"],
+    });
     if (diagramId) {
       queryClient.invalidateQueries({
         queryKey: getClassDiagramByIdKey(diagramId),
       });
     }
-    router.refresh();
-  }, [queryClient, data.modelId, diagramId, router]);
+  }, [queryClient, data.modelId, diagramId]);
 
   const typeInfo = getClassElementTypeInfo(data.elementType);
   const canEdit = useCanEditActiveLayer();

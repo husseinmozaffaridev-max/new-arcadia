@@ -1,5 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "sonner";
 import { getClassDiagramByIdKey } from "../clients/get-class-diagram-by-id";
@@ -9,12 +8,11 @@ import { useRemoveElement } from "../clients/remove-element";
 import { useUpdateClassDiagramLayout } from "../clients/update-class-diagram-layout";
 import { useUpdateDiagramLayout } from "../clients/update-diagram-layout";
 import { isContainerType } from "../helpers/class-diagram";
-import { type CanvasNode, useCanvasStore } from "../stores/canvas";
+import { useCanvasStore } from "../stores/canvas";
 
 export type DeleteElementMode = "diagram" | "model";
 
 export function useRemoveElementSync() {
-  const router = useRouter();
   const pushHistory = useCanvasStore((s) => s.pushHistory);
   const removeNode = useCanvasStore((s) => s.removeNode);
   const setEdges = useCanvasStore((s) => s.setEdges);
@@ -129,7 +127,9 @@ export function useRemoveElementSync() {
             { id: nodeId, modelId },
             {
               onSuccess: () => {
-                router.refresh();
+                queryClient.invalidateQueries({
+                  queryKey: ["workbench-data"],
+                });
                 toast.success("Element deleted from model");
               },
             },
@@ -172,7 +172,6 @@ export function useRemoveElementSync() {
               queryClient.invalidateQueries({
                 queryKey: ["workbench-data"],
               });
-              router.refresh();
               toast.success("Element deleted from model");
             },
           });
@@ -205,7 +204,6 @@ export function useRemoveElementSync() {
       removeNode,
       updateNode,
       queryClient,
-      router,
     ],
   );
 

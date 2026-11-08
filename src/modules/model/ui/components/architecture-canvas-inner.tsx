@@ -8,7 +8,6 @@ import {
   ReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { type DragEventHandler, useCallback, useEffect } from "react";
 import { toast } from "sonner";
@@ -84,7 +83,6 @@ export function ArchitectureCanvasInner({
   const updateElement = useUpdateElement();
   const connectElements = useConnectElements();
   const updateDiagramLayout = useUpdateDiagramLayout();
-  const router = useRouter();
 
   const createRelationship = useCallback(
     (payload: {
@@ -455,7 +453,6 @@ export function ArchitectureCanvasInner({
               queryClient.invalidateQueries({
                 queryKey: getElementRelationsKey(elementId),
               });
-              router.refresh();
               toast.success(
                 isFa
                   ? `«${name}» به دیاگرام اضافه شد`
@@ -484,7 +481,6 @@ export function ArchitectureCanvasInner({
       addNode,
       selectNode,
       queryClient,
-      router,
       locale,
       isFa,
     ],
@@ -530,7 +526,26 @@ export function ArchitectureCanvasInner({
         },
         {
           onSuccess: ({ data: element }) => {
-            queryClient.invalidateQueries({ queryKey: ["workbench-data"] });
+            // Immediate optimistic-style node placement on canvas
+            addNode({
+              id: element.id,
+              type: getNodeTypeForElementType(element.type),
+              position: nodePos,
+              parentId,
+              extent: parentId ? "parent" : undefined,
+              data: {
+                name: element.name,
+                elementId: element.id,
+                elementType: element.type,
+                modelId: String(modelId),
+                description: element.description,
+                status: element.properties.status,
+                parentId: parentId ?? undefined,
+              },
+            });
+            selectNode(element.id);
+
+            // Save layout in background
             const currentNodesAfter = useCanvasStore.getState().nodes;
             const elementLayouts = nodesToArchLayouts(currentNodesAfter);
 
@@ -547,33 +562,16 @@ export function ArchitectureCanvasInner({
                 ],
               },
               {
-                onError: ({ message }) => {
-                  toast.error(
-                    message ||
-                      (isFa ? "خطا در افزودن عنصر" : "Error adding element"),
-                  );
-                },
                 onSuccess: () => {
-                  addNode({
-                    id: element.id,
-                    type: getNodeTypeForElementType(element.type),
-                    position: nodePos,
-                    parentId,
-                    extent: parentId ? "parent" : undefined,
-                    data: {
-                      name: element.name,
-                      elementId: element.id,
-                      elementType: element.type,
-                      modelId: String(modelId),
-                      description: element.description,
-                      status: element.properties.status,
-                      parentId: parentId ?? undefined,
-                    },
-                  });
                   queryClient.invalidateQueries({
                     queryKey: ["workbench-data"],
                   });
-                  router.refresh();
+                },
+                onError: ({ message }) => {
+                  toast.error(
+                    message ||
+                      (isFa ? "خطا در ذخیره چیدمان" : "Error saving layout"),
+                  );
                 },
               },
             );
@@ -594,9 +592,9 @@ export function ArchitectureCanvasInner({
       createElement,
       updateDiagramLayout,
       addNode,
-      router,
       queryClient,
       isFa,
+      diagram.type,
     ],
   );
 

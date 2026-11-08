@@ -193,9 +193,12 @@ function NodeProperties({ projectId, node }: NodeProperties) {
             description: data.description,
           });
           useWorkbenchStore.getState().setElementName(data.id, data.name);
-          // Keep the Semantic Browser in sync with the edited element.
+          // Keep the Semantic Browser and Workbench in sync with the edited element.
           queryClient.invalidateQueries({
             queryKey: getElementRelationsKey(data.id),
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["workbench-data"],
           });
         },
         onError: ({ message }) => {

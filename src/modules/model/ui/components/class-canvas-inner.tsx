@@ -8,7 +8,6 @@ import {
   ReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { type DragEventHandler, useCallback, useEffect } from "react";
 import { toast } from "sonner";
@@ -76,7 +75,6 @@ export function ClassCanvasInner({
   // RBAC: without `edit<layer>` the canvas is fully static.
   const canEdit = useCanEditActiveLayer();
 
-  const router = useRouter();
   const createClassElement = useCreateClassElement();
   const createClassRelationship = useCreateClassRelationship();
   const updateClassDiagramLayout = useUpdateClassDiagramLayout();
@@ -427,7 +425,6 @@ export function ClassCanvasInner({
                   queryClient.invalidateQueries({
                     queryKey: ["workbench-data"],
                   });
-                  router.refresh();
                 },
               },
             );
@@ -451,7 +448,6 @@ export function ClassCanvasInner({
       updateClassDiagramLayout,
       addNode,
       queryClient,
-      router,
       isFa,
     ],
   );

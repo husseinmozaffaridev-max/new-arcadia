@@ -13,7 +13,7 @@ import {
   Workflow,
 } from "lucide-react";
 import dynamic from "next/dynamic";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
@@ -45,12 +45,6 @@ import {
   type PanelVisibility,
   useWorkbenchStore,
 } from "../../stores/workbench";
-import type {
-  ClassDiagramData,
-  ClassElementData,
-} from "../../types/class-diagram";
-import type { Diagram } from "../../types/diagram";
-import type { Element } from "../../types/element";
 import type { LayerValue } from "../../types/layer";
 import type { Model } from "../../types/model";
 import { ArcadiaInfoModal } from "../arcadia-info-modal";
@@ -70,23 +64,8 @@ const MembersSheet = dynamic(() =>
   ),
 );
 
-export type WorkbenchModelData = {
-  model: Model;
-  /** Merged arch + class elements (backward-compatible) */
-  elements: Element[];
-  /** Merged arch + class diagrams (backward-compatible) */
-  diagrams: Diagram[];
-  /** Architecture-only elements */
-  archElements: Element[];
-  /** Class diagram elements (raw ClassElementData) */
-  classElements: ClassElementData[];
-  /** Architecture-only diagrams */
-  archDiagrams: Diagram[];
-  /** Scenario diagrams (OIS, SS, LS, PS) */
-  scenarioDiagrams: Diagram[];
-  /** Class diagrams (CDB) */
-  classDiagrams: Diagram[];
-};
+import type { WorkbenchModelData } from "../../types/workbench";
+export type { WorkbenchModelData };
 
 export type WorkbenchProps = {
   projectId: string;
@@ -102,7 +81,6 @@ export function Workbench({
   modelData,
   permissions,
 }: WorkbenchProps) {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const panels = useWorkbenchStore((s) => s.panels);
@@ -232,8 +210,7 @@ export function Workbench({
   const queryClient = useQueryClient();
   const refreshTree = useCallback(() => {
     queryClient.invalidateQueries({ queryKey: ["workbench-data"] });
-    router.refresh();
-  }, [queryClient, router]);
+  }, [queryClient]);
 
   const showRightDock = panels.outline || panels.semantic || panels.validation;
 
