@@ -223,7 +223,7 @@ export function ExplorerPanel({
         setEditDiagram({ model, diagram }),
       onTransition,
       onAddElementToDiagram: handleAddElementToDiagram,
-      diagrams: modelData.flatMap((m) => m.diagrams),
+      diagrams: modelData.flatMap((m) => [...m.diagrams, ...m.scenarioDiagrams]),
     }),
     [
       handleOpenDiagram,

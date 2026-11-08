@@ -171,7 +171,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     relationshipTypes: ["FunctionalExchange"],
   },
   SS: {
-    elementTypes: ["SystemActor", "SystemFunction"],
+    elementTypes: ["SystemActor", "SystemFunction", "System"],
     relationshipTypes: ["FunctionalExchange"],
   },
   // ─── LA ───
@@ -216,7 +216,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     relationshipTypes: ["LogicalExchange"],
   },
   LS: {
-    elementTypes: ["LogicalActor", "LogicalFunction"],
+    elementTypes: ["LogicalActor", "LogicalFunction", "LogicalComponent"],
     relationshipTypes: ["LogicalExchange"],
   },
   // ─── PA ───
@@ -272,7 +272,12 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     relationshipTypes: ["PhysicalExchange"],
   },
   PS: {
-    elementTypes: ["PhysicalActor", "PhysicalFunction"],
+    elementTypes: [
+      "PhysicalActor",
+      "PhysicalFunction",
+      "PhysicalComponent",
+      "PhysicalNode",
+    ],
     relationshipTypes: ["PhysicalExchange"],
   },
   // ─── EPBS (legacy rendering only — not offered in UI) ───

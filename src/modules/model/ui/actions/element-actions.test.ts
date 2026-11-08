@@ -27,6 +27,28 @@ describe("canPlaceElementOnDiagram", () => {
     expect(canPlaceElementOnDiagram("Mission", "OCB")).toBe(true);
     expect(canPlaceElementOnDiagram("OperationalActivity", "OCB")).toBe(false);
   });
+
+  it("allows correct lifeline elements on scenario diagrams (OAS, SS, LS, PS)", () => {
+    expect(canPlaceElementOnDiagram("OperationalEntity", "OAS")).toBe(true);
+    expect(canPlaceElementOnDiagram("OperationalActor", "OAS")).toBe(true);
+    expect(canPlaceElementOnDiagram("OperationalActivity", "OAS")).toBe(true);
+    expect(canPlaceElementOnDiagram("OperationalCapability", "OAS")).toBe(false);
+
+    expect(canPlaceElementOnDiagram("System", "SS")).toBe(true);
+    expect(canPlaceElementOnDiagram("SystemActor", "SS")).toBe(true);
+    expect(canPlaceElementOnDiagram("SystemFunction", "SS")).toBe(true);
+    expect(canPlaceElementOnDiagram("SystemCapability", "SS")).toBe(false);
+
+    expect(canPlaceElementOnDiagram("LogicalComponent", "LS")).toBe(true);
+    expect(canPlaceElementOnDiagram("LogicalActor", "LS")).toBe(true);
+    expect(canPlaceElementOnDiagram("LogicalFunction", "LS")).toBe(true);
+    expect(canPlaceElementOnDiagram("LogicalCapability", "LS")).toBe(false);
+
+    expect(canPlaceElementOnDiagram("PhysicalComponent", "PS")).toBe(true);
+    expect(canPlaceElementOnDiagram("PhysicalNode", "PS")).toBe(true);
+    expect(canPlaceElementOnDiagram("PhysicalActor", "PS")).toBe(true);
+    expect(canPlaceElementOnDiagram("PhysicalFunction", "PS")).toBe(true);
+  });
 });
 
 describe("getElementPlacementError", () => {

@@ -39,11 +39,13 @@ import {
   LIFELINE_AXIS_X,
   LIFELINE_HEADER_WIDTH,
   LIFELINE_SPACING,
+  mapToLifelineType,
   yToExecutionOrder,
 } from "../constants/scenario";
 import { computeMessageNumbers } from "../lib/message-numbering";
 import { useScenarioSelectionStore } from "../stores/scenario-selection";
-import { useCanEditActiveLayer } from "../stores/workbench";
+import { useCanEditActiveLayer, useWorkbenchStore } from "../stores/workbench";
+import { useCanvasStore } from "../stores/canvas";
 import type { Diagram } from "../types/diagram";
 import { CreateFragmentDialog } from "./create-fragment-dialog";
 import { CreateLifelineDialog } from "./create-lifeline-dialog";
@@ -615,6 +617,11 @@ export function ScenarioCanvasInner({
     clearSelection();
   }, [clearSelection]);
 
+  const handleDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "copy";
+  }, []);
+
   const handleDrop = useCallback(
     (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
@@ -628,38 +635,22 @@ export function ScenarioCanvasInner({
         try {
           const { elementId, elementType, name } = JSON.parse(explorerRaw);
 
-          const mapToLifelineType = (type: string): string => {
-            switch (type) {
-              case "OperationalActor":
-              case "Actor":
-              case "SystemActor":
-              case "LogicalActor":
-              case "PhysicalActor":
-                return "ACTOR";
-              case "OperationalActivity":
-              case "SystemFunction":
-              case "LogicalFunction":
-              case "PhysicalFunction":
-                return "FUNCTION";
-              case "OperationalEntity":
-              case "System":
-              case "SystemComponent":
-              case "LogicalComponent":
-              case "PhysicalComponent":
-              case "PhysicalNode":
-                return "COMPONENT";
-              default:
-                return "COMPONENT";
-            }
-          };
-
           const lifelineType = mapToLifelineType(elementType);
+          if (!lifelineType) {
+            toast.error(
+              `عنصر «${name || elementType}» نمی‌تواند به عنوان خط حیات (Lifeline) در نمودار سناریو قرار گیرد. تنها بازیگران، مؤلفه‌ها و توابع مجاز هستند.`,
+            );
+            return;
+          }
 
           createLifeline.mutate(
             {
               name: name || `New ${lifelineType.toLowerCase()}`,
               representedElementType: lifelineType,
-              representedElementId: elementId,
+              representedElementId:
+                lifelineType === "CLASS_ELEMENT" ? elementId : undefined,
+              representedElementExternalId:
+                lifelineType !== "CLASS_ELEMENT" ? elementId : undefined,
               columnIndex: sortedLifelines.length,
             },
             {
@@ -768,6 +759,63 @@ export function ScenarioCanvasInner({
       diagram.id,
     ],
   );
+
+  // Support "Add to Diagram" action from Project Explorer context menu
+  const insertRequest = useCanvasStore((s) => s.insertRequest);
+  useEffect(() => {
+    if (!canEdit) return;
+    if (!insertRequest) return;
+
+    const activeTab = useWorkbenchStore
+      .getState()
+      .tabs.find((t) => t.diagramId === diagram.id);
+    if (!activeTab || activeTab.diagramId !== diagram.id) return;
+
+    const lifelineType = mapToLifelineType(insertRequest.elementType);
+    if (!lifelineType) {
+      toast.error(
+        `عنصر «${insertRequest.name}» نمی‌تواند به عنوان خط حیات در نمودار سناریو قرار گیرد. تنها بازیگران، مؤلفه‌ها و توابع مجاز هستند.`,
+      );
+      useCanvasStore.getState().clearInsertRequest();
+      return;
+    }
+
+    createLifeline.mutate(
+      {
+        name: insertRequest.name,
+        representedElementType: lifelineType,
+        representedElementId:
+          lifelineType === "CLASS_ELEMENT"
+            ? insertRequest.elementId
+            : undefined,
+        representedElementExternalId:
+          lifelineType !== "CLASS_ELEMENT"
+            ? insertRequest.elementId
+            : undefined,
+        columnIndex: sortedLifelines.length,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: getLifelinesByScenarioIdKey(diagram.id),
+          });
+          toast.success(`Lifeline "${insertRequest.name}" added to scenario`);
+          useCanvasStore.getState().clearInsertRequest();
+        },
+        onError: ({ message }) => {
+          toast.error(message || "Error adding lifeline");
+          useCanvasStore.getState().clearInsertRequest();
+        },
+      },
+    );
+  }, [
+    canEdit,
+    insertRequest,
+    diagram.id,
+    sortedLifelines.length,
+    createLifeline,
+    queryClient,
+  ]);
 
   const handleNodeClick: NodeMouseHandler = useCallback(
     (_, node) => {
@@ -1184,7 +1232,7 @@ export function ScenarioCanvasInner({
       >
         <div
           className="flex-1 h-full w-full"
-          onDragOver={(event) => event.preventDefault()}
+          onDragOver={handleDragOver}
           onDrop={canEdit ? handleDrop : undefined}
         >
           <ReactFlow
@@ -1208,6 +1256,8 @@ export function ScenarioCanvasInner({
             onNodeDrag={canEdit ? handleNodeDrag : undefined}
             onNodeDragStop={canEdit ? handleNodeDragStop : undefined}
             onEdgeClick={handleEdgeClick}
+            onDragOver={handleDragOver}
+            onDrop={canEdit ? handleDrop : undefined}
             nodesDraggable={canEdit}
             nodesConnectable={false}
             snapToGrid
@@ -1242,7 +1292,7 @@ export function ScenarioCanvasInner({
             {/* Empty state: no participants yet */}
             {sortedLifelines.length === 0 && (
               <Panel position="top-center" className="!mt-[35vh]">
-                <div className="flex flex-col items-center gap-4 text-muted-foreground/50 select-none">
+                <div className="flex flex-col items-center gap-4 text-muted-foreground/50 select-none pointer-events-none">
                   <div className="size-16 rounded-full bg-muted/50 flex items-center justify-center">
                     <Waypoints className="size-7 opacity-50" />
                   </div>
@@ -1251,7 +1301,7 @@ export function ScenarioCanvasInner({
                       No participants yet
                     </p>
                     <p className="text-xs mt-1 text-muted-foreground/50 max-w-[280px]">
-                      Drag a lifeline from the palette or right-click to add a
+                      Drag an element from the model explorer, from the palette, or right-click to add a
                       participant to this scenario
                     </p>
                   </div>

@@ -169,3 +169,36 @@ export const OPERATOR_COLORS: Record<
   strict: operatorTheme("#6366f1"),
   seq: operatorTheme("#14b8a6"),
 };
+
+/**
+ * Maps a model or class element type to a valid scenario lifeline type.
+ * Returns null for element types that cannot participate as lifelines
+ * (e.g. Capabilities, Missions, Ports).
+ */
+export function mapToLifelineType(elementType: string): string | null {
+  switch (elementType) {
+    case "OperationalActor":
+    case "Actor":
+    case "SystemActor":
+    case "LogicalActor":
+    case "PhysicalActor":
+      return "ACTOR";
+    case "OperationalActivity":
+    case "SystemFunction":
+    case "LogicalFunction":
+    case "PhysicalFunction":
+      return "FUNCTION";
+    case "OperationalEntity":
+    case "System":
+    case "SystemComponent":
+    case "LogicalComponent":
+    case "PhysicalComponent":
+    case "PhysicalNode":
+      return "COMPONENT";
+    case "ClassElement":
+    case "Class":
+      return "CLASS_ELEMENT";
+    default:
+      return null;
+  }
+}
