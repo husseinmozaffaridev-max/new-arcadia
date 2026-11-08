@@ -21,7 +21,7 @@ export const scenarioLifelines = pgTable("scenario_lifelines", {
   /** Reference to the represented element (e.g., ClassElement id for structural scenarios) */
   representedElementId: uuid("represented_element_id").references(
     () => classElements.id,
-    { onDelete: "set null" }
+    { onDelete: "set null" },
   ),
   /** Free-text fallback for external/legacy elements without a ClassElement reference */
   representedElementExternalId: varchar("represented_element_external_id", {

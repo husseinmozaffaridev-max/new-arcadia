@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { useGetMe } from "@/modules/auth/ui/clients/get-me";
 import { UserMenu } from "@/modules/auth/ui/components/user-menu";
 import { HeaderLogo } from "@/modules/shared/ui/components/common/header-logo";
@@ -29,7 +29,9 @@ export default function Layout({ children }: Props) {
         <div className="flex items-center gap-1">
           <ThemeToggle />
           <div className="w-px h-4 bg-border/60 mx-1" />
-          <UserMenuSection />
+          <Suspense fallback={<Skeleton className="size-7 rounded-full" />}>
+            <UserMenuSection />
+          </Suspense>
         </div>
       </header>
       <main className="flex-1 overflow-auto">{children}</main>

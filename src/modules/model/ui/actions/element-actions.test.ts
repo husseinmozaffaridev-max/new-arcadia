@@ -15,7 +15,9 @@ describe("canPlaceElementOnDiagram", () => {
     expect(canPlaceElementOnDiagram("SystemComponent", "SAB")).toBe(true);
     expect(canPlaceElementOnDiagram("SystemFunction", "SCD")).toBe(true);
     expect(canPlaceElementOnDiagram("OperationalActivity", "SAB")).toBe(false);
-    expect(canPlaceElementOnDiagram("OperationalCapability", "OAB")).toBe(false);
+    expect(canPlaceElementOnDiagram("OperationalCapability", "OAB")).toBe(
+      false,
+    );
     expect(canPlaceElementOnDiagram("OperationalEntity", "OAB")).toBe(true);
     expect(canPlaceElementOnDiagram("OperationalActor", "OAB")).toBe(true);
     expect(canPlaceElementOnDiagram("OperationalActivity", "OAB")).toBe(true);
@@ -116,9 +118,9 @@ describe("canNestOnDiagram", () => {
 
   it("permits component decomposition and function allocation on SAB, but not function breakdown", () => {
     expect(canNestOnDiagram("SystemComponent", "System", "SAB")).toBe(true);
-    expect(
-      canNestOnDiagram("SystemComponent", "SystemComponent", "SAB"),
-    ).toBe(true);
+    expect(canNestOnDiagram("SystemComponent", "SystemComponent", "SAB")).toBe(
+      true,
+    );
     expect(canNestOnDiagram("SystemFunction", "SystemComponent", "SAB")).toBe(
       true,
     );

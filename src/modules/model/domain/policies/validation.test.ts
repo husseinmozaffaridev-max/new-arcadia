@@ -576,7 +576,11 @@ describe("ValidationPolicy", () => {
     it("flags an actor that has a parent (actors cannot be decomposed or nested)", () => {
       const issues = validate({
         elements: [
-          element({ id: "parent", name: "System Component", type: "SystemComponent" }),
+          element({
+            id: "parent",
+            name: "System Component",
+            type: "SystemComponent",
+          }),
           element({
             id: "actor",
             name: "Radar Operator",

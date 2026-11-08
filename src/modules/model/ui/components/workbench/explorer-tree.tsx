@@ -20,7 +20,7 @@ import {
   Users,
   Waypoints,
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useState } from "react";
 import {
   ContextMenu,
@@ -41,7 +41,10 @@ import {
 import { CLASS_ELEMENT_TYPES } from "../../constants/class-diagram";
 import { getElementTypeIcon } from "../../constants/element-icons";
 import { LAYER_HEX_COLORS, OFFERED_LAYERS } from "../../constants/layer";
-import { getElementTypesForLayer, getElementVisual } from "../../helpers/element";
+import {
+  getElementTypesForLayer,
+  getElementVisual,
+} from "../../helpers/element";
 import {
   getLayerInfo,
   getNextOfferedLayer,
@@ -660,7 +663,9 @@ function ModelNode({
                   return (
                     <ContextMenuItem
                       key={action.value}
-                      onSelect={() => handlers.onNewElement(model, action.value)}
+                      onSelect={() =>
+                        handlers.onNewElement(model, action.value)
+                      }
                     >
                       <Icon
                         className="size-3.5 shrink-0"
@@ -673,9 +678,7 @@ function ModelNode({
                 {CLASS_ELEMENT_TYPES.map((ct) => (
                   <ContextMenuItem
                     key={ct.value}
-                    onSelect={() =>
-                      handlers.onNewClassElement(model, ct.value)
-                    }
+                    onSelect={() => handlers.onNewClassElement(model, ct.value)}
                   >
                     <span
                       className="size-2.5 shrink-0 rounded-sm border"

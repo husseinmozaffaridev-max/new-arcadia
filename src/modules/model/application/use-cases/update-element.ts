@@ -77,12 +77,19 @@ export class UpdateElementUseCase
 
       if (payload.parentId) {
         if (element.type.isActor()) {
-          throw new Error("Actors cannot be decomposed or nested inside other elements");
+          throw new Error(
+            "Actors cannot be decomposed or nested inside other elements",
+          );
         }
-        const parent = await this.elementRepository.findElementById({ id: payload.parentId });
-        if (!parent) throw new Error(`Parent element "${payload.parentId}" not found`);
+        const parent = await this.elementRepository.findElementById({
+          id: payload.parentId,
+        });
+        if (!parent)
+          throw new Error(`Parent element "${payload.parentId}" not found`);
         if (parent.type.isActor()) {
-          throw new Error("Actors cannot be decomposed or contain child elements");
+          throw new Error(
+            "Actors cannot be decomposed or contain child elements",
+          );
         }
       }
 

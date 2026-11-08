@@ -72,10 +72,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "OperationalActor",
       "OperationalActivity",
     ],
-    relationshipTypes: [
-      "OperationalExchange",
-      "Allocation",
-    ],
+    relationshipTypes: ["OperationalExchange", "Allocation"],
   },
   OAIB: {
     elementTypes: ["OperationalActivity"],
@@ -129,10 +126,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "OperationalActor",
       "OperationalActivity",
     ],
-    relationshipTypes: [
-      "OperationalExchange",
-      "Allocation",
-    ],
+    relationshipTypes: ["OperationalExchange", "Allocation"],
   },
   // ─── SA ───
   MCB: {
@@ -410,7 +404,8 @@ export function canNestOnDiagram(
   }
   if (diagramType === "OABD") {
     return (
-      childType === "OperationalActivity" && parentType === "OperationalActivity"
+      childType === "OperationalActivity" &&
+      parentType === "OperationalActivity"
     );
   }
 
@@ -449,10 +444,7 @@ export function canNestOnDiagram(
 
   // ─── PA ───
   if (diagramType === "PAB") {
-    if (
-      childType === "PhysicalComponent" ||
-      childType === "PhysicalNode"
-    ) {
+    if (childType === "PhysicalComponent" || childType === "PhysicalNode") {
       return (
         parentType === "PhysicalComponent" || parentType === "PhysicalNode"
       );

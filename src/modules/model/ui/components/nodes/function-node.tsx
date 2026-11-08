@@ -18,7 +18,10 @@ import { useUpdateElement } from "../../clients/update-element";
 import { getElementTypeInfo, getElementVisual } from "../../helpers/element";
 import type { ElementNodeData } from "../../stores/canvas";
 import { useCanvasStore } from "../../stores/canvas";
-import { useCanEditActiveLayer, useWorkbenchStore } from "../../stores/workbench";
+import {
+  useCanEditActiveLayer,
+  useWorkbenchStore,
+} from "../../stores/workbench";
 
 type FunctionNodeType = Node<ElementNodeData>;
 
@@ -59,7 +62,9 @@ function FunctionNodeComponent({
         {
           onSuccess: () => {
             updateNodeData(data.elementId, { ...data, name: trimmed });
-            useWorkbenchStore.getState().setElementName(data.elementId, trimmed);
+            useWorkbenchStore
+              .getState()
+              .setElementName(data.elementId, trimmed);
           },
           onError: ({ message }) =>
             toast.error(message || "Failed to rename element"),

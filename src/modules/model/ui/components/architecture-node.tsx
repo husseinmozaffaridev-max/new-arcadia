@@ -63,7 +63,9 @@ function ArchitectureNodeComponent({
         {
           onSuccess: () => {
             updateNodeData(data.elementId, { ...data, name: trimmed });
-            useWorkbenchStore.getState().setElementName(data.elementId, trimmed);
+            useWorkbenchStore
+              .getState()
+              .setElementName(data.elementId, trimmed);
           },
           onError: ({ message }) =>
             toast.error(message || "Failed to rename element"),

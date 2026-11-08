@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, GitMerge } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 import { getProjectById } from "@/modules/project/presentation/server-actions/get-by-id";
 import { Button } from "@/modules/shared/ui/components/ui/button";

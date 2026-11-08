@@ -17,7 +17,7 @@ import {
   Target,
   X,
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Badge } from "@/modules/shared/ui/components/ui/badge";

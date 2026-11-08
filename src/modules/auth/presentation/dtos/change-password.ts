@@ -20,10 +20,11 @@ export class ChangePasswordDTO {
       data.current_password,
     );
     const password = ChangePasswordDTO.validatePassword(data.password);
-    const password_confirmation = ChangePasswordDTO.validatePasswordConfirmation(
-      data.password_confirmation,
-      data.password,
-    );
+    const password_confirmation =
+      ChangePasswordDTO.validatePasswordConfirmation(
+        data.password_confirmation,
+        data.password,
+      );
 
     return new ChangePasswordDTO({
       current_password,

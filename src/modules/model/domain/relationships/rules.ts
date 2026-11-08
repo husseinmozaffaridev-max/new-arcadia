@@ -49,7 +49,8 @@ export const CONNECTION_RULES: ConnectionRule[] = [
       "Mission",
     ],
     allowedTargets: ["OperationalCapability"],
-    descriptionFa: "پیوند مشارکت بین موجودیت/بازیگر/فعالیت/مأموریت و قابلیت عملیاتی",
+    descriptionFa:
+      "پیوند مشارکت بین موجودیت/بازیگر/فعالیت/مأموریت و قابلیت عملیاتی",
   },
   {
     relationshipType: "Generalization",

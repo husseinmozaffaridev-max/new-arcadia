@@ -85,7 +85,16 @@ type ClassElementRow = {
   layer: string;
   name: string;
   description: string;
-  elementType: "CLASS" | "INTERFACE" | "ENUM" | "DATA_TYPE" | "PRIMITIVE" | "COLLECTION" | "UNION" | "PACKAGE" | "GROUP";
+  elementType:
+    | "CLASS"
+    | "INTERFACE"
+    | "ENUM"
+    | "DATA_TYPE"
+    | "PRIMITIVE"
+    | "COLLECTION"
+    | "UNION"
+    | "PACKAGE"
+    | "GROUP";
   visibility: "public" | "private" | "protected" | "package";
   isAbstract: boolean;
   isStatic: boolean;
@@ -105,7 +114,11 @@ type ClassRelationshipRow = {
   targetElementId: string;
   name: string;
   description: string;
-  relationshipType: "ASSOCIATION" | "GENERALIZATION" | "REALIZATION" | "DEPENDENCY";
+  relationshipType:
+    | "ASSOCIATION"
+    | "GENERALIZATION"
+    | "REALIZATION"
+    | "DEPENDENCY";
   aggregationKind: "NONE" | "SHARED" | "COMPOSITE";
   isDisjoint: boolean;
   isComplete: boolean;
@@ -237,8 +250,25 @@ type ClassRelationshipLayoutRow = {
 
 function toClassDiagram(
   row: ClassDiagramRow,
-  elementLayouts?: Array<{ elementId: string; position: { x: number; y: number }; size: { width: number; height: number } }>,
-  relationshipLayouts?: Array<{ relationshipId: string; labelX: number | null; labelY: number | null; sourceRoleLabelX: number | null; sourceRoleLabelY: number | null; targetRoleLabelX: number | null; targetRoleLabelY: number | null; sourceMultLabelX: number | null; sourceMultLabelY: number | null; targetMultLabelX: number | null; targetMultLabelY: number | null; waypoints: Array<{ x: number; y: number }> }>,
+  elementLayouts?: Array<{
+    elementId: string;
+    position: { x: number; y: number };
+    size: { width: number; height: number };
+  }>,
+  relationshipLayouts?: Array<{
+    relationshipId: string;
+    labelX: number | null;
+    labelY: number | null;
+    sourceRoleLabelX: number | null;
+    sourceRoleLabelY: number | null;
+    targetRoleLabelX: number | null;
+    targetRoleLabelY: number | null;
+    sourceMultLabelX: number | null;
+    sourceMultLabelY: number | null;
+    targetMultLabelX: number | null;
+    targetMultLabelY: number | null;
+    waypoints: Array<{ x: number; y: number }>;
+  }>,
 ): ClassDiagram {
   return ClassDiagram.reconstitute({
     id: row.id,
@@ -248,7 +278,9 @@ function toClassDiagram(
     description: row.description,
     viewport: row.viewport ?? { x: 0, y: 0, zoom: 1 },
     elementLayouts: Array.isArray(elementLayouts) ? elementLayouts : [],
-    relationshipLayouts: Array.isArray(relationshipLayouts) ? relationshipLayouts : [],
+    relationshipLayouts: Array.isArray(relationshipLayouts)
+      ? relationshipLayouts
+      : [],
     status: row.status,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
@@ -354,7 +386,9 @@ function toClassOperation(row: ClassOperationRow): ClassOperation {
   });
 }
 
-function toClassOperationParameter(row: ClassOperationParameterRow): ClassOperationParameter {
+function toClassOperationParameter(
+  row: ClassOperationParameterRow,
+): ClassOperationParameter {
   return ClassOperationParameter.reconstitute({
     id: row.id,
     classOperationId: row.classOperationId,
@@ -376,7 +410,9 @@ function toClassOperationParameter(row: ClassOperationParameterRow): ClassOperat
   });
 }
 
-function toClassEnumerationLiteral(row: ClassEnumerationLiteralRow): ClassEnumerationLiteral {
+function toClassEnumerationLiteral(
+  row: ClassEnumerationLiteralRow,
+): ClassEnumerationLiteral {
   return ClassEnumerationLiteral.reconstitute({
     id: row.id,
     classElementId: row.classElementId,
@@ -407,7 +443,7 @@ function toClassElementLayout(row: ClassElementLayoutRow): ClassElementLayout {
 }
 
 function toClassRelationshipLayout(
-  row: ClassRelationshipLayoutRow
+  row: ClassRelationshipLayoutRow,
 ): ClassRelationshipLayout {
   return ClassRelationshipLayout.reconstitute({
     id: row.id,
@@ -433,7 +469,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   // ─── ClassDiagram ──────────────────────────────────────────────────────────
 
   async findByModelId(
-    query: FindClassDiagramsByModelIdQuery
+    query: FindClassDiagramsByModelIdQuery,
   ): Promise<ClassDiagram[]> {
     const rows = await db
       .select()
@@ -443,7 +479,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async findById(
-    query: FindClassDiagramByIdQuery
+    query: FindClassDiagramByIdQuery,
   ): Promise<ClassDiagram | null> {
     const row = await db.query.classDiagrams.findFirst({
       where: eq(classDiagrams.id, query.id),
@@ -505,7 +541,8 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
     const existing = await db.query.classDiagrams.findFirst({
       where: eq(classDiagrams.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassDiagram not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(`ClassDiagram not found with id: ${payload.id}`);
 
     const response = await db
       .update(classDiagrams)
@@ -518,15 +555,25 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
       .returning();
 
     const [updated] = response;
-    if (!updated) throw new Error(`ClassDiagram not found with id: ${payload.id}`);
+    if (!updated)
+      throw new Error(`ClassDiagram not found with id: ${payload.id}`);
     return toClassDiagram(updated);
   }
 
-  async updateLayout(payload: { id: string; viewport?: { x: number; y: number; zoom: number }; elementLayouts?: Array<{ elementId: string; position: { x: number; y: number }; size: { width: number; height: number } }> }): Promise<ClassDiagram> {
+  async updateLayout(payload: {
+    id: string;
+    viewport?: { x: number; y: number; zoom: number };
+    elementLayouts?: Array<{
+      elementId: string;
+      position: { x: number; y: number };
+      size: { width: number; height: number };
+    }>;
+  }): Promise<ClassDiagram> {
     const existing = await db.query.classDiagrams.findFirst({
       where: eq(classDiagrams.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassDiagram not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(`ClassDiagram not found with id: ${payload.id}`);
 
     // Update diagram metadata (viewport)
     if (payload.viewport) {
@@ -553,14 +600,15 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
             y: layout.position.y,
             width: layout.size.width,
             height: layout.size.height,
-          }))
+          })),
         );
       }
     }
 
     // Re-fetch the diagram with updated layouts
     const diagram = await this.findById({ id: payload.id });
-    if (!diagram) throw new Error(`ClassDiagram not found with id: ${payload.id}`);
+    if (!diagram)
+      throw new Error(`ClassDiagram not found with id: ${payload.id}`);
     return diagram;
   }
 
@@ -574,7 +622,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   // ─── ClassElement (owned by Model) ────────────────────────────────────────
 
   async findElementsByModelId(
-    query: FindClassElementsByModelIdQuery
+    query: FindClassElementsByModelIdQuery,
   ): Promise<ClassElement[]> {
     const conditions = [eq(classElements.modelId, query.modelId)];
     if (query.layer) {
@@ -589,7 +637,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async findElementById(
-    query: FindClassElementByIdQuery
+    query: FindClassElementByIdQuery,
   ): Promise<ClassElement | null> {
     const row = await db.query.classElements.findFirst({
       where: eq(classElements.id, query.id),
@@ -597,7 +645,9 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
     return row ? toClassElement(row) : null;
   }
 
-  async createElement(payload: CreateClassElementPayload): Promise<ClassElement> {
+  async createElement(
+    payload: CreateClassElementPayload,
+  ): Promise<ClassElement> {
     const response = await db
       .insert(classElements)
       .values({
@@ -620,11 +670,14 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
     return toClassElement(row);
   }
 
-  async updateElement(payload: UpdateClassElementPayload): Promise<ClassElement> {
+  async updateElement(
+    payload: UpdateClassElementPayload,
+  ): Promise<ClassElement> {
     const existing = await db.query.classElements.findFirst({
       where: eq(classElements.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassElement not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(`ClassElement not found with id: ${payload.id}`);
 
     const response = await db
       .update(classElements)
@@ -650,37 +703,51 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
         isStatic: payload.isStatic ?? existing.isStatic,
         parentId: payload.parentId ?? existing.parentId,
         ordering: payload.ordering ?? existing.ordering,
-        extensionProperties: payload.extensionProperties ?? existing.extensionProperties,
+        extensionProperties:
+          payload.extensionProperties ?? existing.extensionProperties,
         updatedAt: new Date(),
       })
       .where(eq(classElements.id, payload.id))
       .returning();
 
     const [updated] = response;
-    if (!updated) throw new Error(`ClassElement not found with id: ${payload.id}`);
+    if (!updated)
+      throw new Error(`ClassElement not found with id: ${payload.id}`);
     return toClassElement(updated);
   }
 
   async removeElement(payload: RemoveClassElementPayload): Promise<boolean> {
     // Cascade delete: properties, operations, parameters, literals, layouts, relationships
-    await db.delete(classProperties).where(eq(classProperties.classElementId, payload.id));
-    await db.delete(classOperations).where(eq(classOperations.classElementId, payload.id));
-    await db.delete(classEnumerationLiterals).where(eq(classEnumerationLiterals.classElementId, payload.id));
-    await db.delete(classElementLayouts).where(eq(classElementLayouts.classElementId, payload.id));
-    await db.delete(classRelationships).where(
-      or(
-        eq(classRelationships.sourceElementId, payload.id),
-        eq(classRelationships.targetElementId, payload.id)
-      )
-    );
-    const result = await db.delete(classElements).where(eq(classElements.id, payload.id));
+    await db
+      .delete(classProperties)
+      .where(eq(classProperties.classElementId, payload.id));
+    await db
+      .delete(classOperations)
+      .where(eq(classOperations.classElementId, payload.id));
+    await db
+      .delete(classEnumerationLiterals)
+      .where(eq(classEnumerationLiterals.classElementId, payload.id));
+    await db
+      .delete(classElementLayouts)
+      .where(eq(classElementLayouts.classElementId, payload.id));
+    await db
+      .delete(classRelationships)
+      .where(
+        or(
+          eq(classRelationships.sourceElementId, payload.id),
+          eq(classRelationships.targetElementId, payload.id),
+        ),
+      );
+    const result = await db
+      .delete(classElements)
+      .where(eq(classElements.id, payload.id));
     return (result?.rowCount ?? 0) > 0;
   }
 
   // ─── ClassRelationship (owned by Model) ──────────────────────────────────
 
   async findRelationshipsByModelId(
-    query: FindClassRelationshipsByModelIdQuery
+    query: FindClassRelationshipsByModelIdQuery,
   ): Promise<ClassRelationship[]> {
     const conditions = [eq(classRelationships.modelId, query.modelId)];
     if (query.layer) {
@@ -694,7 +761,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async findRelationshipById(
-    query: FindClassRelationshipByIdQuery
+    query: FindClassRelationshipByIdQuery,
   ): Promise<ClassRelationship | null> {
     const row = await db.query.classRelationships.findFirst({
       where: eq(classRelationships.id, query.id),
@@ -703,7 +770,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async createRelationship(
-    payload: CreateClassRelationshipPayload
+    payload: CreateClassRelationshipPayload,
   ): Promise<ClassRelationship> {
     const response = await db
       .insert(classRelationships)
@@ -737,51 +804,63 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async updateRelationship(
-    payload: UpdateClassRelationshipPayload
+    payload: UpdateClassRelationshipPayload,
   ): Promise<ClassRelationship> {
     const existing = await db.query.classRelationships.findFirst({
       where: eq(classRelationships.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassRelationship not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(`ClassRelationship not found with id: ${payload.id}`);
 
     const response = await db
       .update(classRelationships)
       .set({
         name: payload.name ?? existing.name,
         description: payload.description ?? existing.description,
-        relationshipType: (payload.relationshipType ?? existing.relationshipType) as
+        relationshipType: (payload.relationshipType ??
+          existing.relationshipType) as
           | "ASSOCIATION"
           | "GENERALIZATION"
           | "REALIZATION"
           | "DEPENDENCY",
-        aggregationKind: (payload.aggregationKind ?? existing.aggregationKind) as
-          | "NONE"
-          | "SHARED"
-          | "COMPOSITE",
+        aggregationKind: (payload.aggregationKind ??
+          existing.aggregationKind) as "NONE" | "SHARED" | "COMPOSITE",
         isDisjoint: payload.isDisjoint ?? existing.isDisjoint,
         isComplete: payload.isComplete ?? existing.isComplete,
         isDerived: payload.isDerived ?? existing.isDerived,
-        sourceMultiplicityLower: payload.sourceMultiplicityLower ?? existing.sourceMultiplicityLower,
-        sourceMultiplicityUpper: payload.sourceMultiplicityUpper ?? existing.sourceMultiplicityUpper,
-        targetMultiplicityLower: payload.targetMultiplicityLower ?? existing.targetMultiplicityLower,
-        targetMultiplicityUpper: payload.targetMultiplicityUpper ?? existing.targetMultiplicityUpper,
+        sourceMultiplicityLower:
+          payload.sourceMultiplicityLower ?? existing.sourceMultiplicityLower,
+        sourceMultiplicityUpper:
+          payload.sourceMultiplicityUpper ?? existing.sourceMultiplicityUpper,
+        targetMultiplicityLower:
+          payload.targetMultiplicityLower ?? existing.targetMultiplicityLower,
+        targetMultiplicityUpper:
+          payload.targetMultiplicityUpper ?? existing.targetMultiplicityUpper,
         sourceRole: payload.sourceRole ?? existing.sourceRole,
         targetRole: payload.targetRole ?? existing.targetRole,
-        isNavigableSource: payload.isNavigableSource ?? existing.isNavigableSource,
-        isNavigableTarget: payload.isNavigableTarget ?? existing.isNavigableTarget,
-        extensionProperties: payload.extensionProperties ?? existing.extensionProperties,
+        isNavigableSource:
+          payload.isNavigableSource ?? existing.isNavigableSource,
+        isNavigableTarget:
+          payload.isNavigableTarget ?? existing.isNavigableTarget,
+        extensionProperties:
+          payload.extensionProperties ?? existing.extensionProperties,
         updatedAt: new Date(),
       })
       .where(eq(classRelationships.id, payload.id))
       .returning();
 
     const [updated] = response;
-    if (!updated) throw new Error(`ClassRelationship not found with id: ${payload.id}`);
+    if (!updated)
+      throw new Error(`ClassRelationship not found with id: ${payload.id}`);
     return toClassRelationship(updated);
   }
 
-  async removeRelationship(payload: RemoveClassRelationshipPayload): Promise<boolean> {
-    await db.delete(classRelationshipLayouts).where(eq(classRelationshipLayouts.classRelationshipId, payload.id));
+  async removeRelationship(
+    payload: RemoveClassRelationshipPayload,
+  ): Promise<boolean> {
+    await db
+      .delete(classRelationshipLayouts)
+      .where(eq(classRelationshipLayouts.classRelationshipId, payload.id));
     const result = await db
       .delete(classRelationships)
       .where(eq(classRelationships.id, payload.id));
@@ -791,7 +870,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   // ─── ClassProperty ────────────────────────────────────────────────────────
 
   async findPropertiesByElementId(
-    query: FindClassPropertiesByElementIdQuery
+    query: FindClassPropertiesByElementIdQuery,
   ): Promise<ClassProperty[]> {
     const rows = await db
       .select()
@@ -802,7 +881,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async findPropertyById(
-    query: FindClassElementByIdQuery
+    query: FindClassElementByIdQuery,
   ): Promise<ClassProperty | null> {
     const row = await db.query.classProperties.findFirst({
       where: eq(classProperties.id, query.id),
@@ -810,7 +889,9 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
     return row ? toClassProperty(row) : null;
   }
 
-  async createProperty(payload: CreateClassPropertyPayload): Promise<ClassProperty> {
+  async createProperty(
+    payload: CreateClassPropertyPayload,
+  ): Promise<ClassProperty> {
     const response = await db
       .insert(classProperties)
       .values({
@@ -842,18 +923,22 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
     return toClassProperty(row);
   }
 
-  async updateProperty(payload: UpdateClassPropertyPayload): Promise<ClassProperty> {
+  async updateProperty(
+    payload: UpdateClassPropertyPayload,
+  ): Promise<ClassProperty> {
     const existing = await db.query.classProperties.findFirst({
       where: eq(classProperties.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassProperty not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(`ClassProperty not found with id: ${payload.id}`);
 
     const response = await db
       .update(classProperties)
       .set({
         name: payload.name ?? existing.name,
         description: payload.description ?? existing.description,
-        typeClassElementId: payload.typeClassElementId ?? existing.typeClassElementId,
+        typeClassElementId:
+          payload.typeClassElementId ?? existing.typeClassElementId,
         typeLiteral: payload.typeLiteral ?? existing.typeLiteral,
         isStatic: payload.isStatic ?? existing.isStatic,
         isReadOnly: payload.isReadOnly ?? existing.isReadOnly,
@@ -864,8 +949,10 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
           | "private"
           | "protected"
           | "package",
-        multiplicityLower: payload.multiplicityLower ?? existing.multiplicityLower,
-        multiplicityUpper: payload.multiplicityUpper ?? existing.multiplicityUpper,
+        multiplicityLower:
+          payload.multiplicityLower ?? existing.multiplicityLower,
+        multiplicityUpper:
+          payload.multiplicityUpper ?? existing.multiplicityUpper,
         isOrdered: payload.isOrdered ?? existing.isOrdered,
         isUnique: payload.isUnique ?? existing.isUnique,
         collectionKind: (payload.collectionKind ?? existing.collectionKind) as
@@ -874,10 +961,8 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
           | "BAG"
           | "SEQUENCE"
           | "ORDERED_SET",
-        aggregationKind: (payload.aggregationKind ?? existing.aggregationKind) as
-          | "NONE"
-          | "SHARED"
-          | "COMPOSITE",
+        aggregationKind: (payload.aggregationKind ??
+          existing.aggregationKind) as "NONE" | "SHARED" | "COMPOSITE",
         defaultValue: payload.defaultValue ?? existing.defaultValue,
         ordering: payload.ordering ?? existing.ordering,
         updatedAt: new Date(),
@@ -886,7 +971,8 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
       .returning();
 
     const [updated] = response;
-    if (!updated) throw new Error(`ClassProperty not found with id: ${payload.id}`);
+    if (!updated)
+      throw new Error(`ClassProperty not found with id: ${payload.id}`);
     return toClassProperty(updated);
   }
 
@@ -900,7 +986,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   // ─── ClassOperation ──────────────────────────────────────────────────────
 
   async findOperationsByElementId(
-    query: FindClassOperationsByElementIdQuery
+    query: FindClassOperationsByElementIdQuery,
   ): Promise<ClassOperation[]> {
     const rows = await db
       .select()
@@ -911,7 +997,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async findOperationById(
-    query: FindClassElementByIdQuery
+    query: FindClassElementByIdQuery,
   ): Promise<ClassOperation | null> {
     const row = await db.query.classOperations.findFirst({
       where: eq(classOperations.id, query.id),
@@ -919,7 +1005,9 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
     return row ? toClassOperation(row) : null;
   }
 
-  async createOperation(payload: CreateClassOperationPayload): Promise<ClassOperation> {
+  async createOperation(
+    payload: CreateClassOperationPayload,
+  ): Promise<ClassOperation> {
     const response = await db
       .insert(classOperations)
       .values({
@@ -944,21 +1032,28 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
     return toClassOperation(row);
   }
 
-  async updateOperation(payload: UpdateClassOperationPayload): Promise<ClassOperation> {
+  async updateOperation(
+    payload: UpdateClassOperationPayload,
+  ): Promise<ClassOperation> {
     const existing = await db.query.classOperations.findFirst({
       where: eq(classOperations.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassOperation not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(`ClassOperation not found with id: ${payload.id}`);
 
     const response = await db
       .update(classOperations)
       .set({
         name: payload.name ?? existing.name,
         description: payload.description ?? existing.description,
-        returnTypeClassElementId: payload.returnTypeClassElementId ?? existing.returnTypeClassElementId,
-        returnTypeLiteral: payload.returnTypeLiteral ?? existing.returnTypeLiteral,
-        returnMultiplicityLower: payload.returnMultiplicityLower ?? existing.returnMultiplicityLower,
-        returnMultiplicityUpper: payload.returnMultiplicityUpper ?? existing.returnMultiplicityUpper,
+        returnTypeClassElementId:
+          payload.returnTypeClassElementId ?? existing.returnTypeClassElementId,
+        returnTypeLiteral:
+          payload.returnTypeLiteral ?? existing.returnTypeLiteral,
+        returnMultiplicityLower:
+          payload.returnMultiplicityLower ?? existing.returnMultiplicityLower,
+        returnMultiplicityUpper:
+          payload.returnMultiplicityUpper ?? existing.returnMultiplicityUpper,
         isStatic: payload.isStatic ?? existing.isStatic,
         isAbstract: payload.isAbstract ?? existing.isAbstract,
         visibility: (payload.visibility ?? existing.visibility) as
@@ -973,12 +1068,17 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
       .returning();
 
     const [updated] = response;
-    if (!updated) throw new Error(`ClassOperation not found with id: ${payload.id}`);
+    if (!updated)
+      throw new Error(`ClassOperation not found with id: ${payload.id}`);
     return toClassOperation(updated);
   }
 
-  async removeOperation(payload: RemoveClassOperationPayload): Promise<boolean> {
-    await db.delete(classOperationParameters).where(eq(classOperationParameters.classOperationId, payload.id));
+  async removeOperation(
+    payload: RemoveClassOperationPayload,
+  ): Promise<boolean> {
+    await db
+      .delete(classOperationParameters)
+      .where(eq(classOperationParameters.classOperationId, payload.id));
     const result = await db
       .delete(classOperations)
       .where(eq(classOperations.id, payload.id));
@@ -988,18 +1088,20 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   // ─── ClassOperationParameter ─────────────────────────────────────────────
 
   async findParametersByOperationId(
-    query: FindClassOperationParametersByOperationIdQuery
+    query: FindClassOperationParametersByOperationIdQuery,
   ): Promise<ClassOperationParameter[]> {
     const rows = await db
       .select()
       .from(classOperationParameters)
-      .where(eq(classOperationParameters.classOperationId, query.classOperationId))
+      .where(
+        eq(classOperationParameters.classOperationId, query.classOperationId),
+      )
       .orderBy(classOperationParameters.ordering);
     return rows.map(toClassOperationParameter);
   }
 
   async findParameterById(
-    query: FindClassElementByIdQuery
+    query: FindClassElementByIdQuery,
   ): Promise<ClassOperationParameter | null> {
     const row = await db.query.classOperationParameters.findFirst({
       where: eq(classOperationParameters.id, query.id),
@@ -1008,7 +1110,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async createParameter(
-    payload: CreateClassOperationParameterPayload
+    payload: CreateClassOperationParameterPayload,
   ): Promise<ClassOperationParameter> {
     const response = await db
       .insert(classOperationParameters)
@@ -1035,21 +1137,27 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async updateParameter(
-    payload: UpdateClassOperationParameterPayload
+    payload: UpdateClassOperationParameterPayload,
   ): Promise<ClassOperationParameter> {
     const existing = await db.query.classOperationParameters.findFirst({
       where: eq(classOperationParameters.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassOperationParameter not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(
+        `ClassOperationParameter not found with id: ${payload.id}`,
+      );
 
     const response = await db
       .update(classOperationParameters)
       .set({
         name: payload.name ?? existing.name,
-        typeClassElementId: payload.typeClassElementId ?? existing.typeClassElementId,
+        typeClassElementId:
+          payload.typeClassElementId ?? existing.typeClassElementId,
         typeLiteral: payload.typeLiteral ?? existing.typeLiteral,
-        multiplicityLower: payload.multiplicityLower ?? existing.multiplicityLower,
-        multiplicityUpper: payload.multiplicityUpper ?? existing.multiplicityUpper,
+        multiplicityLower:
+          payload.multiplicityLower ?? existing.multiplicityLower,
+        multiplicityUpper:
+          payload.multiplicityUpper ?? existing.multiplicityUpper,
         defaultValue: payload.defaultValue ?? existing.defaultValue,
         direction: payload.direction ?? existing.direction,
         isOrdered: payload.isOrdered ?? existing.isOrdered,
@@ -1061,11 +1169,16 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
       .returning();
 
     const [updated] = response;
-    if (!updated) throw new Error(`ClassOperationParameter not found with id: ${payload.id}`);
+    if (!updated)
+      throw new Error(
+        `ClassOperationParameter not found with id: ${payload.id}`,
+      );
     return toClassOperationParameter(updated);
   }
 
-  async removeParameter(payload: RemoveClassOperationParameterPayload): Promise<boolean> {
+  async removeParameter(
+    payload: RemoveClassOperationParameterPayload,
+  ): Promise<boolean> {
     const result = await db
       .delete(classOperationParameters)
       .where(eq(classOperationParameters.id, payload.id));
@@ -1075,7 +1188,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   // ─── ClassEnumerationLiteral ─────────────────────────────────────────────
 
   async findEnumerationLiteralsByElementId(
-    query: FindClassEnumerationLiteralsByElementIdQuery
+    query: FindClassEnumerationLiteralsByElementIdQuery,
   ): Promise<ClassEnumerationLiteral[]> {
     const rows = await db
       .select()
@@ -1086,7 +1199,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async findEnumerationLiteralById(
-    query: FindClassElementByIdQuery
+    query: FindClassElementByIdQuery,
   ): Promise<ClassEnumerationLiteral | null> {
     const row = await db.query.classEnumerationLiterals.findFirst({
       where: eq(classEnumerationLiterals.id, query.id),
@@ -1095,7 +1208,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async createEnumerationLiteral(
-    payload: CreateClassEnumerationLiteralPayload
+    payload: CreateClassEnumerationLiteralPayload,
   ): Promise<ClassEnumerationLiteral> {
     const response = await db
       .insert(classEnumerationLiterals)
@@ -1115,12 +1228,15 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async updateEnumerationLiteral(
-    payload: UpdateClassEnumerationLiteralPayload
+    payload: UpdateClassEnumerationLiteralPayload,
   ): Promise<ClassEnumerationLiteral> {
     const existing = await db.query.classEnumerationLiterals.findFirst({
       where: eq(classEnumerationLiterals.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassEnumerationLiteral not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(
+        `ClassEnumerationLiteral not found with id: ${payload.id}`,
+      );
 
     const response = await db
       .update(classEnumerationLiterals)
@@ -1134,12 +1250,15 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
       .returning();
 
     const [updated] = response;
-    if (!updated) throw new Error(`ClassEnumerationLiteral not found with id: ${payload.id}`);
+    if (!updated)
+      throw new Error(
+        `ClassEnumerationLiteral not found with id: ${payload.id}`,
+      );
     return toClassEnumerationLiteral(updated);
   }
 
   async removeEnumerationLiteral(
-    payload: RemoveClassEnumerationLiteralPayload
+    payload: RemoveClassEnumerationLiteralPayload,
   ): Promise<boolean> {
     const result = await db
       .delete(classEnumerationLiterals)
@@ -1150,7 +1269,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   // ─── ClassElementLayout (view positions) ──────────────────────────────────
 
   async findElementLayoutsByDiagramId(
-    query: FindClassElementLayoutsByDiagramIdQuery
+    query: FindClassElementLayoutsByDiagramIdQuery,
   ): Promise<ClassElementLayout[]> {
     const rows = await db
       .select()
@@ -1160,7 +1279,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async findElementLayoutById(
-    query: FindClassElementByIdQuery
+    query: FindClassElementByIdQuery,
   ): Promise<ClassElementLayout | null> {
     const row = await db.query.classElementLayouts.findFirst({
       where: eq(classElementLayouts.id, query.id),
@@ -1169,7 +1288,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async createElementLayout(
-    payload: CreateClassElementLayoutPayload
+    payload: CreateClassElementLayoutPayload,
   ): Promise<ClassElementLayout> {
     const response = await db
       .insert(classElementLayouts)
@@ -1189,12 +1308,13 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async updateElementLayout(
-    payload: UpdateClassElementLayoutPayload
+    payload: UpdateClassElementLayoutPayload,
   ): Promise<ClassElementLayout> {
     const existing = await db.query.classElementLayouts.findFirst({
       where: eq(classElementLayouts.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassElementLayout not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(`ClassElementLayout not found with id: ${payload.id}`);
 
     const response = await db
       .update(classElementLayouts)
@@ -1210,11 +1330,14 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
       .returning();
 
     const [updated] = response;
-    if (!updated) throw new Error(`ClassElementLayout not found with id: ${payload.id}`);
+    if (!updated)
+      throw new Error(`ClassElementLayout not found with id: ${payload.id}`);
     return toClassElementLayout(updated);
   }
 
-  async removeElementLayout(payload: RemoveClassElementLayoutPayload): Promise<boolean> {
+  async removeElementLayout(
+    payload: RemoveClassElementLayoutPayload,
+  ): Promise<boolean> {
     const result = await db
       .delete(classElementLayouts)
       .where(eq(classElementLayouts.id, payload.id));
@@ -1224,7 +1347,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   // ─── ClassRelationshipLayout ──────────────────────────────────────────────
 
   async findRelationshipLayoutsByDiagramId(
-    query: FindClassRelationshipLayoutsByDiagramIdQuery
+    query: FindClassRelationshipLayoutsByDiagramIdQuery,
   ): Promise<ClassRelationshipLayout[]> {
     const rows = await db
       .select()
@@ -1234,7 +1357,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async findRelationshipLayoutById(
-    query: FindClassElementByIdQuery
+    query: FindClassElementByIdQuery,
   ): Promise<ClassRelationshipLayout | null> {
     const row = await db.query.classRelationshipLayouts.findFirst({
       where: eq(classRelationshipLayouts.id, query.id),
@@ -1243,7 +1366,7 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async createRelationshipLayout(
-    payload: CreateClassRelationshipLayoutPayload
+    payload: CreateClassRelationshipLayoutPayload,
   ): Promise<ClassRelationshipLayout> {
     const response = await db
       .insert(classRelationshipLayouts)
@@ -1261,12 +1384,15 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
   }
 
   async updateRelationshipLayout(
-    payload: UpdateClassRelationshipLayoutPayload
+    payload: UpdateClassRelationshipLayoutPayload,
   ): Promise<ClassRelationshipLayout> {
     const existing = await db.query.classRelationshipLayouts.findFirst({
       where: eq(classRelationshipLayouts.id, payload.id),
     });
-    if (!existing) throw new Error(`ClassRelationshipLayout not found with id: ${payload.id}`);
+    if (!existing)
+      throw new Error(
+        `ClassRelationshipLayout not found with id: ${payload.id}`,
+      );
 
     const response = await db
       .update(classRelationshipLayouts)
@@ -1280,12 +1406,15 @@ export class DrizzleClassDiagramRepository implements IClassDiagramRepository {
       .returning();
 
     const [updated] = response;
-    if (!updated) throw new Error(`ClassRelationshipLayout not found with id: ${payload.id}`);
+    if (!updated)
+      throw new Error(
+        `ClassRelationshipLayout not found with id: ${payload.id}`,
+      );
     return toClassRelationshipLayout(updated);
   }
 
   async removeRelationshipLayout(
-    payload: RemoveClassRelationshipLayoutPayload
+    payload: RemoveClassRelationshipLayoutPayload,
   ): Promise<boolean> {
     const result = await db
       .delete(classRelationshipLayouts)

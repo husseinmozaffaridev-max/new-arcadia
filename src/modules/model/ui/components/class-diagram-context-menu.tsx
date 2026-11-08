@@ -68,11 +68,8 @@ function NodeContextMenu({
   readOnly: boolean;
 }) {
   const node = useCanvasStore((s) => s.nodes.find((n) => n.id === nodeId));
-  const {
-    removeElementFromDiagram,
-    deleteElementFromModel,
-    isPending,
-  } = useRemoveElementSync();
+  const { removeElementFromDiagram, deleteElementFromModel, isPending } =
+    useRemoveElementSync();
   const selectNode = useCanvasStore((s) => s.selectNode);
   const { moveToPackage, isPending: isMoving } = useMoveToPackage();
 

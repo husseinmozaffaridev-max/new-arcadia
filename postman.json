@@ -36,13 +36,8 @@
             },
             "url": {
               "raw": "{{baseURL}}/api/register",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "register"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "register"]
             },
             "auth": {
               "type": "noauth"
@@ -65,13 +60,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/register",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "register"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "register"]
                 }
               },
               "status": "Created",
@@ -155,13 +145,8 @@
             },
             "url": {
               "raw": "{{baseURL}}/api/login",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "login"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "login"]
             },
             "auth": {
               "type": "noauth"
@@ -184,13 +169,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/login",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "login"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "login"]
                 }
               },
               "status": "OK",
@@ -279,13 +259,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/me",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "me"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "me"]
             }
           },
           "response": [
@@ -296,13 +271,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseURL}}/api/me",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "me"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "me"]
                 }
               },
               "status": "OK",
@@ -377,13 +347,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/logout",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "logout"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "logout"]
             }
           },
           "response": [
@@ -394,13 +359,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseURL}}/api/logout",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "logout"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "logout"]
                 }
               },
               "status": "OK",
@@ -479,13 +439,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/me",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "me"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "me"]
             },
             "body": {
               "mode": "raw",
@@ -525,13 +480,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/me",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "me"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "me"]
                 },
                 "body": {
                   "mode": "raw",
@@ -582,13 +532,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/me",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "me"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "me"]
                 },
                 "body": {
                   "mode": "raw",
@@ -639,13 +584,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/me",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "me"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "me"]
                 },
                 "body": {
                   "mode": "raw",
@@ -698,13 +638,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/me",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "me"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "me"]
             },
             "body": {
               "mode": "raw",
@@ -744,13 +679,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/me",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "me"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "me"]
                 },
                 "body": {
                   "mode": "raw",
@@ -801,13 +731,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/me",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "me"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "me"]
                 },
                 "body": {
                   "mode": "raw",
@@ -858,13 +783,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/me",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "me"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "me"]
                 },
                 "body": {
                   "mode": "raw",
@@ -918,13 +838,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/projects",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "projects"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "projects"]
             }
           },
           "response": [
@@ -950,13 +865,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects"]
                 }
               },
               "status": "OK",
@@ -978,13 +888,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseURL}}/api/projects",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects"]
                 }
               },
               "status": "OK",
@@ -1057,13 +962,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects"]
                 }
               },
               "status": "OK",
@@ -1115,13 +1015,8 @@
             },
             "url": {
               "raw": "{{baseURL}}/api/projects",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "projects"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "projects"]
             }
           },
           "response": [
@@ -1160,13 +1055,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/projects",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects"]
                 }
               },
               "status": "Created",
@@ -1197,13 +1087,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/projects",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects"]
                 }
               },
               "status": "Created",
@@ -1281,13 +1166,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/projects",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects"]
                 }
               },
               "status": "Created",
@@ -1353,14 +1233,8 @@
             },
             "url": {
               "raw": "{{baseURL}}/api/projects/{{projectId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "projects",
-                "{{projectId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "projects", "{{projectId}}"]
             }
           },
           "response": [
@@ -1399,14 +1273,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}"]
                 }
               },
               "status": "OK",
@@ -1437,14 +1305,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/projects/5",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "5"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "5"]
                 }
               },
               "status": "OK",
@@ -1530,14 +1392,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}"]
                 }
               },
               "status": "OK",
@@ -1576,14 +1432,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/projects/{{projectId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "projects",
-                "{{projectId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "projects", "{{projectId}}"]
             }
           },
           "response": [
@@ -1609,14 +1459,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}"]
                 }
               },
               "status": "OK",
@@ -1638,14 +1482,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/1",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "1"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "1"]
                 }
               },
               "status": "OK",
@@ -1718,14 +1556,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}"]
                 }
               },
               "status": "OK",
@@ -1764,14 +1596,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/projects/{{projectId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "projects",
-                "{{projectId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "projects", "{{projectId}}"]
             }
           },
           "response": [
@@ -1782,14 +1608,8 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/1",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "1"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "1"]
                 }
               },
               "status": "OK",
@@ -1877,14 +1697,8 @@
             },
             "url": {
               "raw": "{{baseURL}}/api/projects/{{projectId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "projects",
-                "{{projectId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "projects", "{{projectId}}"]
             }
           },
           "response": [
@@ -1923,14 +1737,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}"]
                 }
               },
               "status": "OK",
@@ -1961,14 +1769,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/projects/5",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "5"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "5"]
                 }
               },
               "status": "OK",
@@ -2054,14 +1856,8 @@
                 },
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}"]
                 }
               },
               "status": "OK",
@@ -2095,13 +1891,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/models?projectId={{projectId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "models"
-              ],
+              "host": ["{{baseURL}}"],
+              "path": ["api", "models"],
               "query": [
                 {
                   "key": "projectId",
@@ -2124,13 +1915,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models?projectId={{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models"],
                   "query": [
                     {
                       "key": "projectId",
@@ -2164,13 +1950,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models?projectId={{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models"],
                   "query": [
                     {
                       "key": "projectId",
@@ -2210,13 +1991,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/models",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "models"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "models"]
             },
             "description": "Creates a resource and saves its ID in modelId.",
             "body": {
@@ -2246,13 +2022,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models"]
                 },
                 "description": "Creates a resource and saves its ID in modelId.",
                 "body": {
@@ -2293,13 +2064,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models"]
                 },
                 "description": "Creates a resource and saves its ID in modelId.",
                 "body": {
@@ -2340,13 +2106,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models"]
                 },
                 "description": "Creates a resource and saves its ID in modelId.",
                 "body": {
@@ -2387,13 +2148,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models"]
                 },
                 "description": "Creates a resource and saves its ID in modelId.",
                 "body": {
@@ -2450,13 +2206,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/models",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "models"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "models"]
             },
             "description": "",
             "body": {
@@ -2486,13 +2237,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models"]
                 },
                 "description": "",
                 "body": {
@@ -2533,13 +2279,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models"]
                 },
                 "description": "",
                 "body": {
@@ -2580,13 +2321,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models"]
                 },
                 "description": "",
                 "body": {
@@ -2639,14 +2375,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/models/{{modelId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "models",
-                "{{modelId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "models", "{{modelId}}"]
             },
             "description": ""
           },
@@ -2663,14 +2393,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": ""
               },
@@ -2698,14 +2422,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": ""
               },
@@ -2739,14 +2457,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/models/{{modelId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "models",
-                "{{modelId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "models", "{{modelId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -2776,14 +2488,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -2824,14 +2530,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -2872,14 +2572,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -2922,14 +2616,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/models/{{modelId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "models",
-                "{{modelId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "models", "{{modelId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -2959,14 +2647,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -3007,14 +2689,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -3055,14 +2731,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -3101,14 +2771,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/models/{{modelId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "models",
-                "{{modelId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "models", "{{modelId}}"]
             },
             "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
           },
@@ -3125,14 +2789,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -3160,14 +2818,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -3195,14 +2847,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/models/{{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "models",
-                    "{{modelId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "models", "{{modelId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -3237,13 +2883,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/elements?modelId={{modelId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "elements"
-              ],
+              "host": ["{{baseURL}}"],
+              "path": ["api", "elements"],
               "query": [
                 {
                   "key": "modelId",
@@ -3266,13 +2907,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements?modelId={{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"],
                   "query": [
                     {
                       "key": "modelId",
@@ -3306,13 +2942,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements?modelId={{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"],
                   "query": [
                     {
                       "key": "modelId",
@@ -3352,13 +2983,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/elements",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "elements"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "elements"]
             },
             "description": "Creates a resource and saves its ID in elementId.",
             "body": {
@@ -3388,13 +3014,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "Creates a resource and saves its ID in elementId.",
                 "body": {
@@ -3435,13 +3056,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "Creates a resource and saves its ID in elementId.",
                 "body": {
@@ -3482,13 +3098,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "Creates a resource and saves its ID in elementId.",
                 "body": {
@@ -3529,13 +3140,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "Creates a resource and saves its ID in elementId.",
                 "body": {
@@ -3592,13 +3198,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/elements",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "elements"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "elements"]
             },
             "description": "",
             "body": {
@@ -3628,13 +3229,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "",
                 "body": {
@@ -3675,13 +3271,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "",
                 "body": {
@@ -3722,13 +3313,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "",
                 "body": {
@@ -3785,13 +3371,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/elements",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "elements"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "elements"]
             },
             "description": "",
             "body": {
@@ -3821,13 +3402,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "",
                 "body": {
@@ -3868,13 +3444,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "",
                 "body": {
@@ -3915,13 +3486,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements"]
                 },
                 "description": "",
                 "body": {
@@ -3974,14 +3540,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/elements/{{elementId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "elements",
-                "{{elementId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "elements", "{{elementId}}"]
             },
             "description": ""
           },
@@ -3998,14 +3558,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": ""
               },
@@ -4033,14 +3587,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": ""
               },
@@ -4074,14 +3622,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/elements/{{elementId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "elements",
-                "{{elementId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "elements", "{{elementId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -4111,14 +3653,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -4159,14 +3695,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -4207,14 +3737,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -4257,14 +3781,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/elements/{{elementId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "elements",
-                "{{elementId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "elements", "{{elementId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -4294,14 +3812,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -4342,14 +3854,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -4390,14 +3896,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -4436,14 +3936,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/elements/{{elementId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "elements",
-                "{{elementId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "elements", "{{elementId}}"]
             },
             "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
           },
@@ -4460,14 +3954,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -4495,14 +3983,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -4530,14 +4012,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -4572,13 +4048,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/diagrams?modelId={{modelId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "diagrams"
-              ],
+              "host": ["{{baseURL}}"],
+              "path": ["api", "diagrams"],
               "query": [
                 {
                   "key": "modelId",
@@ -4601,13 +4072,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams?modelId={{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams"],
                   "query": [
                     {
                       "key": "modelId",
@@ -4641,13 +4107,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams?modelId={{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams"],
                   "query": [
                     {
                       "key": "modelId",
@@ -4687,13 +4148,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/diagrams",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "diagrams"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "diagrams"]
             },
             "description": "Creates a resource and saves its ID in diagramId.",
             "body": {
@@ -4723,13 +4179,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams"]
                 },
                 "description": "Creates a resource and saves its ID in diagramId.",
                 "body": {
@@ -4770,13 +4221,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams"]
                 },
                 "description": "Creates a resource and saves its ID in diagramId.",
                 "body": {
@@ -4817,13 +4263,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams"]
                 },
                 "description": "Creates a resource and saves its ID in diagramId.",
                 "body": {
@@ -4864,13 +4305,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams"]
                 },
                 "description": "Creates a resource and saves its ID in diagramId.",
                 "body": {
@@ -4923,14 +4359,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "diagrams",
-                "{{diagramId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "diagrams", "{{diagramId}}"]
             },
             "description": ""
           },
@@ -4947,14 +4377,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": ""
               },
@@ -4982,14 +4406,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": ""
               },
@@ -5023,14 +4441,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "diagrams",
-                "{{diagramId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "diagrams", "{{diagramId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -5060,14 +4472,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -5108,14 +4514,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -5156,14 +4556,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -5206,14 +4600,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "diagrams",
-                "{{diagramId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "diagrams", "{{diagramId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -5243,14 +4631,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -5291,14 +4673,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -5339,14 +4715,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -5385,14 +4755,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "diagrams",
-                "{{diagramId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "diagrams", "{{diagramId}}"]
             },
             "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
           },
@@ -5409,14 +4773,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -5444,14 +4802,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -5479,14 +4831,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -5520,15 +4866,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/diagrams/{{diagramId}}/layout",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "diagrams",
-                "{{diagramId}}",
-                "layout"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "diagrams", "{{diagramId}}", "layout"]
             },
             "description": "Replaces the supplied elementLayouts array; use [] to clear it. Omitted viewport fields are retained.",
             "body": {
@@ -5558,15 +4897,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}/layout",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}",
-                    "layout"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}", "layout"]
                 },
                 "description": "Replaces the supplied elementLayouts array; use [] to clear it. Omitted viewport fields are retained.",
                 "body": {
@@ -5607,15 +4939,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}/layout",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}",
-                    "layout"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}", "layout"]
                 },
                 "description": "Replaces the supplied elementLayouts array; use [] to clear it. Omitted viewport fields are retained.",
                 "body": {
@@ -5656,15 +4981,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}/layout",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}",
-                    "layout"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}", "layout"]
                 },
                 "description": "Replaces the supplied elementLayouts array; use [] to clear it. Omitted viewport fields are retained.",
                 "body": {
@@ -5707,15 +5025,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/diagrams/{{diagramId}}/layout",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "diagrams",
-                "{{diagramId}}",
-                "layout"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "diagrams", "{{diagramId}}", "layout"]
             },
             "description": "Upserts layouts by elementId; other existing layouts are retained.",
             "body": {
@@ -5745,15 +5056,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}/layout",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}",
-                    "layout"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}", "layout"]
                 },
                 "description": "Upserts layouts by elementId; other existing layouts are retained.",
                 "body": {
@@ -5794,15 +5098,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}/layout",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}",
-                    "layout"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}", "layout"]
                 },
                 "description": "Upserts layouts by elementId; other existing layouts are retained.",
                 "body": {
@@ -5843,15 +5140,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/diagrams/{{diagramId}}/layout",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "diagrams",
-                    "{{diagramId}}",
-                    "layout"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "diagrams", "{{diagramId}}", "layout"]
                 },
                 "description": "Upserts layouts by elementId; other existing layouts are retained.",
                 "body": {
@@ -5895,13 +5185,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/relationships?modelId={{modelId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "relationships"
-              ],
+              "host": ["{{baseURL}}"],
+              "path": ["api", "relationships"],
               "query": [
                 {
                   "key": "modelId",
@@ -5924,13 +5209,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships?modelId={{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships"],
                   "query": [
                     {
                       "key": "modelId",
@@ -5964,13 +5244,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships?modelId={{modelId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships"],
                   "query": [
                     {
                       "key": "modelId",
@@ -6010,13 +5285,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/relationships",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "relationships"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "relationships"]
             },
             "description": "Creates a resource and saves its ID in relationshipId.",
             "body": {
@@ -6046,13 +5316,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships"]
                 },
                 "description": "Creates a resource and saves its ID in relationshipId.",
                 "body": {
@@ -6093,13 +5358,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships"]
                 },
                 "description": "Creates a resource and saves its ID in relationshipId.",
                 "body": {
@@ -6140,13 +5400,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships"]
                 },
                 "description": "Creates a resource and saves its ID in relationshipId.",
                 "body": {
@@ -6187,13 +5442,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships"]
                 },
                 "description": "Creates a resource and saves its ID in relationshipId.",
                 "body": {
@@ -6246,14 +5496,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "relationships",
-                "{{relationshipId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "relationships", "{{relationshipId}}"]
             },
             "description": ""
           },
@@ -6270,14 +5514,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": ""
               },
@@ -6305,14 +5543,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": ""
               },
@@ -6346,14 +5578,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "relationships",
-                "{{relationshipId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "relationships", "{{relationshipId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -6383,14 +5609,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -6431,14 +5651,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -6479,14 +5693,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -6529,14 +5737,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "relationships",
-                "{{relationshipId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "relationships", "{{relationshipId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -6566,14 +5768,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -6614,14 +5810,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -6662,14 +5852,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -6708,14 +5892,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "relationships",
-                "{{relationshipId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "relationships", "{{relationshipId}}"]
             },
             "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
           },
@@ -6732,14 +5910,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -6767,14 +5939,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -6802,14 +5968,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/relationships/{{relationshipId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "relationships",
-                    "{{relationshipId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "relationships", "{{relationshipId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -6844,13 +6004,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/trace-links?projectId={{projectId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "trace-links"
-              ],
+              "host": ["{{baseURL}}"],
+              "path": ["api", "trace-links"],
               "query": [
                 {
                   "key": "projectId",
@@ -6873,13 +6028,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links?projectId={{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links"],
                   "query": [
                     {
                       "key": "projectId",
@@ -6913,13 +6063,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links?projectId={{projectId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links"
-                  ],
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links"],
                   "query": [
                     {
                       "key": "projectId",
@@ -6959,13 +6104,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/trace-links",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "trace-links"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "trace-links"]
             },
             "description": "Creates a resource and saves its ID in traceLinkId.",
             "body": {
@@ -6995,13 +6135,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links"]
                 },
                 "description": "Creates a resource and saves its ID in traceLinkId.",
                 "body": {
@@ -7042,13 +6177,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links"]
                 },
                 "description": "Creates a resource and saves its ID in traceLinkId.",
                 "body": {
@@ -7089,13 +6219,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links"]
                 },
                 "description": "Creates a resource and saves its ID in traceLinkId.",
                 "body": {
@@ -7136,13 +6261,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links"]
                 },
                 "description": "Creates a resource and saves its ID in traceLinkId.",
                 "body": {
@@ -7195,14 +6315,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "trace-links",
-                "{{traceLinkId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "trace-links", "{{traceLinkId}}"]
             },
             "description": ""
           },
@@ -7219,14 +6333,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": ""
               },
@@ -7254,14 +6362,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": ""
               },
@@ -7295,14 +6397,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "trace-links",
-                "{{traceLinkId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "trace-links", "{{traceLinkId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -7332,14 +6428,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -7380,14 +6470,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -7428,14 +6512,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -7478,14 +6556,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "trace-links",
-                "{{traceLinkId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "trace-links", "{{traceLinkId}}"]
             },
             "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
             "body": {
@@ -7515,14 +6587,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -7563,14 +6629,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -7611,14 +6671,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": "Only supplied mutable fields are updated. Properties shallow-merge.",
                 "body": {
@@ -7657,14 +6711,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "trace-links",
-                "{{traceLinkId}}"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "trace-links", "{{traceLinkId}}"]
             },
             "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
           },
@@ -7681,14 +6729,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -7716,14 +6758,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -7751,14 +6787,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/trace-links/{{traceLinkId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "trace-links",
-                    "{{traceLinkId}}"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "trace-links", "{{traceLinkId}}"]
                 },
                 "description": "Deletes this resource. Dependent modeling records may cascade. Run cleanup requests last."
               },
@@ -7788,15 +6818,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/elements/{{elementId}}/trace-links",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "elements",
-                "{{elementId}}",
-                "trace-links"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "elements", "{{elementId}}", "trace-links"]
             },
             "description": ""
           },
@@ -7813,15 +6836,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}/trace-links",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}",
-                    "trace-links"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}", "trace-links"]
                 },
                 "description": ""
               },
@@ -7849,15 +6865,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/elements/{{elementId}}/trace-links",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "elements",
-                    "{{elementId}}",
-                    "trace-links"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "elements", "{{elementId}}", "trace-links"]
                 },
                 "description": ""
               },
@@ -7892,9 +6901,7 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/projects/{{exampleProjectId}}/examples/ife",
-              "host": [
-                "{{baseURL}}"
-              ],
+              "host": ["{{baseURL}}"],
               "path": [
                 "api",
                 "projects",
@@ -7918,9 +6925,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{exampleProjectId}}/examples/ife",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -7955,9 +6960,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{exampleProjectId}}/examples/ife",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -7992,9 +6995,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{exampleProjectId}}/examples/ife",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8029,9 +7030,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{exampleProjectId}}/examples/ife",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8074,13 +7073,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/project-roles",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "project-roles"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "project-roles"]
             }
           },
           "response": [
@@ -8096,13 +7090,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/project-roles",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "project-roles"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "project-roles"]
                 }
               },
               "status": "OK",
@@ -8129,13 +7118,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/project-roles",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "project-roles"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "project-roles"]
                 }
               },
               "status": "OK",
@@ -8164,15 +7148,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/projects/{{projectId}}/members",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "projects",
-                "{{projectId}}",
-                "members"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "projects", "{{projectId}}", "members"]
             }
           },
           "response": [
@@ -8188,15 +7165,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}",
-                    "members"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}", "members"]
                 }
               },
               "status": "OK",
@@ -8223,15 +7193,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}",
-                    "members"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}", "members"]
                 }
               },
               "status": "OK",
@@ -8264,15 +7227,8 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/projects/{{projectId}}/members",
-              "host": [
-                "{{baseURL}}"
-              ],
-              "path": [
-                "api",
-                "projects",
-                "{{projectId}}",
-                "members"
-              ]
+              "host": ["{{baseURL}}"],
+              "path": ["api", "projects", "{{projectId}}", "members"]
             },
             "body": {
               "mode": "raw",
@@ -8302,15 +7258,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}",
-                    "members"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}", "members"]
                 },
                 "body": {
                   "mode": "raw",
@@ -8351,15 +7300,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}",
-                    "members"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}", "members"]
                 },
                 "body": {
                   "mode": "raw",
@@ -8399,15 +7341,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}",
-                    "members"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}", "members"]
                 },
                 "body": {
                   "mode": "raw",
@@ -8447,15 +7382,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}",
-                    "members"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}", "members"]
                 },
                 "body": {
                   "mode": "raw",
@@ -8495,15 +7423,8 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
-                  "path": [
-                    "api",
-                    "projects",
-                    "{{projectId}}",
-                    "members"
-                  ]
+                  "host": ["{{baseURL}}"],
+                  "path": ["api", "projects", "{{projectId}}", "members"]
                 },
                 "body": {
                   "mode": "raw",
@@ -8558,9 +7479,7 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
+              "host": ["{{baseURL}}"],
               "path": [
                 "api",
                 "projects",
@@ -8597,9 +7516,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8647,9 +7564,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8696,9 +7611,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8745,9 +7658,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8794,9 +7705,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8841,9 +7750,7 @@
             ],
             "url": {
               "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-              "host": [
-                "{{baseURL}}"
-              ],
+              "host": ["{{baseURL}}"],
               "path": [
                 "api",
                 "projects",
@@ -8866,9 +7773,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8902,9 +7807,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8938,9 +7841,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",
@@ -8974,9 +7875,7 @@
                 ],
                 "url": {
                   "raw": "{{baseURL}}/api/projects/{{projectId}}/members/{{memberUserId}}",
-                  "host": [
-                    "{{baseURL}}"
-                  ],
+                  "host": ["{{baseURL}}"],
                   "path": [
                     "api",
                     "projects",

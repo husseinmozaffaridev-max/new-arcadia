@@ -152,11 +152,17 @@ export const classProperties = pgTable("class_properties", {
   isID: boolean("is_id").default(false).notNull(),
   visibility: classVisibilityEnum("visibility").default("public").notNull(),
   multiplicityLower: integer("multiplicity_lower").default(1).notNull(),
-  multiplicityUpper: varchar("multiplicity_upper", { length: 32 }).default("1").notNull(),
+  multiplicityUpper: varchar("multiplicity_upper", { length: 32 })
+    .default("1")
+    .notNull(),
   isOrdered: boolean("is_ordered").default(false).notNull(),
   isUnique: boolean("is_unique").default(false).notNull(),
-  collectionKind: classCollectionKindEnum("collection_kind").default("NONE").notNull(),
-  aggregationKind: aggregationKindEnum("aggregation_kind").default("NONE").notNull(),
+  collectionKind: classCollectionKindEnum("collection_kind")
+    .default("NONE")
+    .notNull(),
+  aggregationKind: aggregationKindEnum("aggregation_kind")
+    .default("NONE")
+    .notNull(),
   defaultValue: text("default_value").default("").notNull(),
   ordering: integer("ordering").default(0).notNull(),
   status: classStatusEnum("status").default("DRAFT").notNull(),
@@ -181,9 +187,15 @@ export const classOperations = pgTable("class_operations", {
   description: text("description").default("").notNull(),
   /** Typed return reference */
   returnTypeClassElementId: uuid("return_type_class_element_id"),
-  returnTypeLiteral: varchar("return_type_literal", { length: 255 }).default("").notNull(),
-  returnMultiplicityLower: integer("return_multiplicity_lower").default(1).notNull(),
-  returnMultiplicityUpper: varchar("return_multiplicity_upper", { length: 32 }).default("1").notNull(),
+  returnTypeLiteral: varchar("return_type_literal", { length: 255 })
+    .default("")
+    .notNull(),
+  returnMultiplicityLower: integer("return_multiplicity_lower")
+    .default(1)
+    .notNull(),
+  returnMultiplicityUpper: varchar("return_multiplicity_upper", { length: 32 })
+    .default("1")
+    .notNull(),
   isStatic: boolean("is_static").default(false).notNull(),
   isAbstract: boolean("is_abstract").default(false).notNull(),
   isQuery: boolean("is_query").default(false).notNull(),
@@ -211,7 +223,9 @@ export const classOperationParameters = pgTable("class_operation_parameters", {
   typeClassElementId: uuid("type_class_element_id"),
   typeLiteral: varchar("type_literal", { length: 255 }).default("").notNull(),
   multiplicityLower: integer("multiplicity_lower").default(1).notNull(),
-  multiplicityUpper: varchar("multiplicity_upper", { length: 32 }).default("1").notNull(),
+  multiplicityUpper: varchar("multiplicity_upper", { length: 32 })
+    .default("1")
+    .notNull(),
   defaultValue: text("default_value").default("").notNull(),
   direction: classParameterDirectionEnum("direction").default("IN").notNull(),
   isOrdered: boolean("is_ordered").default(false).notNull(),
@@ -267,15 +281,25 @@ export const classRelationships = pgTable("class_relationships", {
   description: text("description").default("").notNull(),
   relationshipType: classRelationshipTypeEnum("relationship_type").notNull(),
   /** Aggregation kind (NONE, SHARED, COMPOSITE) - Capella standard */
-  aggregationKind: aggregationKindEnum("aggregation_kind").default("NONE").notNull(),
+  aggregationKind: aggregationKindEnum("aggregation_kind")
+    .default("NONE")
+    .notNull(),
   /** Generalization constraints (for GENERALIZATION relationships) */
   isDisjoint: boolean("is_disjoint").default(false).notNull(),
   isComplete: boolean("is_complete").default(false).notNull(),
   isDerived: boolean("is_derived").default(false).notNull(),
-  sourceMultiplicityLower: integer("source_multiplicity_lower").default(1).notNull(),
-  sourceMultiplicityUpper: varchar("source_multiplicity_upper", { length: 32 }).default("*").notNull(),
-  targetMultiplicityLower: integer("target_multiplicity_lower").default(1).notNull(),
-  targetMultiplicityUpper: varchar("target_multiplicity_upper", { length: 32 }).default("*").notNull(),
+  sourceMultiplicityLower: integer("source_multiplicity_lower")
+    .default(1)
+    .notNull(),
+  sourceMultiplicityUpper: varchar("source_multiplicity_upper", { length: 32 })
+    .default("*")
+    .notNull(),
+  targetMultiplicityLower: integer("target_multiplicity_lower")
+    .default(1)
+    .notNull(),
+  targetMultiplicityUpper: varchar("target_multiplicity_upper", { length: 32 })
+    .default("*")
+    .notNull(),
   sourceRole: varchar("source_role", { length: 255 }).default("").notNull(),
   targetRole: varchar("target_role", { length: 255 }).default("").notNull(),
   isNavigableSource: boolean("is_navigable_source").default(true).notNull(),

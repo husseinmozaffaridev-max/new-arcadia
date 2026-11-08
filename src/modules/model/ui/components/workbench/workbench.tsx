@@ -13,8 +13,8 @@ import {
   Workflow,
 } from "lucide-react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
 import { isProjectLayer } from "@/modules/project/domain/constants/permissions";

@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { notFound, useParams } from "next/navigation";
+import { Suspense } from "react";
 import { useGetMe } from "@/modules/auth/ui/clients/get-me";
 import { getProjectById } from "@/modules/project/presentation/server-actions/get-by-id";
 import { getProjectMembers } from "@/modules/project/presentation/server-actions/get-members";
@@ -35,7 +36,7 @@ function MembersSkeleton() {
   );
 }
 
-export default function MembersPage() {
+function MembersContent() {
   const params = useParams<{ id: string }>();
   const id = params?.id;
   const projectId = Number(id);
@@ -85,5 +86,13 @@ export default function MembersPage() {
       initialMembers={data.members}
       initialRoles={data.roles}
     />
+  );
+}
+
+export default function MembersPage() {
+  return (
+    <Suspense fallback={<MembersSkeleton />}>
+      <MembersContent />
+    </Suspense>
   );
 }

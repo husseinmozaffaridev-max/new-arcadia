@@ -16,7 +16,9 @@ export type UpdateMeResponse = {
   updatedAt: string;
 };
 
-export class UpdateMeUseCase implements IUseCase<UpdateMePayload, UpdateMeResponse> {
+export class UpdateMeUseCase
+  implements IUseCase<UpdateMePayload, UpdateMeResponse>
+{
   constructor(private readonly userRepository: IUserRepository) {}
 
   async execute(payload: UpdateMePayload): Promise<UpdateMeResponse> {

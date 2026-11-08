@@ -141,7 +141,9 @@ export function DiagramToolbarActions({
                       size="icon"
                       variant="ghost"
                       className="size-7"
-                      loading={isRemoveElementPending || isRemoveRelationshipPending}
+                      loading={
+                        isRemoveElementPending || isRemoveRelationshipPending
+                      }
                     >
                       <Trash2 className="size-3.5 text-destructive" />
                     </Button>
@@ -174,7 +176,9 @@ export function DiagramToolbarActions({
                   className="size-7"
                   onClick={handleDelete}
                   disabled={!hasSelection}
-                  loading={isRemoveElementPending || isRemoveRelationshipPending}
+                  loading={
+                    isRemoveElementPending || isRemoveRelationshipPending
+                  }
                 >
                   <Trash2 className="size-3.5 text-destructive" />
                 </Button>

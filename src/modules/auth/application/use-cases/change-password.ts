@@ -23,7 +23,9 @@ export class ChangePasswordUseCase
 {
   constructor(private readonly userRepository: IUserRepository) {}
 
-  async execute(payload: ChangePasswordPayload): Promise<ChangePasswordResponse> {
+  async execute(
+    payload: ChangePasswordPayload,
+  ): Promise<ChangePasswordResponse> {
     try {
       const response = await this.userRepository.changePassword({
         token: payload.token,

@@ -12,7 +12,9 @@ export const RELATIONSHIP_TYPES: RelationshipTypeInfo[] =
       value: definition.value as RelationshipTypeValue,
       label: definition.label,
       labelFa: definition.labelFa,
-      allowedFor: connectionLayersFor(definition.value as RelationshipTypeValue),
+      allowedFor: connectionLayersFor(
+        definition.value as RelationshipTypeValue,
+      ),
     }))
     .filter((rel) => rel.allowedFor.length > 0);
 

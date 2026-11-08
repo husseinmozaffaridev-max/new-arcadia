@@ -9,7 +9,7 @@ import {
   Trash2,
   User,
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { canPerform } from "@/modules/project/domain/services/resource-action";
 import { Badge } from "@/modules/shared/ui/components/ui/badge";

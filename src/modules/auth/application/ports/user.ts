@@ -45,6 +45,8 @@ export type LogoutPayload = {
 export interface IUserRepository {
   getMe(payload: GetMePayload): Promise<GetMeResponse>;
   updateMe(payload: UpdateMePayload): Promise<UpdateMeResponse>;
-  changePassword(payload: ChangePasswordPayload): Promise<ChangePasswordResponse>;
+  changePassword(
+    payload: ChangePasswordPayload,
+  ): Promise<ChangePasswordResponse>;
   logout(payload: LogoutPayload): Promise<void>;
 }

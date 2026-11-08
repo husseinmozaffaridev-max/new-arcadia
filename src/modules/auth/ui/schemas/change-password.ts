@@ -2,9 +2,7 @@ import z from "zod";
 
 export const changePasswordSchema = z
   .object({
-    current_password: z
-      .string()
-      .min(1, "Current password is required"),
+    current_password: z.string().min(1, "Current password is required"),
     password: z
       .string()
       .min(1, "New password is required")

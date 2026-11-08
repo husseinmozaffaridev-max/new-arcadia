@@ -76,13 +76,17 @@ export class CreateElementUseCase
           throw new Error("Parent element must be in the same layer");
         }
         if (parent.type.isActor()) {
-          throw new Error("Actors cannot be decomposed or contain child elements");
+          throw new Error(
+            "Actors cannot be decomposed or contain child elements",
+          );
         }
       }
 
       const elementType = ElementType.from(payload.type);
       if (payload.parentId && elementType.isActor()) {
-        throw new Error("Actors cannot be decomposed or nested inside other elements");
+        throw new Error(
+          "Actors cannot be decomposed or nested inside other elements",
+        );
       }
 
       const siblings = await this.elementRepository.findElementsByModelId({

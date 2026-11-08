@@ -7,7 +7,7 @@ import { NextIntlProvider } from "@/modules/shared/ui/providers/next-intl";
 import { ThemeProvider } from "@/modules/shared/ui/providers/next-themes";
 import { QueryProvider } from "@/modules/shared/ui/providers/react-query";
 import type { Metadata } from "next";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 
 import "@/modules/shared/ui/assets/styles/globals.css";
 
@@ -35,17 +35,21 @@ export async function generateMetadata({
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const dir = locale === "fa" ? "rtl" : "ltr";
+
   return (
     <html
-      lang={"en"}
-      dir={"ltr"}
+      lang={locale}
+      dir={dir}
       suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={`${fonts.inter.variable} h-full antialiased`}
     >
       <body className="min-h-full">
         <NextIntlProvider params={params}>
-          <DirectionProvider dir={"ltr"}>
+          <DirectionProvider dir={dir}>
             <ThemeProvider>
               <ConfirmProvider>
                 <QueryProvider>{children}</QueryProvider>

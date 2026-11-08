@@ -54,10 +54,9 @@ export class CreateMessageUseCase
 
       // Enforce single creation/destruction per lifeline (Capella constraint)
       if (payload.kind === "CREATE" || payload.kind === "DELETE") {
-        const existingMessages =
-          await this.messageRepository.findByScenarioId({
-            scenarioId: payload.scenarioId,
-          });
+        const existingMessages = await this.messageRepository.findByScenarioId({
+          scenarioId: payload.scenarioId,
+        });
 
         const conflicting = existingMessages.find(
           (m) =>
@@ -65,8 +64,7 @@ export class CreateMessageUseCase
             m.targetLifelineId === payload.targetLifelineId,
         );
         if (conflicting) {
-          const verb =
-            payload.kind === "CREATE" ? "created" : "destroyed";
+          const verb = payload.kind === "CREATE" ? "created" : "destroyed";
           throw new Error(
             `A ${payload.kind} message targeting this lifeline already exists. Each lifeline can only be ${verb} once.`,
           );

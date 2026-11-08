@@ -2,8 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useCallback } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";

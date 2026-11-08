@@ -18,7 +18,7 @@ export const exchangeItems = pgTable("exchange_items", {
   /** Reference to a ClassElement of type INTERFACE that defines this exchange item's contract */
   interfaceClassElementId: uuid("interface_class_element_id").references(
     () => classElements.id,
-    { onDelete: "set null" }
+    { onDelete: "set null" },
   ),
   name: varchar("name", { length: 255 }).notNull(),
   description: text("description").default("").notNull(),
@@ -36,7 +36,7 @@ export const exchangeItemElements = pgTable("exchange_item_elements", {
   /** Optional: typed reference to a ClassElement (the data type of this element) */
   typeClassElementId: uuid("type_class_element_id").references(
     () => classElements.id,
-    { onDelete: "set null" }
+    { onDelete: "set null" },
   ),
   name: varchar("name", { length: 255 }).notNull(),
   /** Free-text fallback when no typeClassElementId */

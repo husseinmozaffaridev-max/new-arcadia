@@ -63,11 +63,8 @@ export function useCanvasBehaviour({ onConfirm }: UseCanvasBehaviourProps) {
     clearInsertRequest,
   } = useCanvasStore();
 
-  const {
-    removeElement,
-    removeElementFromDiagram,
-    deleteElementFromModel,
-  } = useRemoveElementSync();
+  const { removeElement, removeElementFromDiagram, deleteElementFromModel } =
+    useRemoveElementSync();
   const { removeRelationship } = useRemoveRelationshipSync();
   const queryClient = useQueryClient();
 

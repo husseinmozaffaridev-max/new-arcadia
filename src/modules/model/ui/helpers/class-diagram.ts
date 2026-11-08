@@ -67,9 +67,7 @@ export function getAbsolutePosition(
  * Convert React Flow nodes (relative positions) to absolute layout positions.
  * Returns ElementLayout[] suitable for persisting.
  */
-export function nodesToAbsoluteLayouts(
-  nodes: Node[],
-): Array<{
+export function nodesToAbsoluteLayouts(nodes: Node[]): Array<{
   position: { x: number; y: number };
   elementId: string;
   size: { width: number; height: number };

@@ -11,7 +11,11 @@ import { models } from "./model";
 
 export const layerEnum = pgEnum("layer", ["SA", "LA", "PA"]);
 export const modeTypeEnum = pgEnum("mode_type", ["INITIAL", "FINAL", "NORMAL"]);
-export const stateTypeEnum = pgEnum("state_type", ["INITIAL", "FINAL", "NORMAL"]);
+export const stateTypeEnum = pgEnum("state_type", [
+  "INITIAL",
+  "FINAL",
+  "NORMAL",
+]);
 
 export const modes = pgTable("modes", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
