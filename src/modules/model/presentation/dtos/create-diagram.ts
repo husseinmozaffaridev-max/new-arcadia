@@ -1,52 +1,18 @@
 import { validateRequiredName } from "../../domain/policies/naming";
-
-type DiagramType =
-  | "OEB"
-  | "OCB"
-  | "OCD"
-  | "OAB"
-  | "OAIB"
-  | "OABD"
-  | "OPD"
-  | "OAS"
-  | "OIS"
-  | "OAAB"
-  | "MCB"
-  | "CSA"
-  | "SCD"
-  | "SFBD"
-  | "SFB"
-  | "SDFB"
-  | "SAB"
-  | "SAS"
-  | "SS"
-  | "LCB"
-  | "LFBD"
-  | "LFB"
-  | "LDFB"
-  | "LAB"
-  | "LAS"
-  | "LS"
-  | "PCB"
-  | "PFBD"
-  | "PFB"
-  | "PDFB"
-  | "PAB"
-  | "PAS"
-  | "PS"
-  | "EPBB"
-  | "EAB"
-  | "ECB";
+import {
+  DiagramType,
+  type DiagramTypeValue,
+} from "../../domain/value-objects/diagram-type";
 
 export type CreateDiagramDTOProps = {
-  type: DiagramType;
+  type: DiagramTypeValue;
   name: string;
   modelId: string;
   description?: string;
 };
 
 export class CreateDiagramDTO {
-  public readonly type: DiagramType;
+  public readonly type: DiagramTypeValue;
   public readonly name: string;
   public readonly modelId: string;
   public readonly description?: string;
@@ -61,7 +27,7 @@ export class CreateDiagramDTO {
   static create(props: {
     name: string;
     modelId: string;
-    type: DiagramType;
+    type: DiagramTypeValue;
     description?: string;
   }): CreateDiagramDTO {
     return new CreateDiagramDTO({
@@ -72,42 +38,12 @@ export class CreateDiagramDTO {
     });
   }
 
-  private static validateType(type: string): DiagramType {
-    const validTypes: DiagramType[] = [
-      "OEB",
-      "OCD",
-      "OAB",
-      "OAIB",
-      "OABD",
-      "OPD",
-      "OIS",
-      "OAAB",
-      "CSA",
-      "SCD",
-      "SFB",
-      "SDFB",
-      "SAB",
-      "SS",
-      "LCB",
-      "LFB",
-      "LDFB",
-      "LAB",
-      "LS",
-      "PCB",
-      "PFB",
-      "PDFB",
-      "PAB",
-      "PS",
-      "EPBB",
-      "EAB",
-      "ECB",
-    ];
-
-    if (!validTypes.includes(type as DiagramType)) {
-      throw new Error(`Diagram type must be one of: ${validTypes.join(", ")}`);
+  private static validateType(type: string): DiagramTypeValue {
+    try {
+      return DiagramType.from(type).value;
+    } catch {
+      throw new Error(`Diagram type is invalid: ${type}`);
     }
-
-    return type as DiagramType;
   }
 
   private static validateName(name: string): string {

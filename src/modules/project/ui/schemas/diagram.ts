@@ -5,6 +5,7 @@ export const diagramFormSchema = z.object({
   type: z.enum<DiagramTypeValue[]>(
     [
       "OEB",
+      "OEBD",
       "OCB",
       "OCD",
       "OAB",
@@ -24,6 +25,7 @@ export const diagramFormSchema = z.object({
       "SAS",
       "SS",
       "LCB",
+      "LCBD",
       "LFBD",
       "LFB",
       "LDFB",
@@ -31,12 +33,14 @@ export const diagramFormSchema = z.object({
       "LAS",
       "LS",
       "PCB",
+      "PCBD",
       "PFBD",
       "PFB",
       "PDFB",
       "PAB",
       "PAS",
       "PS",
+      "CRB",
       "CDB",
     ],
     {

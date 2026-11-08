@@ -12,8 +12,10 @@ describe("canPlaceElementOnDiagram", () => {
     expect(canPlaceElementOnDiagram("SystemFunction", "SDFB")).toBe(true);
     expect(canPlaceElementOnDiagram("FunctionPort", "SDFB")).toBe(true);
     expect(canPlaceElementOnDiagram("SystemComponent", "SDFB")).toBe(false);
-    expect(canPlaceElementOnDiagram("SystemComponent", "SAB")).toBe(true);
-    expect(canPlaceElementOnDiagram("SystemFunction", "SCD")).toBe(true);
+    expect(canPlaceElementOnDiagram("SystemComponent", "SAB")).toBe(false);
+    expect(canPlaceElementOnDiagram("SystemFunction", "SAB")).toBe(true);
+    expect(canPlaceElementOnDiagram("SystemFunction", "SCD")).toBe(false);
+    expect(canPlaceElementOnDiagram("SystemCapability", "SCD")).toBe(true);
     expect(canPlaceElementOnDiagram("OperationalActivity", "SAB")).toBe(false);
     expect(canPlaceElementOnDiagram("OperationalCapability", "OAB")).toBe(
       false,
@@ -22,7 +24,8 @@ describe("canPlaceElementOnDiagram", () => {
     expect(canPlaceElementOnDiagram("OperationalActor", "OAB")).toBe(true);
     expect(canPlaceElementOnDiagram("OperationalActivity", "OAB")).toBe(true);
     expect(canPlaceElementOnDiagram("OperationalCapability", "OCB")).toBe(true);
-    expect(canPlaceElementOnDiagram("OperationalActivity", "OCB")).toBe(true);
+    expect(canPlaceElementOnDiagram("Mission", "OCB")).toBe(true);
+    expect(canPlaceElementOnDiagram("OperationalActivity", "OCB")).toBe(false);
   });
 });
 
@@ -62,15 +65,15 @@ describe("getDiagramPlacements", () => {
   it("flags every diagram with its permission", () => {
     const diagrams = [
       { id: "d1", type: "SDFB" },
-      { id: "d2", type: "SAB" },
+      { id: "d2", type: "LAB" },
     ] as Parameters<typeof getDiagramPlacements>[0];
 
-    expect(getDiagramPlacements(diagrams, "SystemFunction")).toEqual([
-      { diagram: diagrams[0], allowed: true },
+    expect(getDiagramPlacements(diagrams, "LogicalFunction")).toEqual([
+      { diagram: diagrams[0], allowed: false },
       { diagram: diagrams[1], allowed: true },
     ]);
     expect(
-      getDiagramPlacements(diagrams, "SystemComponent").map((p) => p.allowed),
+      getDiagramPlacements(diagrams, "LogicalComponent").map((p) => p.allowed),
     ).toEqual([false, true]);
   });
 });
@@ -117,12 +120,21 @@ describe("canNestOnDiagram", () => {
     ).toBe(false);
   });
 
-  it("permits entity breakdown only on OEB and activity breakdown only on OABD", () => {
+  it("permits entity breakdown only on OEB/OEBD and activity breakdown only on OABD", () => {
     expect(
       canNestOnDiagram("OperationalEntity", "OperationalEntity", "OEB"),
     ).toBe(true);
     expect(
+      canNestOnDiagram("OperationalEntity", "OperationalEntity", "OEBD"),
+    ).toBe(true);
+    expect(
       canNestOnDiagram("OperationalActivity", "OperationalActivity", "OABD"),
+    ).toBe(true);
+    expect(
+      canNestOnDiagram("LogicalComponent", "LogicalComponent", "LCBD"),
+    ).toBe(true);
+    expect(
+      canNestOnDiagram("PhysicalComponent", "PhysicalComponent", "PCBD"),
     ).toBe(true);
   });
 

@@ -23,6 +23,7 @@ describe("DiagramType", () => {
   it("lists the diagrams offered by a layer", () => {
     expect(DiagramType.allForLayer(Layer.OA).map((d) => d.value)).toEqual([
       "OEB",
+      "OEBD",
       "OCB",
       "OAB",
       "OAIB",
@@ -38,10 +39,12 @@ describe("DiagramType", () => {
       "LAB",
       "LDFB",
       "LCB",
+      "LCBD",
       "LFBD",
       "LFB",
       "LAS",
       "LS",
+      "CRB",
       "CDB",
     ]);
     expect(DiagramType.allForLayer(Layer.EPBS).map((d) => d.value)).toEqual([

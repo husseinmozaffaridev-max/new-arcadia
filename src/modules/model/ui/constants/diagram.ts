@@ -4,6 +4,12 @@ import type { LayerValue } from "../types/layer";
 export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   // ─── Operational Analysis (OA) ───────────────────────────────────────────
   {
+    value: "OEBD",
+    label: "Operational Entity Breakdown Diagram",
+    labelFa: "شکست موجودیت‌های عملیاتی (کاپلا)",
+    layer: "OA",
+  },
+  {
     value: "OEB",
     label: "Operational Entity Breakdown",
     labelFa: "تجزیه موجودیت عملیاتی",
@@ -120,9 +126,21 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   },
   // ─── Logical Architecture (LA) ───────────────────────────────────────────
   {
+    value: "LCBD",
+    label: "Logical Component Breakdown Diagram",
+    labelFa: "شکست مؤلفه‌های منطقی (کاپلا)",
+    layer: "LA",
+  },
+  {
     value: "LCB",
     label: "Logical Component Breakdown",
     labelFa: "تجزیه مؤلفه منطقی",
+    layer: "LA",
+  },
+  {
+    value: "CRB",
+    label: "Capability Realization Blank",
+    labelFa: "بوم تحقق قابلیت‌ها",
     layer: "LA",
   },
   {
@@ -163,9 +181,21 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   },
   // ─── Physical Architecture (PA) ──────────────────────────────────────────
   {
+    value: "PCBD",
+    label: "Physical Component Breakdown Diagram",
+    labelFa: "شکست مؤلفه‌های فیزیکی (کاپلا)",
+    layer: "PA",
+  },
+  {
     value: "PCB",
     label: "Physical Component Breakdown",
     labelFa: "تجزیه مؤلفه فیزیکی",
+    layer: "PA",
+  },
+  {
+    value: "CRB",
+    label: "Capability Realization Blank",
+    labelFa: "بوم تحقق قابلیت‌ها",
     layer: "PA",
   },
   {
@@ -214,10 +244,10 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
 ];
 
 export const DIAGRAMS_BY_LAYER: Record<LayerValue, DiagramTypeValue[]> = {
-  OA: ["OEB", "OCB", "OAB", "OAIB", "OABD", "OAS", "OCD", "OIS", "CDB"],
+  OA: ["OEBD", "OEB", "OCB", "OAB", "OAIB", "OABD", "OAS", "OCD", "OIS", "CDB"],
   SA: ["MCB", "CSA", "SAB", "SDFB", "SFBD", "SAS", "SCD", "SFB", "SS", "CDB"],
-  LA: ["LCB", "LAB", "LDFB", "LFBD", "LAS", "LFB", "LS", "CDB"],
-  PA: ["PCB", "PAB", "PDFB", "PFBD", "PAS", "PFB", "PS", "CDB"],
+  LA: ["LCBD", "LCB", "CRB", "LAB", "LDFB", "LFBD", "LAS", "LFB", "LS", "CDB"],
+  PA: ["PCBD", "PCB", "CRB", "PAB", "PDFB", "PFBD", "PAS", "PFB", "PS", "CDB"],
   // Legacy layer — no diagram types offered in the UI.
   EPBS: [],
 };

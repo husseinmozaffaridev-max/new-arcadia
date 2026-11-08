@@ -50,6 +50,10 @@ export type DiagramPalette = {
  */
 const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   // ─── OA ───
+  OEBD: {
+    elementTypes: ["OperationalEntity", "OperationalActor"],
+    relationshipTypes: ["Generalization"],
+  },
   OEB: {
     elementTypes: ["OperationalEntity", "OperationalActor"],
     relationshipTypes: ["Generalization"],
@@ -77,18 +81,18 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   OCB: {
     elementTypes: [
       "OperationalCapability",
+      "Mission",
       "OperationalEntity",
       "OperationalActor",
-      "OperationalActivity",
     ],
     relationshipTypes: ["InvolvementLink"],
   },
   OCD: {
     elementTypes: [
       "OperationalCapability",
+      "Mission",
       "OperationalEntity",
       "OperationalActor",
-      "OperationalActivity",
     ],
     relationshipTypes: ["InvolvementLink"],
   },
@@ -121,7 +125,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     elementTypes: [
       "SystemCapability",
       "SystemActor",
-      "SystemFunction",
       "System",
     ],
     relationshipTypes: ["InvolvementLink"],
@@ -134,12 +137,11 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     elementTypes: [
       "System",
       "SystemActor",
-      "SystemComponent",
       "SystemFunction",
+      "FunctionPort",
     ],
     relationshipTypes: [
       "SystemExchange",
-      "ComponentExchange",
       "FunctionalExchange",
       "Allocation",
     ],
@@ -156,7 +158,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     elementTypes: [
       "SystemCapability",
       "SystemActor",
-      "SystemFunction",
       "System",
     ],
     relationshipTypes: ["InvolvementLink"],
@@ -175,7 +176,12 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   // ─── LA ───
   LAB: {
-    elementTypes: ["LogicalComponent", "LogicalActor", "LogicalFunction"],
+    elementTypes: [
+      "LogicalComponent",
+      "LogicalActor",
+      "LogicalFunction",
+      "FunctionPort",
+    ],
     relationshipTypes: [
       "ComponentExchange",
       "LogicalExchange",
@@ -186,8 +192,12 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     ],
   },
   LDFB: {
-    elementTypes: ["LogicalFunction"],
+    elementTypes: ["LogicalFunction", "FunctionPort"],
     relationshipTypes: ["LogicalExchange"],
+  },
+  LCBD: {
+    elementTypes: ["LogicalComponent", "LogicalActor"],
+    relationshipTypes: ["Generalization"],
   },
   LCB: {
     elementTypes: ["LogicalComponent"],
@@ -216,6 +226,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "PhysicalNode",
       "PhysicalActor",
       "PhysicalFunction",
+      "FunctionPort",
     ],
     relationshipTypes: [
       "ComponentExchange",
@@ -226,12 +237,27 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     ],
   },
   PDFB: {
-    elementTypes: ["PhysicalFunction"],
+    elementTypes: ["PhysicalFunction", "FunctionPort"],
     relationshipTypes: ["PhysicalExchange"],
+  },
+  PCBD: {
+    elementTypes: ["PhysicalComponent", "PhysicalNode", "PhysicalActor"],
+    relationshipTypes: ["DeploymentLink", "Generalization"],
   },
   PCB: {
     elementTypes: ["PhysicalComponent", "PhysicalNode"],
     relationshipTypes: ["DeploymentLink", "Generalization"],
+  },
+  CRB: {
+    elementTypes: [
+      "LogicalCapability",
+      "LogicalComponent",
+      "LogicalActor",
+      "PhysicalComponent",
+      "PhysicalNode",
+      "PhysicalActor",
+    ],
+    relationshipTypes: ["InvolvementLink"],
   },
   PFBD: {
     elementTypes: ["PhysicalFunction"],
@@ -412,7 +438,7 @@ export function canNestOnDiagram(
     }
     return false;
   }
-  if (diagramType === "LCB") {
+  if (diagramType === "LCB" || diagramType === "LCBD") {
     return (
       childType === "LogicalComponent" && parentType === "LogicalComponent"
     );
@@ -435,7 +461,7 @@ export function canNestOnDiagram(
     }
     return false;
   }
-  if (diagramType === "PCB") {
+  if (diagramType === "PCB" || diagramType === "PCBD") {
     return (
       (childType === "PhysicalComponent" || childType === "PhysicalNode") &&
       (parentType === "PhysicalComponent" || parentType === "PhysicalNode")

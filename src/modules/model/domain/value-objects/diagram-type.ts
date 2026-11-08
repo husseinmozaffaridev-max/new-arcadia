@@ -3,6 +3,7 @@ import { Layer } from "./layer";
 
 export type DiagramTypeValue =
   | "OEB"
+  | "OEBD"
   | "OCB"
   | "OCD"
   | "OAB"
@@ -22,6 +23,7 @@ export type DiagramTypeValue =
   | "SAS"
   | "SS"
   | "LCB"
+  | "LCBD"
   | "LFBD"
   | "LFB"
   | "LDFB"
@@ -29,12 +31,14 @@ export type DiagramTypeValue =
   | "LAS"
   | "LS"
   | "PCB"
+  | "PCBD"
   | "PFBD"
   | "PFB"
   | "PDFB"
   | "PAB"
   | "PAS"
   | "PS"
+  | "CRB"
   | "EAB"
   | "ECB"
   | "EPBB"
@@ -55,6 +59,12 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     labelFa: "تجزیه موجودیت عملیاتی",
     layer: Layer.OA,
     description: "سلسله‌مراتب موجودیت‌های عملیاتی",
+  },
+  OEBD: {
+    label: "Operational Entity Breakdown Diagram",
+    labelFa: "نمودار شکست موجودیت‌های عملیاتی",
+    layer: Layer.OA,
+    description: "سلسله‌مراتب و شکست موجودیت‌های عملیاتی مطابق استاندارد Capella",
   },
   OCB: {
     label: "Operational Capabilities Blank",
@@ -182,6 +192,12 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     layer: Layer.LA,
     description: "سلسله‌مراتب مؤلفه‌های منطقی",
   },
+  LCBD: {
+    label: "Logical Component Breakdown Diagram",
+    labelFa: "نمودار شکست مؤلفه‌های منطقی",
+    layer: Layer.LA,
+    description: "سلسله‌مراتب و شکست مؤلفه‌های منطقی مطابق استاندارد Capella",
+  },
   LFBD: {
     label: "Logical Function Breakdown Diagram",
     labelFa: "تجزیه توابع منطقی",
@@ -224,6 +240,12 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     layer: Layer.PA,
     description: "سلسله‌مراتب مؤلفه‌های فیزیکی",
   },
+  PCBD: {
+    label: "Physical Component Breakdown Diagram",
+    labelFa: "نمودار شکست مؤلفه‌های فیزیکی",
+    layer: Layer.PA,
+    description: "سلسله‌مراتب و شکست مؤلفه‌ها و نودهای فیزیکی مطابق استاندارد Capella",
+  },
   PFBD: {
     label: "Physical Function Breakdown Diagram",
     labelFa: "تجزیه توابع فیزیکی",
@@ -247,6 +269,13 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     labelFa: "دیاگرام سناریوی کارکردی",
     layer: Layer.PA,
     description: "سناریوی رفتاری فیزیکی",
+  },
+  CRB: {
+    label: "Capability Realization Blank",
+    labelFa: "بوم تحقق قابلیت‌ها",
+    layer: Layer.LA,
+    layers: [Layer.LA, Layer.PA],
+    description: "بوم تحقق قابلیت‌های سیستم مطابق استاندارد Capella در سطوح منطقی و فیزیکی",
   },
   EPBB: {
     label: "EPBS Breakdown",
@@ -277,6 +306,7 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
 
 const BREAKDOWN_TYPES: ReadonlySet<DiagramTypeValue> = new Set([
   "OEB",
+  "OEBD",
   "OABD",
   "SFB",
   "SFBD",
@@ -285,7 +315,9 @@ const BREAKDOWN_TYPES: ReadonlySet<DiagramTypeValue> = new Set([
   "PFB",
   "PFBD",
   "LCB",
+  "LCBD",
   "PCB",
+  "PCBD",
   "ECB",
 ]);
 
