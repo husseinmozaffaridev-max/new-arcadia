@@ -1,4 +1,3 @@
-import { getTransitionedDiagramType } from "../../domain/diagram-transition";
 import { DIAGRAM_TYPES, DIAGRAMS_BY_LAYER } from "../constants/diagram";
 import type { DiagramTypeInfo, DiagramTypeValue } from "../types/diagram";
 import type { ElementTypeValue } from "../types/element";
@@ -30,17 +29,6 @@ export function getDiagramLayer(typeValue: string): LayerValue {
  * Resolves the effective layer for a diagram tab.
  * For transverse types (CDB), uses the model's layer; otherwise derives from type.
  */
-/**
- * Number of architecture diagrams that have a counterpart type in the next
- * layer, i.e. the ones a transition will recreate on the other side.
- */
-export function countTransitionableDiagrams(
-  diagrams: ReadonlyArray<{ type: string }>,
-): number {
-  return diagrams.filter((d) => getTransitionedDiagramType(d.type) !== null)
-    .length;
-}
-
 export function resolveDiagramLayer(
   typeValue: string,
   modelLayer?: LayerValue,

@@ -39,10 +39,7 @@ import {
   TooltipTrigger,
 } from "@/modules/shared/ui/components/ui/tooltip";
 import { cn } from "@/modules/shared/ui/libs/cn";
-import {
-  countTransitionableDiagrams,
-  resolveDiagramLayer,
-} from "../../helpers/diagram";
+import { resolveDiagramLayer } from "../../helpers/diagram";
 import { getLayerInfo } from "../../helpers/layer";
 import {
   type PanelVisibility,
@@ -360,10 +357,6 @@ export function Workbench({
               modelData.find((m) => m.model.id === transitionModel.id)
                 ?.elements ?? []
             }
-            sourceDiagramCount={countTransitionableDiagrams(
-              modelData.find((m) => m.model.id === transitionModel.id)
-                ?.archDiagrams ?? [],
-            )}
             onCompleted={() => {
               setTransitionModel(null);
               refreshTree();

@@ -182,6 +182,11 @@ type ModelDataItem = {
   classDiagrams: Diagram[];
 };
 
+import {
+  type CategoryFolder,
+  getCategoryFolders,
+} from "../../helpers/explorer";
+
 type ExplorerTreeProps = {
   modelData: ModelDataItem[];
   handlers: ExplorerHandlers;
@@ -192,62 +197,6 @@ type ExplorerTreeProps = {
 };
 
 // ─── Typed folders (Capella-style) ──────────────────────────────────────────
-
-type CategoryFolder = {
-  key: string;
-  label: string;
-  icon: LucideIcon;
-  match: (type: ElementTypeValue | string) => boolean;
-};
-
-function getCategoryFolders(layer?: LayerValue): CategoryFolder[] {
-  return [
-    {
-      key: "actors",
-      label: layer === "OA" ? "Entities & Actors" : "Actors & Entities",
-      icon: Users,
-      match: (t) => t.endsWith("Actor") || t.endsWith("Entity"),
-    },
-    {
-      key: "functions",
-      label: layer === "OA" ? "Activities" : "Functions",
-      icon: Activity,
-      match: (t) => t.endsWith("Function") || t.endsWith("Activity"),
-    },
-    {
-      key: "components",
-      label: "Components & Nodes",
-      icon: Boxes,
-      match: (t) =>
-        t.endsWith("Component") || t === "System" || t === "PhysicalNode",
-    },
-    {
-      key: "capabilities",
-      label: "Capabilities",
-      icon: Target,
-      match: (t) => t.endsWith("Capability"),
-    },
-    {
-      key: "class-elements",
-      label: "Class Diagram Elements",
-      icon: Box,
-      match: (t) =>
-        [
-          "CLASS",
-          "INTERFACE",
-          "ENUM",
-          "DATA_TYPE",
-          "PRIMITIVE",
-          "COLLECTION",
-          "UNION",
-          "PACKAGE",
-          "GROUP",
-        ].includes(t),
-    },
-    // catch-all — Mission, OperationalProcess, FunctionPort, …
-    { key: "other", label: "Other", icon: Folder, match: () => true },
-  ];
-}
 
 /** ریشه‌های درخت را به پوشه‌های نوع‌محور (Capella-style) دسته‌بندی می‌کند. */
 function categorizeRoots(

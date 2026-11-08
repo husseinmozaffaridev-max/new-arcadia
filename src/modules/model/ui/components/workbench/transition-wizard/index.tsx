@@ -33,7 +33,6 @@ type TransitionWizardProps = {
   projectId: string;
   sourceModel: Model;
   sourceElements: Element[];
-  sourceDiagramCount: number;
   onCompleted: () => void;
 };
 
@@ -43,7 +42,6 @@ export function TransitionWizard({
   projectId,
   sourceModel,
   sourceElements,
-  sourceDiagramCount,
   onCompleted,
 }: TransitionWizardProps) {
   const {
@@ -75,9 +73,16 @@ export function TransitionWizard({
 
   if (!targetLayer || !targetLayerInfo) return null;
 
+  const actorComponentLabel =
+    sourceLayer === "OA"
+      ? "Entities & Actors"
+      : sourceLayer === "SA"
+        ? "Actors"
+        : "Actors & Components";
+
   const STEPS: Array<{ label: string; icon: LucideIcon; count: number }> = [
     {
-      label: "Actors & Components",
+      label: actorComponentLabel,
       icon: Users,
       count: includedIn(components),
     },
@@ -158,9 +163,21 @@ export function TransitionWizard({
           {step === 0 && (
             <MappingStep
               icon={Users}
-              title="Map actors, entities & components"
+              title={
+                sourceLayer === "OA"
+                  ? "Map actors & entities"
+                  : sourceLayer === "SA"
+                    ? "Map actors"
+                    : "Map actors & components"
+              }
               subtitle="Each becomes a new element in the target layer, realized from the source."
-              emptyHint="No actors, entities, or components to transition here."
+              emptyHint={
+                sourceLayer === "OA"
+                  ? "No actors or entities to transition here."
+                  : sourceLayer === "SA"
+                    ? "No actors to transition here."
+                    : "No actors or components to transition here."
+              }
               elements={components}
               rows={rows}
               onToggle={(id, v) => updateRow(id, { include: v })}
@@ -185,13 +202,13 @@ export function TransitionWizard({
 
           {step === 2 && (
             <ReviewStep
+              sourceLayer={sourceLayer}
               targetLayer={targetLayer}
               targetModelName={targetModelName}
               onTargetModelName={setTargetModelName}
               includedCount={includedCount}
               components={components.filter((e) => rows[e.id]?.include)}
               functions={functions.filter((e) => rows[e.id]?.include)}
-              sourceDiagramCount={sourceDiagramCount}
               rows={rows}
             />
           )}

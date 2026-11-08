@@ -1,6 +1,6 @@
 "use client";
 
-import { Boxes, GitMerge, Layers, SquareDashedBottomCode } from "lucide-react";
+import { Boxes, GitMerge, Layers } from "lucide-react";
 import { Input } from "@/modules/shared/ui/components/ui/input";
 import { Label } from "@/modules/shared/ui/components/ui/label";
 import { ScrollArea } from "@/modules/shared/ui/components/ui/scroll-area";
@@ -10,24 +10,31 @@ import { PreviewGroup, StatCard } from "./preview-step";
 import type { RowState } from "./use-transition-wizard";
 
 export function ReviewStep({
+  sourceLayer,
   targetLayer,
   targetModelName,
   onTargetModelName,
   includedCount,
   components,
   functions,
-  sourceDiagramCount,
   rows,
 }: {
+  sourceLayer: LayerValue;
   targetLayer: LayerValue;
   targetModelName: string;
   onTargetModelName: (value: string) => void;
   includedCount: number;
   components: Element[];
   functions: Element[];
-  sourceDiagramCount: number;
   rows: Record<string, RowState>;
 }) {
+  const actorGroupTitle =
+    sourceLayer === "OA"
+      ? "Entities & Actors"
+      : sourceLayer === "SA"
+        ? "Actors"
+        : "Actors & Components";
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
@@ -42,21 +49,16 @@ export function ReviewStep({
         />
         <p className="text-[10px] text-muted-foreground">
           An existing {targetLayer} model will be reused if one already exists.
-          Compatible diagrams and relationships are carried over automatically.
+          Compatible relationships and realization trace links are created automatically.
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         <StatCard label="Elements" value={includedCount} icon={Boxes} />
         <StatCard
           label="Realization links"
           value={includedCount}
           icon={GitMerge}
-        />
-        <StatCard
-          label="Diagrams"
-          value={sourceDiagramCount}
-          icon={SquareDashedBottomCode}
         />
         <StatCard label="Target layer" value={targetLayer} icon={Layers} />
       </div>
@@ -69,7 +71,7 @@ export function ReviewStep({
         <ScrollArea className="h-56">
           <div className="flex flex-col gap-3 pr-2">
             <PreviewGroup
-              title="Actors & Components"
+              title={actorGroupTitle}
               elements={components}
               rows={rows}
             />
