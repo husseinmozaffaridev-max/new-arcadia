@@ -179,7 +179,13 @@ export function ArchitectureCanvasInner({
       diagram.type,
     );
     const nodeIds = new Set(newNodes.map((n) => n.id));
-    const newEdges = buildArchEdges(relationships, nodeIds, diagram.modelId);
+    const newEdges = buildArchEdges(
+      relationships,
+      nodeIds,
+      diagram.modelId,
+      diagram.type,
+      elements,
+    );
 
     initCanvas(diagram.id, diagram.modelId, newNodes, newEdges);
     return () => reset();
@@ -578,8 +584,7 @@ export function ArchitectureCanvasInner({
           },
           onError: ({ message }) => {
             toast.error(
-              message ||
-                (isFa ? "خطا در افزودن عنصر" : "Error adding element"),
+              message || (isFa ? "خطا در افزودن عنصر" : "Error adding element"),
             );
           },
         },

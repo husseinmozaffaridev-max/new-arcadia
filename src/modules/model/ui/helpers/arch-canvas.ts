@@ -1,5 +1,5 @@
 import type { Edge, Node, XYPosition } from "@xyflow/react";
-import { canNestOnDiagram } from "../helpers/diagram";
+import { canNestOnDiagram, getDiagramPalette } from "../helpers/diagram";
 import { getNodeTypeForElement } from "../helpers/element";
 import type {
   ElementNodeData,
@@ -41,8 +41,18 @@ export function buildArchNodes(
           ? canNestOnDiagram(el.type, parentElement.type, diagramType)
           : true;
 
+      // In function and activity breakdown diagrams (OABD, SFBD, LFBD, PFBD),
+      // decomposition is rendered as a hierarchical tree with branching links (matching Capella),
+      // rather than visual box-in-box nesting (which is reserved for structural containers like System/Component/Node/Entity).
+      const isTreeBreakdown =
+        diagramType === "OABD" ||
+        diagramType === "SFBD" ||
+        diagramType === "LFBD" ||
+        diagramType === "PFBD";
+
       const effectiveParentId =
         canNest &&
+        !isTreeBreakdown &&
         !isParentActor &&
         !isSelfActor &&
         el.parentId &&
@@ -110,11 +120,20 @@ export function buildArchEdges(
   }>,
   nodeIds: Set<string>,
   modelId: string,
+  diagramType?: string,
+  elements?: Array<{ id: string; parentId?: string | null }>,
 ): ArchCanvasEdge[] {
-  return relationships
+  const allowedRelTypes = diagramType
+    ? new Set(getDiagramPalette(diagramType).relationshipTypes)
+    : null;
+
+  const edges: ArchCanvasEdge[] = relationships
     .filter(
       (rel) =>
-        nodeIds.has(rel.sourceElementId) && nodeIds.has(rel.targetElementId),
+        nodeIds.has(rel.sourceElementId) &&
+        nodeIds.has(rel.targetElementId) &&
+        (!allowedRelTypes ||
+          allowedRelTypes.has(rel.type as RelationshipTypeValue)),
     )
     .map((rel) => ({
       id: rel.id,
@@ -129,6 +148,38 @@ export function buildArchEdges(
         description: rel.description ?? "",
       },
     }));
+
+  // On function and activity breakdown diagrams (OABD, SFBD, LFBD, PFBD),
+  // automatically create tree hierarchy links between parent and child elements
+  const isTreeBreakdown =
+    diagramType === "OABD" ||
+    diagramType === "SFBD" ||
+    diagramType === "LFBD" ||
+    diagramType === "PFBD";
+
+  if (isTreeBreakdown && elements) {
+    const elMap = new Map(elements.map((e) => [e.id, e]));
+    for (const nodeId of nodeIds) {
+      const el = elMap.get(nodeId);
+      if (el?.parentId && nodeIds.has(el.parentId)) {
+        edges.push({
+          id: `tree-${el.parentId}-${el.id}`,
+          type: "architecture-edge" as const,
+          source: el.parentId,
+          target: el.id,
+          data: {
+            name: "",
+            modelId,
+            relationshipId: `tree-${el.parentId}-${el.id}`,
+            relationshipType: "Generalization" as RelationshipTypeValue,
+            description: "Contained In",
+          },
+        });
+      }
+    }
+  }
+
+  return edges;
 }
 
 /**

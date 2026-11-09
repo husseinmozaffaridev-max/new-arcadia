@@ -15,6 +15,7 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:run": "docker compose up -d",
+    "db:seed": "tsx --env-file=.env src/modules/model/infrastructure/persistence/drizzle/run-seed.ts",
     "db:drop": "docker compose exec -T postgres psql -U user -d mydatabase -c \"DROP SCHEMA public CASCADE; CREATE SCHEMA public;\""
   },
   "dependencies": {
@@ -62,6 +63,7 @@
     "jsdom": "^25.0.1",
     "jwt-decode": "^4.0.0",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^2.1.9"
   }
