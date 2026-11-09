@@ -91,10 +91,10 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     description: "ساختار تجزیه فعالیت‌های عملیاتی",
   },
   OPD: {
-    label: "Operational Activity Interaction Blank",
-    labelFa: "بوم تعامل فعالیت عملیاتی",
+    label: "Operational Process Description",
+    labelFa: "شرح فرآیند عملیاتی",
     layer: Layer.OA,
-    description: "تعامل میان فعالیت‌های عملیاتی",
+    description: "توصیف فرآیندها و توالی فعالیت‌های عملیاتی",
   },
   OCD: {
     label: "Operational Capability Blank",

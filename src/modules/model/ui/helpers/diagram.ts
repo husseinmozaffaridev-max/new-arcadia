@@ -1,8 +1,6 @@
 import { DIAGRAM_TYPES, DIAGRAMS_BY_LAYER } from "../constants/diagram";
 import type { DiagramTypeInfo, DiagramTypeValue } from "../types/diagram";
-import type { ElementTypeValue } from "../types/element";
 import type { LayerValue } from "../types/layer";
-import type { RelationshipTypeValue } from "../types/relationship";
 import { getElementTypesForLayer } from "./element";
 
 export function getDiagramTypeInfo(value: string): DiagramTypeInfo | undefined {
@@ -132,6 +130,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   MCB: {
     elementTypes: [
       "SystemCapability",
+      "SystemMission",
       "SystemActor",
       "System",
     ],

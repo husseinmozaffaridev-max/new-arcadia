@@ -6,7 +6,7 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   {
     value: "OEBD",
     label: "Operational Entity Breakdown Diagram",
-    labelFa: "شکست موجودیت‌های عملیاتی (کاپلا)",
+    labelFa: "شکست موجودیت‌های عملیاتی",
     layer: "OA",
   },
   {
@@ -36,7 +36,7 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   {
     value: "OABD",
     label: "Operational Activity Breakdown",
-    labelFa: "تجزیه فعالیت‌های عملیاتی",
+    labelFa: "شکست فعالیت‌های عملیاتی",
     layer: "OA",
   },
   {
@@ -53,8 +53,8 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   },
   {
     value: "OPD",
-    label: "Operational Activity Interaction Blank",
-    labelFa: "بوم تعامل فعالیت عملیاتی",
+    label: "Operational Process Description",
+    labelFa: "شرح فرآیند عملیاتی",
     layer: "OA",
   },
   {
@@ -97,7 +97,7 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   {
     value: "SFBD",
     label: "System Function Breakdown Diagram",
-    labelFa: "تجزیه توابع سیستم",
+    labelFa: "شکست توابع سیستم",
     layer: "SA",
   },
   {
@@ -128,7 +128,7 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   {
     value: "LCBD",
     label: "Logical Component Breakdown Diagram",
-    labelFa: "شکست مؤلفه‌های منطقی (کاپلا)",
+    labelFa: "شکست مؤلفه‌های منطقی",
     layer: "LA",
   },
   {
@@ -158,7 +158,7 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   {
     value: "LFBD",
     label: "Logical Function Breakdown Diagram",
-    labelFa: "تجزیه توابع منطقی",
+    labelFa: "شکست توابع منطقی",
     layer: "LA",
   },
   {
@@ -183,7 +183,7 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   {
     value: "PCBD",
     label: "Physical Component Breakdown Diagram",
-    labelFa: "شکست مؤلفه‌های فیزیکی (کاپلا)",
+    labelFa: "شکست مؤلفه‌های فیزیکی",
     layer: "PA",
   },
   {
@@ -213,7 +213,7 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
   {
     value: "PFBD",
     label: "Physical Function Breakdown Diagram",
-    labelFa: "تجزیه توابع فیزیکی",
+    labelFa: "شکست توابع فیزیکی",
     layer: "PA",
   },
   {
@@ -244,10 +244,10 @@ export const DIAGRAM_TYPES: DiagramTypeInfo[] = [
 ];
 
 export const DIAGRAMS_BY_LAYER: Record<LayerValue, DiagramTypeValue[]> = {
-  OA: ["OEBD", "OEB", "OCB", "OAB", "OAIB", "OABD", "OAS", "OCD", "OIS", "CDB"],
-  SA: ["MCB", "CSA", "SAB", "SDFB", "SFBD", "SAS", "SCD", "SFB", "SS", "CDB"],
-  LA: ["LCBD", "LCB", "CRB", "LAB", "LDFB", "LFBD", "LAS", "LFB", "LS", "CDB"],
-  PA: ["PCBD", "PCB", "CRB", "PAB", "PDFB", "PFBD", "PAS", "PFB", "PS", "CDB"],
+  OA: ["OEBD", "OCB", "OABD", "OAIB", "OAB", "OPD", "OAS", "CDB"],
+  SA: ["CSA", "MCB", "SFBD", "SDFB", "SAB", "SAS", "CDB"],
+  LA: ["LCBD", "LFBD", "LDFB", "LAB", "CRB", "LAS", "CDB"],
+  PA: ["PCBD", "PFBD", "PDFB", "PAB", "CRB", "PAS", "CDB"],
   // Legacy layer — no diagram types offered in the UI.
   EPBS: [],
 };
