@@ -1,47 +1,58 @@
 import type { LayerValue } from "./layer";
 
 export type DiagramTypeValue =
+  // ── OA ──────────────────────────────────────────────
+  | "OEBD" // Operational Entity Breakdown (Capella: "Operational Entity Breakdown")
+  | "OCB"  // Operational Capabilities Blank
+  | "OABD" // Operational Activity Breakdown
+  | "OAIB" // Operational Activity Interaction Blank
+  | "OAB"  // Operational Architecture Blank
+  | "OPD"  // Operational Process Description
+  | "OAS"  // Entity Scenario (Capella label)
+  // ── SA ──────────────────────────────────────────────
+  | "CSA"  // Contextual System Actors
+  | "MCB"  // Missions Capabilities Blank
+  | "CCB"  // Contextual Capability
+  | "CMB"  // Contextual Mission
+  | "SFBD" // System Function Breakdown
+  | "SDFB" // System Data Flow Blank
+  | "SAB"  // System Architecture Blank
+  | "SFOA" // System Functions – Operational Activities (trace diagram)
+  // ── LA ──────────────────────────────────────────────
+  | "LCBD" // Logical Component Breakdown
+  | "LFBD" // Logical Function Breakdown
+  | "LDFB" // Logical Data Flow Blank
+  | "LAB"  // Logical Architecture Blank
+  // ── PA ──────────────────────────────────────────────
+  | "PCBD" // Physical Component Breakdown
+  | "PFBD" // Physical Function Breakdown
+  | "PDFB" // Physical Data Flow Blank
+  | "PAB"  // Physical Architecture Blank
+  | "PPD"  // Physical Path Description
+  // ── Cross-layer / legacy ─────────────────────────────
+  | "CRB"  // Capability Realization Blank (LA + PA)
+  | "EPBB" // EPBS Breakdown
+  | "EAB"  // EPBS Architecture Blank
+  | "ECB"  // EPBS Context/Interface Diagram
+  | "CDB"  // Class Diagram
+  // ── Legacy aliases kept for DB backward-compatibility ──
   | "OEB"
-  | "OEBD"
-  | "OCB"
   | "OCD"
-  | "OAB"
-  | "OAIB"
-  | "OABD"
-  | "OPD"
-  | "OAS"
   | "OIS"
   | "OAAB"
-  | "MCB"
-  | "CSA"
   | "SCD"
-  | "SFBD"
   | "SFB"
   | "SDFB"
-  | "SAB"
   | "SAS"
   | "SS"
   | "LCB"
-  | "LCBD"
-  | "LFBD"
   | "LFB"
-  | "LDFB"
-  | "LAB"
   | "LAS"
   | "LS"
   | "PCB"
-  | "PCBD"
-  | "PFBD"
   | "PFB"
-  | "PDFB"
-  | "PAB"
   | "PAS"
-  | "PS"
-  | "CRB"
-  | "EPBB"
-  | "EAB"
-  | "ECB"
-  | "CDB";
+  | "PS";
 
 export type DiagramTypeInfo = {
   value: DiagramTypeValue;

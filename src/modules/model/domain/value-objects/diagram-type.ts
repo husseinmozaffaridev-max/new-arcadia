@@ -2,43 +2,52 @@ import { ValueObject } from "@/modules/shared/domain/value-object";
 import { Layer } from "./layer";
 
 export type DiagramTypeValue =
-  | "OEB"
-  | "OEBD"
-  | "OCB"
-  | "OCD"
-  | "OAB"
-  | "OAIB"
-  | "OABD"
-  | "OPD"
-  | "OAS"
-  | "OIS"
-  | "OAAB"
-  | "MCB"
-  | "CSA"
-  | "SCD"
-  | "SFBD"
-  | "SFB"
-  | "SDFB"
-  | "SAB"
-  | "SAS"
-  | "SS"
-  | "LCB"
-  | "LCBD"
-  | "LFBD"
-  | "LFB"
-  | "LDFB"
-  | "LAB"
-  | "LAS"
-  | "LS"
-  | "PCB"
-  | "PCBD"
-  | "PFBD"
-  | "PFB"
-  | "PDFB"
-  | "PAB"
-  | "PAS"
-  | "PS"
-  | "CRB"
+  // ── OA ──────────────────────────────────────────────
+  | "OEBD" // Operational Entity Breakdown
+  | "OEB"  // legacy alias
+  | "OCB"  // Operational Capabilities Blank
+  | "OCD"  // legacy alias
+  | "OAB"  // Operational Architecture Blank
+  | "OAIB" // Operational Activity Interaction Blank
+  | "OABD" // Operational Activity Breakdown
+  | "OPD"  // Operational Process Description
+  | "OAS"  // Entity Scenario
+  | "OIS"  // legacy alias
+  | "OAAB" // legacy alias
+  // ── SA ──────────────────────────────────────────────
+  | "CSA"  // Contextual System Actors
+  | "MCB"  // Missions Capabilities Blank
+  | "CCB"  // Contextual Capability (Capella: "Contextual Capability")
+  | "CMB"  // Contextual Mission (Capella: "Contextual Mission")
+  | "SFBD" // System Function Breakdown
+  | "SFB"  // legacy alias
+  | "SCD"  // legacy alias
+  | "SDFB" // System Data Flow Blank
+  | "SAB"  // System Architecture Blank
+  | "SFOA" // System Functions – Operational Activities
+  | "SAS"  // legacy alias
+  | "SS"   // legacy alias
+  // ── LA ──────────────────────────────────────────────
+  | "LCBD" // Logical Component Breakdown
+  | "LCB"  // legacy alias
+  | "LFBD" // Logical Function Breakdown
+  | "LFB"  // legacy alias
+  | "LDFB" // Logical Data Flow Blank
+  | "LAB"  // Logical Architecture Blank
+  | "LAS"  // legacy alias
+  | "LS"   // legacy alias
+  // ── PA ──────────────────────────────────────────────
+  | "PCBD" // Physical Component Breakdown
+  | "PCB"  // legacy alias
+  | "PFBD" // Physical Function Breakdown
+  | "PFB"  // legacy alias
+  | "PDFB" // Physical Data Flow Blank
+  | "PAB"  // Physical Architecture Blank
+  | "PPD"  // Physical Path Description
+  | "PAS"  // legacy alias
+  | "PS"   // legacy alias
+  // ── Cross-layer ─────────────────────────────────────
+  | "CRB"  // Capability Realization Blank (LA + PA)
   | "EAB"
   | "ECB"
   | "EPBB"
@@ -103,10 +112,10 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     description: "قابلیت‌های عملیاتی و موجودیت‌های درگیر",
   },
   OAS: {
-    label: "Operational Activity Scenario",
-    labelFa: "سناریوی فعالیت عملیاتی",
+    label: "Entity Scenario",
+    labelFa: "سناریوی موجودیت‌های عملیاتی",
     layer: Layer.OA,
-    description: "سناریوی توالی عملیاتی",
+    description: "سناریوی زمانی (sequence) برای موجودیت‌ها و بازیگران عملیاتی",
   },
   OIS: {
     label: "Operational Activity Scenario",
@@ -121,13 +130,25 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     description: "نمای کلی معماری عملیاتی",
   },
   MCB: {
-    label: "Missions / Capabilities Blank",
+    label: "Missions Capabilities Blank",
     labelFa: "بوم مأموریت‌ها و قابلیت‌ها",
     layer: Layer.SA,
     description: "قابلیت‌های مأموریتی سیستم",
   },
+  CCB: {
+    label: "Contextual Capability",
+    labelFa: "قابلیت‌های زمینه‌ای",
+    layer: Layer.SA,
+    description: "نمودار قابلیت‌های سیستم از دیدگاه جعبه‌سیاه",
+  },
+  CMB: {
+    label: "Contextual Mission",
+    labelFa: "مأموریت زمینه‌ای",
+    layer: Layer.SA,
+    description: "نمودار مأموریت‌های سیستم از دیدگاه جعبه‌سیاه",
+  },
   CSA: {
-    label: "Context System Actors",
+    label: "Contextual System Actors",
     labelFa: "زمینه بازیگران سیستم",
     layer: Layer.SA,
     description: "سیستم تحت مطالعه و بازیگران پیرامون آن",
@@ -173,6 +194,12 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     labelFa: "سناریوی کارکردی",
     layer: Layer.SA,
     description: "سناریوی رفتاری سیستم",
+  },
+  SFOA: {
+    label: "System Functions - Operational Activities",
+    labelFa: "توابع سیستم – فعالیت‌های عملیاتی",
+    layer: Layer.SA,
+    description: "نمودار ردیابی تخصیص توابع سیستم به فعالیت‌های عملیاتی",
   },
   LAB: {
     label: "Logical Architecture Blank",
@@ -269,6 +296,12 @@ const META: Record<DiagramTypeValue, DiagramTypeMeta> = {
     labelFa: "دیاگرام سناریوی کارکردی",
     layer: Layer.PA,
     description: "سناریوی رفتاری فیزیکی",
+  },
+  PPD: {
+    label: "Physical Path Description",
+    labelFa: "شرح مسیر فیزیکی",
+    layer: Layer.PA,
+    description: "توصیف مسیرهای فیزیکی و ارتباطات سخت‌افزاری بین گره‌ها",
   },
   CRB: {
     label: "Capability Realization Blank",

@@ -144,6 +144,24 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     ],
     relationshipTypes: ["InvolvementLink"],
   },
+  CCB: {
+    // Contextual Capability: single capability black-box view
+    elementTypes: [
+      "SystemCapability",
+      "SystemActor",
+      "System",
+    ],
+    relationshipTypes: ["InvolvementLink"],
+  },
+  CMB: {
+    // Contextual Mission: single mission black-box view
+    elementTypes: [
+      "SystemMission",
+      "SystemActor",
+      "System",
+    ],
+    relationshipTypes: ["InvolvementLink"],
+  },
   CSA: {
     elementTypes: ["System", "SystemActor"],
     relationshipTypes: ["ComponentExchange"],
@@ -179,6 +197,11 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   SS: {
     elementTypes: ["SystemActor", "SystemFunction", "System"],
     relationshipTypes: ["FunctionalExchange"],
+  },
+  SFOA: {
+    // Trace diagram: shows SystemFunction → OperationalActivity allocations
+    elementTypes: ["SystemFunction", "OperationalActivity"],
+    relationshipTypes: ["Allocation", "Realization"],
   },
   // ─── LA ───
   LAB: {
@@ -284,6 +307,11 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "PhysicalNode",
     ],
     relationshipTypes: ["FunctionalExchange"],
+  },
+  PPD: {
+    // Physical Path Description: nodes and physical links between them
+    elementTypes: ["PhysicalNode", "PhysicalLink", "PhysicalActor"],
+    relationshipTypes: ["PhysicalLink", "ComponentExchange"],
   },
   // ─── EPBS (legacy rendering only — not offered in UI) ───
   EPBB: {

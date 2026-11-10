@@ -138,8 +138,9 @@ describe("getDiagramTypesForLayer", () => {
     const uniqueValues = Array.from(new Set(values));
 
     expect(values).toEqual(uniqueValues);
-    expect(values.filter((v) => v === "CRB")).toHaveLength(1);
-    expect(types.find((t) => t.value === "CRB")?.layer).toBe("LA");
+    // CRB is NOT in the canonical DIAGRAMS_BY_LAYER for LA (matches Capella's
+    // "Representations per category" panel — CRB is opened via other means).
+    expect(values.filter((v) => v === "CRB")).toHaveLength(0);
   });
 
   it("never returns duplicate diagram type values for PA", () => {
@@ -148,8 +149,8 @@ describe("getDiagramTypesForLayer", () => {
     const uniqueValues = Array.from(new Set(values));
 
     expect(values).toEqual(uniqueValues);
-    expect(values.filter((v) => v === "CRB")).toHaveLength(1);
-    expect(types.find((t) => t.value === "CRB")?.layer).toBe("PA");
+    // CRB is NOT in the canonical DIAGRAMS_BY_LAYER for PA (matches Capella).
+    expect(values.filter((v) => v === "CRB")).toHaveLength(0);
   });
 
   it("never returns duplicate diagram type values for OA and SA", () => {
@@ -162,10 +163,13 @@ describe("getDiagramTypesForLayer", () => {
     expect(saValues).toEqual(Array.from(new Set(saValues)));
   });
 
-  it("includes transverse CDB in all operational/architecture layers", () => {
+  it("does NOT include transverse CDB in layer pickers (matches Capella)", () => {
+    // CDB (Class Diagram) is a transverse view in Capella — it is NOT listed
+    // in the per-layer "Representations per category" panel.  It is accessible
+    // via a separate data-model explorer path.
     for (const layer of ["OA", "SA", "LA", "PA"] as const) {
       const types = getDiagramTypesForLayer(layer);
-      expect(types.some((t) => t.value === "CDB")).toBe(true);
+      expect(types.some((t) => t.value === "CDB")).toBe(false);
     }
   });
 });
