@@ -600,6 +600,27 @@ describe("ValidationPolicy", () => {
       );
     });
 
+    it("allows an operational actor contained by an operational entity", () => {
+      const issues = validate({
+        elements: [
+          element({
+            id: "crew",
+            name: "Crew",
+            type: "OperationalEntity",
+            layer: "OA",
+          }),
+          element({
+            id: "cabin-crew",
+            name: "Cabin Crew",
+            type: "OperationalActor",
+            layer: "OA",
+            parentId: "crew",
+          }),
+        ],
+      });
+      expect(rulesOf(issues)).not.toContain("actor-has-parent");
+    });
+
     it("flags an element whose parent is an actor (actors cannot be decomposed or contain child elements)", () => {
       const issues = validate({
         elements: [
@@ -627,7 +648,7 @@ describe("ValidationPolicy", () => {
       );
     });
 
-    it("flags a relationship between two actors (actors cannot connect to other actors)", () => {
+    it("flags an unsupported relationship between two actors", () => {
       const issues = validate({
         elements: [
           element({
@@ -651,14 +672,31 @@ describe("ValidationPolicy", () => {
         ],
       });
 
-      expect(rulesOf(issues)).toContain("actor-connected-to-actor");
+      expect(rulesOf(issues)).toContain("invalid-actor-relationship");
       expect(issues).toContainEqual(
         expect.objectContaining({
           severity: "error",
-          rule: "actor-connected-to-actor",
+          rule: "invalid-actor-relationship",
           elementId: "actor1",
         }),
       );
+    });
+
+    it("accepts a communication mean between two operational actors", () => {
+      const issues = validate({
+        elements: [
+          element({ id: "crew1", type: "OperationalActor", layer: "OA" }),
+          element({ id: "crew2", type: "OperationalActor", layer: "OA" }),
+        ],
+        relationships: [
+          relationship({
+            sourceElementId: "crew1",
+            targetElementId: "crew2",
+            type: "CommunicationMean",
+          }),
+        ],
+      });
+      expect(rulesOf(issues)).not.toContain("invalid-actor-relationship");
     });
   });
 

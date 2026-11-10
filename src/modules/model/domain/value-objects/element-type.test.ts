@@ -34,8 +34,8 @@ describe("ElementType metadata", () => {
   it("groups types per layer", () => {
     const count = (layer: Layer) => ElementType.allForLayer(layer).length;
     expect(count(Layer.OA)).toBe(6);
-    expect(count(Layer.SA)).toBe(6);
-    expect(count(Layer.LA)).toBe(3);
+    expect(count(Layer.SA)).toBe(7);
+    expect(count(Layer.LA)).toBe(4);
     expect(count(Layer.PA)).toBe(4);
     expect(count(Layer.EPBS)).toBe(4);
   });

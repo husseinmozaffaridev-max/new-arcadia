@@ -49,6 +49,7 @@ describe("Diagram.create", () => {
     expect(diagram.description).toBe("");
     expect(diagram.viewport).toEqual({ x: 0, y: 0, zoom: 1 });
     expect(diagram.elementLayouts).toEqual([]);
+    expect(diagram.visibleRelationshipIds).toEqual([]);
     expect(diagram.createdAt).toBeInstanceOf(Date);
     expect(diagram.updatedAt).toBeInstanceOf(Date);
   });
@@ -83,6 +84,7 @@ describe("Diagram.reconstitute", () => {
     expect(diagram.description).toBe("overview");
     expect(diagram.viewport).toEqual({ x: 10, y: 20, zoom: 2 });
     expect(diagram.elementLayouts).toHaveLength(2);
+    expect(diagram.visibleRelationshipIds).toBeNull();
     expect(diagram.hasElement("element-1")).toBe(true);
     expect(diagram.getElementLayout("element-2")?.position).toEqual({
       x: 300,
@@ -100,6 +102,21 @@ describe("Diagram.reconstitute", () => {
     });
 
     expect(restored.toJSON()).toEqual(json);
+  });
+});
+
+describe("Diagram.setVisibleRelationships", () => {
+  it("stores unique relationship IDs for this view", () => {
+    const diagram = Diagram.create(createProps());
+    diagram.setVisibleRelationships(["exchange-1", "exchange-1", "exchange-2"]);
+    expect(diagram.visibleRelationshipIds).toEqual([
+      "exchange-1",
+      "exchange-2",
+    ]);
+    expect(diagram.toJSON().visibleRelationshipIds).toEqual([
+      "exchange-1",
+      "exchange-2",
+    ]);
   });
 });
 

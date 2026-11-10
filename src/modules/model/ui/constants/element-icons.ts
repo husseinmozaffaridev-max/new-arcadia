@@ -1,5 +1,4 @@
 import type { LucideIcon, LucideProps } from "lucide-react";
-import React, { forwardRef } from "react";
 import {
   Activity,
   Box,
@@ -16,6 +15,7 @@ import {
   User,
   Workflow,
 } from "lucide-react";
+import React, { forwardRef } from "react";
 import type { ClassElementTypeValue } from "../types/class-diagram";
 import type { ElementTypeValue } from "../types/element";
 
@@ -105,6 +105,7 @@ const DOMAIN_ICONS: Record<ElementTypeValue, LucideIcon> = {
   // ── SA ──
   System: Monitor,
   SystemActor: User,
+  SystemMission: Monitor,
   SystemFunction: FunctionSquare,
   SystemCapability: Target,
   SystemComponent: Box,
@@ -114,6 +115,7 @@ const DOMAIN_ICONS: Record<ElementTypeValue, LucideIcon> = {
   LogicalComponent: Box,
   LogicalActor: User,
   LogicalFunction: FunctionSquare,
+  LogicalCapability: Target,
 
   // ── PA ──
   PhysicalComponent: HardDrive,

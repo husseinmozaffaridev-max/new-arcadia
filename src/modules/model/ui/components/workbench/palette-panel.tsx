@@ -52,10 +52,19 @@ export function PalettePanel({ modelData }: { modelData: PaletteModelData }) {
    */
   const canEdit = useWorkbenchStore((s) => s.canEditLayer(layer));
 
-  const palette = useMemo(
-    () => (activeTab ? getDiagramPalette(activeTab.type) : null),
-    [activeTab],
-  );
+  const palette = useMemo(() => {
+    if (!activeTab) return null;
+    const diagramPalette = getDiagramPalette(activeTab.type);
+    const creatableTypes = new Set<string>(
+      getElementTypesForLayer(activeTab.layer).map((type) => type.value),
+    );
+    return {
+      ...diagramPalette,
+      elementTypes: diagramPalette.elementTypes.filter((type) =>
+        creatableTypes.has(type),
+      ),
+    };
+  }, [activeTab]);
 
   const layerElementTypes = useMemo(
     () => (palette ? null : getElementTypesForLayer(layer)),

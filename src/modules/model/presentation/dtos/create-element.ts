@@ -1,5 +1,8 @@
 import { validateRequiredName } from "../../domain/policies/naming";
-import type { ElementTypeValue } from "../../domain/value-objects/element-type";
+import {
+  ElementType,
+  type ElementTypeValue,
+} from "../../domain/value-objects/element-type";
 import type { LayerValue } from "../../domain/value-objects/layer"; // adjust import path as needed
 
 export type CreateElementDTOProps = {
@@ -64,41 +67,8 @@ export class CreateElementDTO {
   }
 
   private static validateType(type: ElementTypeValue): ElementTypeValue {
-    if (!type) {
-      throw new Error("Element type is required");
-    }
-
-    const validTypes: ElementTypeValue[] = [
-      "Mission",
-      "FunctionPort",
-      "OperationalActivity",
-      "OperationalActor",
-      "OperationalCapability",
-      "OperationalEntity",
-      "OperationalProcess",
-      "LogicalActor",
-      "LogicalComponent",
-      "LogicalFunction",
-      "PhysicalActor",
-      "PhysicalComponent",
-      "PhysicalFunction",
-      "PhysicalNode",
-      "System",
-      "SystemActor",
-      "SystemCapability",
-      "SystemComponent",
-      "SystemFunction",
-      "EPBSArchitecture",
-      "ConfigurationItem",
-      "ConfigurationItemPart",
-      "ConfigurationItemInterface",
-    ];
-
-    if (!validTypes.includes(type)) {
-      throw new Error(`Type must be one of: ${validTypes.join(", ")}`);
-    }
-
-    return type;
+    if (!type) throw new Error("Element type is required");
+    return ElementType.from(type).value;
   }
 
   private static validateName(name: string): string {

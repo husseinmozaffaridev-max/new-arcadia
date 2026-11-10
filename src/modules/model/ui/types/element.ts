@@ -1,32 +1,12 @@
-import type { ElementTypeCategory } from "../../domain/value-objects/element-type";
+import type {
+  ElementTypeValue as DomainElementTypeValue,
+  ElementTypeCategory,
+} from "../../domain/value-objects/element-type";
 import type { LayerValue } from "./layer";
 
 export type ElementStatus = "DRAFT" | "VALIDATED" | "DEPRECATED";
 
-export type ElementTypeValue =
-  | "Mission"
-  | "OperationalEntity"
-  | "OperationalActor"
-  | "OperationalActivity"
-  | "OperationalCapability"
-  | "OperationalProcess"
-  | "System"
-  | "SystemActor"
-  | "SystemFunction"
-  | "SystemCapability"
-  | "SystemComponent"
-  | "FunctionPort"
-  | "LogicalComponent"
-  | "LogicalActor"
-  | "LogicalFunction"
-  | "PhysicalComponent"
-  | "PhysicalNode"
-  | "PhysicalFunction"
-  | "PhysicalActor"
-  | "EPBSArchitecture"
-  | "ConfigurationItem"
-  | "ConfigurationItemPart"
-  | "ConfigurationItemInterface";
+export type ElementTypeValue = DomainElementTypeValue;
 
 export type { ElementTypeCategory };
 

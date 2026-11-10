@@ -103,6 +103,17 @@ describe("ModelElement.create", () => {
       ),
     ).toThrow("Actors cannot be decomposed or nested inside other elements");
   });
+
+  it("allows an operational actor to be contained by an entity", () => {
+    const actor = ModelElement.create(
+      createProps({
+        type: "OperationalActor",
+        layer: "OA",
+        parentId: "crew-entity",
+      }),
+    );
+    expect(actor.parentId).toBe("crew-entity");
+  });
 });
 
 describe("ModelElement.reconstitute", () => {

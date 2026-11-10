@@ -1,4 +1,7 @@
+import { ElementType } from "../value-objects/element-type";
 import { Layer, type LayerValue } from "../value-objects/layer";
+import { RelationshipType } from "../value-objects/relationship-type";
+import { ConnectionPolicy } from "./connection";
 import { checkName } from "./naming";
 
 export type ValidationSeverity = "error" | "warning" | "info";
@@ -323,7 +326,7 @@ export class ValidationPolicy {
     // ── Rule 5: Parent-child consistency ───────────────────────────────────
     const elementById = new Map(ctx.elements.map((e) => [e.id, e]));
 
-    // ── Rule 5b: No connection between two actors ─────────────────────────
+    // ── Rule 5b: Actor interactions must use a valid relation ────────────
     for (const rel of ctx.relationships) {
       const source = elementById.get(rel.sourceElementId);
       const target = elementById.get(rel.targetElementId);
@@ -331,13 +334,18 @@ export class ValidationPolicy {
         source &&
         target &&
         source.type.endsWith("Actor") &&
-        target.type.endsWith("Actor")
+        target.type.endsWith("Actor") &&
+        !ConnectionPolicy.isAllowed(
+          ElementType.from(source.type),
+          ElementType.from(target.type),
+          RelationshipType.from(rel.type),
+        )
       ) {
         issues.push({
           id: nextId(),
           severity: "error",
-          rule: "actor-connected-to-actor",
-          message: `Actor "${source.name}" cannot be connected to Actor "${target.name}". Actors cannot be connected to other actors.`,
+          rule: "invalid-actor-relationship",
+          message: `Relationship "${rel.type}" is not valid between actors "${source.name}" and "${target.name}".`,
           elementId: source.id,
           elementName: source.name,
           elementType: source.type,
@@ -349,7 +357,13 @@ export class ValidationPolicy {
 
     for (const el of ctx.elements) {
       if (el.parentId) {
-        if (el.type.endsWith("Actor")) {
+        const parent = elementById.get(el.parentId);
+        const isOperationalActorInEntity =
+          el.type === "OperationalActor" &&
+          el.layer === "OA" &&
+          parent?.type === "OperationalEntity" &&
+          parent.layer === "OA";
+        if (el.type.endsWith("Actor") && !isOperationalActorInEntity) {
           issues.push({
             id: nextId(),
             severity: "error",
@@ -361,7 +375,6 @@ export class ValidationPolicy {
             layer: el.layer as LayerValue,
           });
         }
-        const parent = elementById.get(el.parentId);
         if (!parent) {
           issues.push({
             id: nextId(),

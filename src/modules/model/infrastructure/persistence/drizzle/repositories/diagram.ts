@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import type {
   CreateDiagramPayload,
   FindByIdQuery,
@@ -12,7 +13,6 @@ import {
   type ElementLayout,
   type Viewport,
 } from "@/modules/model/domain/entities/diagram";
-import { eq } from "drizzle-orm";
 import { db } from "../client";
 import { diagrams } from "../schemas/diagram";
 
@@ -20,9 +20,16 @@ type DiagramRow = typeof diagrams.$inferSelect;
 
 function toEntity(row: DiagramRow): Diagram {
   // Parse JSON strings back to objects
-  const viewport: Viewport = row.viewport
-    ? (row.viewport as Viewport)
+  const storedViewport: Viewport = row.viewport
+    ? typeof row.viewport === "string"
+      ? (JSON.parse(row.viewport) as Viewport)
+      : (row.viewport as Viewport)
     : { x: 0, y: 0, zoom: 1 };
+  const viewport: Viewport = {
+    x: storedViewport.x,
+    y: storedViewport.y,
+    zoom: storedViewport.zoom,
+  };
 
   const elementLayouts: ElementLayout[] = row.elementLayouts
     ? (row.elementLayouts as ElementLayout[])
@@ -36,6 +43,7 @@ function toEntity(row: DiagramRow): Diagram {
     description: row.description ?? "",
     viewport,
     elementLayouts,
+    visibleRelationshipIds: storedViewport.visibleRelationshipIds ?? null,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   });
@@ -65,7 +73,7 @@ export class DrizzleDiagramRepository implements IDiagramRepository {
         type: payload.type.value,
         name: payload.name,
         description: payload.description ?? "",
-        viewport: JSON.stringify({ x: 0, y: 0, zoom: 1 }),
+        viewport: { x: 0, y: 0, zoom: 1, visibleRelationshipIds: [] },
         elementLayouts: [],
       })
       .returning();
@@ -95,7 +103,9 @@ export class DrizzleDiagramRepository implements IDiagramRepository {
 
   async updateLayout(payload: UpdateDiagramLayoutPayload): Promise<Diagram> {
     const now = new Date();
-    const updateData: any = { updatedAt: now };
+    const updateData: Partial<typeof diagrams.$inferInsert> = {
+      updatedAt: now,
+    };
 
     if (payload.viewport !== undefined) {
       updateData.viewport = payload.viewport;

@@ -8,6 +8,7 @@ export type UpdateDiagramLayoutPayload = {
     id: string;
     viewport?: Viewport;
     elementLayouts?: ElementLayout[];
+    visibleRelationshipIds?: string[];
   };
   context: {
     token: string;
@@ -24,6 +25,7 @@ export type UpdateDiagramLayoutResponse = {
   updatedAt: string;
   createdAt: string;
   elementLayouts: ElementLayout[];
+  visibleRelationshipIds: ReadonlyArray<string> | null;
 };
 
 /**
@@ -47,14 +49,20 @@ export class UpdateDiagramLayoutUseCase
         throw new Error(`Diagram not found with id : ${payload.id}`);
 
       diagram.updateViewport({ ...diagram.viewport, ...payload.viewport });
+      if (payload.visibleRelationshipIds !== undefined) {
+        diagram.setVisibleRelationships(payload.visibleRelationshipIds);
+      }
 
       const response = await this.diagramRepository.updateLayout({
         id: payload.id,
-        viewport: diagram.viewport,
-        elementLayouts: [
-          ...diagram.elementLayouts,
-          ...(payload?.elementLayouts ?? []),
-        ],
+        viewport: {
+          ...diagram.viewport,
+          visibleRelationshipIds:
+            diagram.visibleRelationshipIds === null
+              ? undefined
+              : [...diagram.visibleRelationshipIds],
+        },
+        elementLayouts: payload.elementLayouts,
       });
 
       return response.toJSON();

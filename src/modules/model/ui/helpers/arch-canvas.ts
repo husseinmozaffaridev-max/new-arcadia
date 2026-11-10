@@ -1,5 +1,9 @@
 import type { Edge, Node, XYPosition } from "@xyflow/react";
-import { canNestOnDiagram, getDiagramPalette } from "../helpers/diagram";
+import {
+  canNestOnDiagram,
+  getDiagramVisibleRelationshipTypes,
+  isTreeBreakdownDiagram,
+} from "../helpers/diagram";
 import { getNodeTypeForElement } from "../helpers/element";
 import type {
   ElementNodeData,
@@ -34,27 +38,23 @@ export function buildArchNodes(
         ? elements.find((p) => p.id === el.parentId)
         : undefined;
       const isParentActor = parentElement?.type?.endsWith("Actor");
-      const isSelfActor = el.type?.endsWith("Actor");
 
       const canNest =
         diagramType && parentElement
           ? canNestOnDiagram(el.type, parentElement.type, diagramType)
           : true;
 
-      // In function and activity breakdown diagrams (OABD, SFBD, LFBD, PFBD),
+      // In entity, function, and activity breakdown diagrams,
       // decomposition is rendered as a hierarchical tree with branching links (matching Capella),
-      // rather than visual box-in-box nesting (which is reserved for structural containers like System/Component/Node/Entity).
-      const isTreeBreakdown =
-        diagramType === "OABD" ||
-        diagramType === "SFBD" ||
-        diagramType === "LFBD" ||
-        diagramType === "PFBD";
+      // rather than visual box-in-box nesting.
+      const isTreeBreakdown = diagramType
+        ? isTreeBreakdownDiagram(diagramType)
+        : false;
 
       const effectiveParentId =
         canNest &&
         !isTreeBreakdown &&
         !isParentActor &&
-        !isSelfActor &&
         el.parentId &&
         layoutMap.has(el.parentId)
           ? el.parentId
@@ -109,6 +109,24 @@ export function buildArchNodes(
  */
 export type ArchCanvasEdge = Edge<RelationshipEdgeData>;
 
+// Saved diagrams may still contain relationships created with older layer-specific names.
+const LEGACY_EXCHANGES: Record<string, string[]> = {
+  OAB: ["OperationalExchange"],
+  OAIB: ["OperationalExchange"],
+  OPD: ["OperationalExchange"],
+  OAS: ["OperationalExchange"],
+  CSA: ["SystemExchange"],
+  SAB: ["SystemExchange"],
+  LAB: ["LogicalExchange"],
+  LDFB: ["LogicalExchange"],
+  LAS: ["LogicalExchange"],
+  LS: ["LogicalExchange"],
+  PAB: ["PhysicalExchange"],
+  PDFB: ["PhysicalExchange"],
+  PAS: ["PhysicalExchange"],
+  PS: ["PhysicalExchange"],
+};
+
 export function buildArchEdges(
   relationships: Array<{
     id: string;
@@ -122,14 +140,20 @@ export function buildArchEdges(
   modelId: string,
   diagramType?: string,
   elements?: Array<{ id: string; parentId?: string | null }>,
+  visibleRelationshipIds?: ReadonlyArray<string> | null,
 ): ArchCanvasEdge[] {
   const allowedRelTypes = diagramType
-    ? new Set(getDiagramPalette(diagramType).relationshipTypes)
+    ? new Set([
+        ...getDiagramVisibleRelationshipTypes(diagramType),
+        ...(LEGACY_EXCHANGES[diagramType] ?? []),
+      ])
     : null;
 
   const edges: ArchCanvasEdge[] = relationships
     .filter(
       (rel) =>
+        (visibleRelationshipIds == null ||
+          visibleRelationshipIds.includes(rel.id)) &&
         nodeIds.has(rel.sourceElementId) &&
         nodeIds.has(rel.targetElementId) &&
         (!allowedRelTypes ||
@@ -149,13 +173,11 @@ export function buildArchEdges(
       },
     }));
 
-  // On function and activity breakdown diagrams (OABD, SFBD, LFBD, PFBD),
+  // On entity, function, and activity breakdown diagrams,
   // automatically create tree hierarchy links between parent and child elements
-  const isTreeBreakdown =
-    diagramType === "OABD" ||
-    diagramType === "SFBD" ||
-    diagramType === "LFBD" ||
-    diagramType === "PFBD";
+  const isTreeBreakdown = diagramType
+    ? isTreeBreakdownDiagram(diagramType)
+    : false;
 
   if (isTreeBreakdown && elements) {
     const elMap = new Map(elements.map((e) => [e.id, e]));
@@ -165,14 +187,24 @@ export function buildArchEdges(
         edges.push({
           id: `tree-${el.parentId}-${el.id}`,
           type: "architecture-edge" as const,
-          source: el.parentId,
-          target: el.id,
+          source:
+            diagramType === "OEBD" || diagramType === "OEB"
+              ? el.id
+              : el.parentId,
+          target:
+            diagramType === "OEBD" || diagramType === "OEB"
+              ? el.parentId
+              : el.id,
+          selectable: false,
+          deletable: false,
           data: {
             name: "",
             modelId,
             relationshipId: `tree-${el.parentId}-${el.id}`,
             relationshipType: "Generalization" as RelationshipTypeValue,
             description: "Contained In",
+            hierarchy: true,
+            hierarchyArrow: diagramType === "OEBD" || diagramType === "OEB",
           },
         });
       }

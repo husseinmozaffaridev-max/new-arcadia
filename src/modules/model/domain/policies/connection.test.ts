@@ -32,10 +32,10 @@ describe("ConnectionPolicy", () => {
     ).toBe(false);
   });
 
-  it("allows generalization between entities in OA, but not actors", () => {
+  it("uses containment rather than generalization for operational entities", () => {
     expect(
       connect("OperationalEntity", "OperationalEntity", "Generalization"),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       connect("OperationalEntity", "OperationalActor", "Generalization"),
     ).toBe(false);
@@ -102,7 +102,16 @@ describe("ConnectionPolicy", () => {
     );
   });
 
-  it("allows interaction exchanges between entities and actors in OA, but never actor to actor", () => {
+  it("allows communication means between operational entities and actors", () => {
+    expect(
+      connect("OperationalEntity", "OperationalActor", "CommunicationMean"),
+    ).toBe(true);
+    expect(
+      connect("OperationalActor", "OperationalEntity", "CommunicationMean"),
+    ).toBe(true);
+    expect(
+      connect("OperationalActor", "OperationalActor", "CommunicationMean"),
+    ).toBe(true);
     expect(
       connect("OperationalEntity", "OperationalEntity", "OperationalExchange"),
     ).toBe(true);
@@ -117,8 +126,7 @@ describe("ConnectionPolicy", () => {
     ).toBe(false);
   });
 
-  it("never allows an actor to connect to another actor in any layer", () => {
-    // OA
+  it("allows actor exchanges only where the relationship rules support them", () => {
     expect(
       connect("OperationalActor", "OperationalActor", "OperationalExchange"),
     ).toBe(false);
@@ -126,24 +134,21 @@ describe("ConnectionPolicy", () => {
       connect("OperationalActor", "OperationalActor", "Generalization"),
     ).toBe(false);
 
-    // SA
     expect(connect("SystemActor", "SystemActor", "SystemExchange")).toBe(false);
     expect(connect("SystemActor", "SystemActor", "ComponentExchange")).toBe(
-      false,
+      true,
     );
     expect(connect("SystemActor", "SystemActor", "Generalization")).toBe(false);
 
-    // LA
     expect(connect("LogicalActor", "LogicalActor", "ComponentExchange")).toBe(
-      false,
+      true,
     );
     expect(connect("LogicalActor", "LogicalActor", "Generalization")).toBe(
       false,
     );
 
-    // PA
     expect(connect("PhysicalActor", "PhysicalActor", "ComponentExchange")).toBe(
-      false,
+      true,
     );
     expect(connect("PhysicalActor", "PhysicalActor", "Generalization")).toBe(
       false,
@@ -185,22 +190,22 @@ describe("ConnectionPolicy", () => {
     ).toBe(false);
   });
 
-  it("generalizes components in SA, LA and PA, but never actors", () => {
-    expect(connect("SystemComponent", "SystemComponent", "Generalization")).toBe(
-      true,
-    );
+  it("uses containment rather than generalization for components", () => {
+    expect(
+      connect("SystemComponent", "SystemComponent", "Generalization"),
+    ).toBe(false);
     expect(connect("SystemComponent", "SystemActor", "Generalization")).toBe(
       false,
     );
-    expect(connect("LogicalComponent", "LogicalComponent", "Generalization")).toBe(
-      true,
-    );
+    expect(
+      connect("LogicalComponent", "LogicalComponent", "Generalization"),
+    ).toBe(false);
     expect(connect("LogicalComponent", "LogicalActor", "Generalization")).toBe(
       false,
     );
     expect(
       connect("PhysicalComponent", "PhysicalComponent", "Generalization"),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       connect("PhysicalComponent", "PhysicalActor", "Generalization"),
     ).toBe(false);
@@ -287,7 +292,7 @@ describe("ConnectionPolicy.resolveTransitionType", () => {
         "LogicalFunction",
         "FunctionalExchange",
       ),
-    ).toBe("LogicalExchange");
+    ).toBe("FunctionalExchange");
     expect(
       ConnectionPolicy.resolveTransitionType(
         "LogicalComponent",

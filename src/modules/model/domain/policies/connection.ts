@@ -10,10 +10,11 @@ import { RelationshipType } from "../value-objects/relationship-type";
  * are dropped.
  */
 const EXCHANGE_TYPES: RelationshipTypeValue[] = [
-  "OperationalExchange",
   "FunctionalExchange",
-  "SystemExchange",
+  "CommunicationMean",
   "ComponentExchange",
+  "OperationalExchange",
+  "SystemExchange",
   "LogicalExchange",
   "PhysicalExchange",
 ];
@@ -30,15 +31,6 @@ export class ConnectionPolicy {
     targetType: ElementType,
     relationshipType: RelationshipType,
   ): void {
-    if (
-      sourceType.value.endsWith("Actor") &&
-      targetType.value.endsWith("Actor")
-    ) {
-      throw new Error(
-        `Connecting two actors ("${sourceType.label}" to "${targetType.label}") is not allowed. According to Arcadia methodology, actors cannot be connected to each other.`,
-      );
-    }
-
     const rule = CONNECTION_RULES.find(
       (r) =>
         r.relationshipType === relationshipType.value &&
@@ -59,10 +51,6 @@ export class ConnectionPolicy {
   ): RelationshipType[] {
     const source = ElementType.from(sourceType.toString()).value;
     const target = ElementType.from(targetType.toString()).value;
-
-    if (source.endsWith("Actor") && target.endsWith("Actor")) {
-      return [];
-    }
 
     const values = CONNECTION_RULES.filter(
       (r) =>

@@ -150,6 +150,12 @@ describe("canNestOnDiagram", () => {
       canNestOnDiagram("OperationalEntity", "OperationalEntity", "OEBD"),
     ).toBe(true);
     expect(
+      canNestOnDiagram("OperationalActor", "OperationalEntity", "OEBD"),
+    ).toBe(true);
+    expect(
+      canNestOnDiagram("OperationalActor", "OperationalActor", "OEBD"),
+    ).toBe(false);
+    expect(
       canNestOnDiagram("OperationalActivity", "OperationalActivity", "OABD"),
     ).toBe(true);
     expect(

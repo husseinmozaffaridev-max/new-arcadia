@@ -73,7 +73,11 @@ export class ModelElement extends Entity<string> {
       );
     }
 
-    if (props.parentId && elementType.isActor()) {
+    if (
+      props.parentId &&
+      elementType.isActor() &&
+      elementType.value !== "OperationalActor"
+    ) {
       throw new Error(
         "Actors cannot be decomposed or nested inside other elements",
       );

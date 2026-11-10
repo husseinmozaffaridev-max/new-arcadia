@@ -26,6 +26,27 @@ export interface TraceRule {
 export const CONNECTION_RULES: ConnectionRule[] = [
   // ─── OA ────────────────────────────────────────────────────────────────────
   {
+    relationshipType: "FunctionalExchange",
+    layer: Layer.OA,
+    allowedSources: ["OperationalActivity"],
+    allowedTargets: ["OperationalActivity"],
+    descriptionFa: "تبادل تابعی بین فعالیت‌های عملیاتی",
+  },
+  {
+    relationshipType: "CommunicationMean",
+    layer: Layer.OA,
+    allowedSources: ["OperationalEntity"],
+    allowedTargets: ["OperationalEntity", "OperationalActor"],
+    descriptionFa: "وسیلهٔ ارتباط بین موجودیت‌های عملیاتی",
+  },
+  {
+    relationshipType: "CommunicationMean",
+    layer: Layer.OA,
+    allowedSources: ["OperationalActor"],
+    allowedTargets: ["OperationalEntity", "OperationalActor"],
+    descriptionFa: "وسیلهٔ ارتباط بازیگر با موجودیت یا بازیگر عملیاتی",
+  },
+  {
     relationshipType: "OperationalExchange",
     layer: Layer.OA,
     allowedSources: ["OperationalActivity"],
@@ -58,13 +79,6 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     allowedTargets: ["OperationalCapability"],
     descriptionFa:
       "پیوند مشارکت بین موجودیت/بازیگر/فعالیت/مأموریت و قابلیت عملیاتی",
-  },
-  {
-    relationshipType: "Generalization",
-    layer: Layer.OA,
-    allowedSources: ["OperationalEntity"],
-    allowedTargets: ["OperationalEntity"],
-    descriptionFa: "تعمیم بین موجودیت‌های عملیاتی",
   },
   {
     relationshipType: "Allocation",
@@ -106,8 +120,8 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     relationshipType: "ComponentExchange",
     layer: Layer.SA,
     allowedSources: ["SystemActor"],
-    allowedTargets: ["System", "SystemComponent"],
-    descriptionFa: "تبادل مؤلفه از بازیگر به سیستم یا مؤلفه‌ها",
+    allowedTargets: ["System", "SystemComponent", "SystemActor"],
+    descriptionFa: "تبادل مؤلفه از بازیگر به سیستم، مؤلفه یا بازیگر سیستم",
   },
   {
     relationshipType: "InvolvementLink",
@@ -122,11 +136,11 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     descriptionFa: "پیوند مشارکت بین سیستم/مؤلفه/بازیگر/تابع و قابلیت سیستم",
   },
   {
-    relationshipType: "Generalization",
+    relationshipType: "InvolvementLink",
     layer: Layer.SA,
-    allowedSources: ["SystemComponent"],
-    allowedTargets: ["SystemComponent"],
-    descriptionFa: "تعمیم بین مؤلفه‌های سیستم",
+    allowedSources: ["System", "SystemComponent", "SystemActor"],
+    allowedTargets: ["SystemMission"],
+    descriptionFa: "مشارکت سیستم یا بازیگر در مأموریت سیستم",
   },
   // ─── Allocation (function → component, same layer) ─────────────────────────
   {
@@ -137,6 +151,13 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     descriptionFa: "تابع سیستم به سیستم/مؤلفه/بازیگر سیستم تخصیص می‌یابد",
   },
   // ─── LA ────────────────────────────────────────────────────────────────────
+  {
+    relationshipType: "FunctionalExchange",
+    layer: Layer.LA,
+    allowedSources: ["LogicalFunction"],
+    allowedTargets: ["LogicalFunction"],
+    descriptionFa: "تبادل تابعی بین توابع منطقی",
+  },
   {
     relationshipType: "LogicalExchange",
     layer: Layer.LA,
@@ -155,8 +176,8 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     relationshipType: "ComponentExchange",
     layer: Layer.LA,
     allowedSources: ["LogicalActor"],
-    allowedTargets: ["LogicalComponent"],
-    descriptionFa: "تبادل مؤلفه از بازیگر به مؤلفه‌های منطقی",
+    allowedTargets: ["LogicalComponent", "LogicalActor"],
+    descriptionFa: "تبادل مؤلفه از بازیگر به مؤلفه یا بازیگر منطقی",
   },
   {
     relationshipType: "ProvidedInterface",
@@ -180,13 +201,20 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     descriptionFa: "تابع منطقی به مؤلفه/بازیگر منطقی تخصیص می‌یابد",
   },
   {
-    relationshipType: "Generalization",
+    relationshipType: "InvolvementLink",
     layer: Layer.LA,
-    allowedSources: ["LogicalComponent"],
-    allowedTargets: ["LogicalComponent"],
-    descriptionFa: "تعمیم بین مؤلفه‌های منطقی",
+    allowedSources: ["LogicalComponent", "LogicalActor", "LogicalFunction"],
+    allowedTargets: ["LogicalCapability"],
+    descriptionFa: "مشارکت اجزای منطقی در تحقق قابلیت",
   },
   // ─── PA ────────────────────────────────────────────────────────────────────
+  {
+    relationshipType: "FunctionalExchange",
+    layer: Layer.PA,
+    allowedSources: ["PhysicalFunction"],
+    allowedTargets: ["PhysicalFunction"],
+    descriptionFa: "تبادل تابعی بین توابع فیزیکی",
+  },
   {
     relationshipType: "PhysicalExchange",
     layer: Layer.PA,
@@ -205,8 +233,8 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     relationshipType: "ComponentExchange",
     layer: Layer.PA,
     allowedSources: ["PhysicalActor"],
-    allowedTargets: ["PhysicalComponent"],
-    descriptionFa: "تبادل مؤلفه از بازیگر به مؤلفه‌های فیزیکی",
+    allowedTargets: ["PhysicalComponent", "PhysicalActor"],
+    descriptionFa: "تبادل مؤلفه از بازیگر به مؤلفه یا بازیگر فیزیکی",
   },
   {
     relationshipType: "PhysicalLink",
@@ -228,13 +256,6 @@ export const CONNECTION_RULES: ConnectionRule[] = [
     allowedSources: ["PhysicalFunction"],
     allowedTargets: ["PhysicalComponent", "PhysicalActor"],
     descriptionFa: "تابع فیزیکی به مؤلفه/بازیگر فیزیکی تخصیص می‌یابد",
-  },
-  {
-    relationshipType: "Generalization",
-    layer: Layer.PA,
-    allowedSources: ["PhysicalComponent", "PhysicalNode"],
-    allowedTargets: ["PhysicalComponent", "PhysicalNode"],
-    descriptionFa: "تعمیم بین مؤلفه‌ها و گره‌های فیزیکی",
   },
   // ─── EPBS ──────────────────────────────────────────────────────────────────
   {
@@ -312,6 +333,14 @@ export const TRACE_RULES: TraceRule[] = [
     targetLayer: Layer.SA,
     targetTypes: ["SystemActor"],
     descriptionFa: "بازیگر منطقی، بازیگر سیستم را محقق می‌کند",
+  },
+  {
+    type: "Realization",
+    sourceLayer: Layer.LA,
+    sourceTypes: ["LogicalCapability"],
+    targetLayer: Layer.SA,
+    targetTypes: ["SystemCapability"],
+    descriptionFa: "تحقق قابلیت منطقی، قابلیت سیستم را محقق می‌کند",
   },
   // ─── PA realizes LA ────────────────────────────────────────────────────────
   {

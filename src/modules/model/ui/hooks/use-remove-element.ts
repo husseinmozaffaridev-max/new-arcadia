@@ -7,6 +7,7 @@ import { useRemoveClassElement } from "../clients/remove-class-element";
 import { useRemoveElement } from "../clients/remove-element";
 import { useUpdateClassDiagramLayout } from "../clients/update-class-diagram-layout";
 import { useUpdateDiagramLayout } from "../clients/update-diagram-layout";
+import { nodesToArchLayouts } from "../helpers/arch-canvas";
 import { isContainerType } from "../helpers/class-diagram";
 import { useCanvasStore } from "../stores/canvas";
 
@@ -152,17 +153,22 @@ export function useRemoveElementSync() {
           },
         );
       } else {
-        const diagramQuery = queryClient.getQueryData(
-          getDiagramByIdKey(diagramId),
-        ) as any;
-        const currentLayouts = diagramQuery?.elementLayouts ?? [];
-        const filteredLayouts = currentLayouts
-          .filter((l: any) => l.elementId !== nodeId)
-          .map((l: any) => ({
-            elementId: l.elementId,
-            position: l.position,
-            size: l.size,
-          }));
+        const absoluteLayouts = nodesToArchLayouts(nodes);
+        const filteredLayouts = absoluteLayouts.filter(
+          (layout) => layout.elementId !== nodeId,
+        );
+        const positionById = new Map(
+          absoluteLayouts.map((layout) => [layout.elementId, layout.position]),
+        );
+        for (const child of nodes.filter(
+          (candidate) => candidate.parentId === nodeId,
+        )) {
+          updateNode(child.id, {
+            parentId: undefined,
+            extent: undefined,
+            position: positionById.get(child.id) ?? child.position,
+          });
+        }
 
         removeNode(nodeId);
 

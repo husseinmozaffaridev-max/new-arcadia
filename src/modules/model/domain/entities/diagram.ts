@@ -5,6 +5,7 @@ export interface Viewport {
   x: number;
   y: number;
   zoom: number;
+  visibleRelationshipIds?: string[];
 }
 
 export interface ElementLayout {
@@ -20,6 +21,7 @@ interface DiagramProps {
   description?: string;
   viewport: Viewport;
   elementLayouts: Map<string, ElementLayout>;
+  visibleRelationshipIds: string[] | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -38,6 +40,7 @@ export class Diagram extends Entity<string> {
   private readonly _type: DiagramType;
   private _viewport: Viewport;
   private readonly _elementLayouts: Map<string, ElementLayout>;
+  private _visibleRelationshipIds: string[] | null;
   private _updatedAt: Date;
   readonly createdAt: Date;
 
@@ -49,6 +52,7 @@ export class Diagram extends Entity<string> {
     this._description = props.description;
     this._viewport = { ...props.viewport };
     this._elementLayouts = props.elementLayouts;
+    this._visibleRelationshipIds = props.visibleRelationshipIds;
     this.createdAt = props.createdAt;
     this._updatedAt = props.updatedAt;
   }
@@ -69,6 +73,7 @@ export class Diagram extends Entity<string> {
       description: props.description ?? "",
       viewport: { x: 0, y: 0, zoom: 1 },
       elementLayouts: new Map(),
+      visibleRelationshipIds: [],
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -82,6 +87,7 @@ export class Diagram extends Entity<string> {
     description: string;
     viewport: Viewport;
     elementLayouts: ElementLayout[];
+    visibleRelationshipIds?: ReadonlyArray<string> | null;
     createdAt: string;
     updatedAt: string;
   }): Diagram {
@@ -96,6 +102,9 @@ export class Diagram extends Entity<string> {
       description: props.description,
       viewport: props.viewport,
       elementLayouts: layouts,
+      visibleRelationshipIds: props.visibleRelationshipIds
+        ? [...props.visibleRelationshipIds]
+        : null,
       createdAt: new Date(props.createdAt),
       updatedAt: new Date(props.updatedAt),
     });
@@ -122,6 +131,17 @@ export class Diagram extends Entity<string> {
 
   get elementLayouts(): ReadonlyArray<ElementLayout> {
     return Array.from(this._elementLayouts.values());
+  }
+
+  get visibleRelationshipIds(): ReadonlyArray<string> | null {
+    return this._visibleRelationshipIds
+      ? [...this._visibleRelationshipIds]
+      : null;
+  }
+
+  setVisibleRelationships(ids: string[]): void {
+    this._visibleRelationshipIds = [...new Set(ids)];
+    this._touch();
   }
 
   rename(name: string): void {
@@ -185,6 +205,7 @@ export class Diagram extends Entity<string> {
       description: this._description,
       viewport: this._viewport,
       elementLayouts: Array.from(this._elementLayouts.values()),
+      visibleRelationshipIds: this.visibleRelationshipIds,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this._updatedAt.toISOString(),
     };

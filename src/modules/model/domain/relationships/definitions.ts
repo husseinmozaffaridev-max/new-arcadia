@@ -3,6 +3,7 @@
 export type RelationshipTypeValue =
   | "Allocation"
   | "OperationalExchange"
+  | "CommunicationMean"
   | "InvolvementLink"
   | "FunctionalExchange"
   | "SystemExchange"
@@ -77,6 +78,18 @@ export const RELATIONSHIP_DEFINITIONS: Record<
     forwardFa: "تبادل دارد با",
     reverse: "exchanges with",
     reverseFa: "تبادل دارد با",
+  },
+  CommunicationMean: {
+    value: "CommunicationMean",
+    kind: "connection",
+    label: "Communication Mean",
+    labelFa: "وسیله ارتباط عملیاتی",
+    noun: "communication mean",
+    nounFa: "وسیله ارتباط",
+    forward: "communicates with",
+    forwardFa: "ارتباط دارد با",
+    reverse: "communicates with",
+    reverseFa: "ارتباط دارد با",
   },
   InvolvementLink: {
     value: "InvolvementLink",

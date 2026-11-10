@@ -4,23 +4,27 @@ export type UpdateDiagramLayoutDTOProps = {
   id: string;
   viewport?: Viewport;
   elementLayouts?: ElementLayout[];
+  visibleRelationshipIds?: string[];
 };
 
 export class UpdateDiagramLayoutDTO {
   public readonly id: string;
   public readonly viewport?: Viewport;
   public readonly elementLayouts?: ElementLayout[];
+  public readonly visibleRelationshipIds?: string[];
 
   private constructor(props: UpdateDiagramLayoutDTOProps) {
     this.id = props.id;
     this.viewport = props.viewport;
     this.elementLayouts = props.elementLayouts;
+    this.visibleRelationshipIds = props.visibleRelationshipIds;
   }
 
   static create(props: {
     id: string;
     viewport?: Viewport;
     elementLayouts?: ElementLayout[];
+    visibleRelationshipIds?: string[];
   }): UpdateDiagramLayoutDTO {
     return new UpdateDiagramLayoutDTO({
       id: UpdateDiagramLayoutDTO.validateId(props.id),
@@ -28,7 +32,21 @@ export class UpdateDiagramLayoutDTO {
       elementLayouts: UpdateDiagramLayoutDTO.validateElementLayouts(
         props.elementLayouts,
       ),
+      visibleRelationshipIds: UpdateDiagramLayoutDTO.validateRelationshipIds(
+        props.visibleRelationshipIds,
+      ),
     });
+  }
+
+  private static validateRelationshipIds(ids?: string[]): string[] | undefined {
+    if (ids === undefined) return undefined;
+    if (
+      !Array.isArray(ids) ||
+      ids.some((id) => typeof id !== "string" || !id.trim())
+    ) {
+      throw new Error("Visible relationship IDs must be non-empty strings");
+    }
+    return [...new Set(ids)];
   }
 
   private static validateId(id: string): string {
@@ -69,7 +87,8 @@ export class UpdateDiagramLayoutDTO {
       throw new Error("Element layouts must be an array");
     }
 
-    if (layouts.length === 0) return undefined; // treat empty array as undefined
+    // An empty list clears the diagram. It must remain distinct from an omitted field.
+    if (layouts.length === 0) return [];
 
     for (const layout of layouts) {
       if (!layout || typeof layout !== "object") {

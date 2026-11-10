@@ -93,7 +93,11 @@ export function ArchPalette({
 
       <div className="px-3 py-2 text-center">
         <p className="text-[10px] text-muted-foreground">
-          Drag elements onto the canvas. Connect by dragging between handles.
+          {activeTab.type === "OEBD" || activeTab.type === "OEB"
+            ? "Drag from a child entity or actor to its parent entity to build the hierarchy. Create communication links in OAB."
+            : activeTab.type === "OABD"
+              ? "Drag from a child activity to its parent activity to build the breakdown. Use OAIB for activity exchanges."
+              : "Drag elements onto the canvas. Connect by dragging between handles."}
         </p>
       </div>
     </>

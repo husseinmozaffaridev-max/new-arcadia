@@ -33,6 +33,11 @@ export const RELATIONSHIP_VISUAL: Record<
     strokeWidth: 1.5,
     arrowEnd: "arrow",
   },
+  CommunicationMean: {
+    strokeColor: "#2E86C1",
+    strokeWidth: 1.5,
+    arrowEnd: "none",
+  },
   InvolvementLink: {
     strokeColor: "#717D7E",
     strokeWidth: 1,

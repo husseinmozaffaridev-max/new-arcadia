@@ -89,29 +89,36 @@ function ArchitectureEdgeComponent({
     targetPosition,
   });
 
-  const spec = data?.relationshipType
-    ? getEdgeVisual(data.relationshipType)
-    : null;
+  const spec =
+    data?.relationshipType && !data.hierarchy
+      ? getEdgeVisual(data.relationshipType)
+      : null;
 
-  const edgeLabel =
-    data?.name?.trim() ||
-    (data?.relationshipType
-      ? getRelationshipTypeInfo(data.relationshipType).label
-      : "");
+  const edgeLabel = data?.hierarchy
+    ? ""
+    : data?.name?.trim() ||
+      (data?.relationshipType
+        ? getRelationshipTypeInfo(data.relationshipType).label
+        : "");
 
   const strokeColor = spec?.strokeColor ?? "#94a3b8";
   const strokeWidth = selected
     ? (spec?.strokeWidth ?? 1.5) + 1
     : (spec?.strokeWidth ?? 1.5);
   const strokeDash = spec?.strokeDash ?? "0";
-  const arrowEnd = spec?.arrowEnd ?? "none";
+  const arrowEnd = data?.hierarchyArrow
+    ? "open-arrow"
+    : (spec?.arrowEnd ?? "none");
 
   const endMarkerId =
     arrowEnd !== "none" ? getMarkerId(arrowEnd, id, "end") : undefined;
 
   return (
     <>
-      <svg style={{ position: "absolute", width: 0, height: 0 }}>
+      <svg
+        aria-hidden="true"
+        style={{ position: "absolute", width: 0, height: 0 }}
+      >
         <defs>
           {arrowEnd === "arrow" && endMarkerId && (
             <ArrowMarker id={endMarkerId} color={strokeColor} />

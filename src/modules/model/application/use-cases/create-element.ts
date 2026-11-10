@@ -2,10 +2,7 @@ import type { IUseCase } from "@/modules/shared/application/interfaces/use-case"
 import { resolveErrorMessage } from "@/modules/shared/utils/resolve-error-message";
 import type { ElementProperties } from "../../domain/entities/element";
 import { SHORT_NAME_MAX_LENGTH } from "../../domain/policies/naming";
-import {
-  findAvailableCountedName,
-  findAvailableName,
-} from "../../domain/policies/uniqueness";
+import { findAvailableCountedName } from "../../domain/policies/uniqueness";
 import {
   ElementType,
   type ElementTypeValue,
@@ -66,27 +63,40 @@ export class CreateElementUseCase
         );
       }
 
+      const elementType = ElementType.from(payload.type);
       if (payload.parentId) {
         const parent = await this.elementRepository.findElementById({
           id: payload.parentId,
         });
         if (!parent)
           throw new Error(`Parent element "${payload.parentId}" not found`);
-        if (!parent.layer.equals(layer)) {
-          throw new Error("Parent element must be in the same layer");
+        if (!parent.layer.equals(layer) || parent.modelId !== payload.modelId) {
+          throw new Error("Parent element must be in the same model and layer");
         }
         if (parent.type.isActor()) {
           throw new Error(
             "Actors cannot be decomposed or contain child elements",
           );
         }
-      }
-
-      const elementType = ElementType.from(payload.type);
-      if (payload.parentId && elementType.isActor()) {
-        throw new Error(
-          "Actors cannot be decomposed or nested inside other elements",
-        );
+        if (
+          elementType.value === "OperationalActivity" &&
+          parent.type.value !== "OperationalActivity"
+        ) {
+          throw new Error(
+            "An operational activity can only be contained by another operational activity",
+          );
+        }
+        if (
+          elementType.isActor() &&
+          !(
+            elementType.value === "OperationalActor" &&
+            parent.type.value === "OperationalEntity"
+          )
+        ) {
+          throw new Error(
+            "Only an operational actor may be contained by an operational entity",
+          );
+        }
       }
 
       const siblings = await this.elementRepository.findElementsByModelId({

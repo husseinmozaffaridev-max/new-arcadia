@@ -58,11 +58,11 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   // ─── OA ───
   OEBD: {
     elementTypes: ["OperationalEntity", "OperationalActor"],
-    relationshipTypes: ["Generalization"],
+    relationshipTypes: [],
   },
   OEB: {
     elementTypes: ["OperationalEntity", "OperationalActor"],
-    relationshipTypes: ["Generalization"],
+    relationshipTypes: [],
   },
   OAB: {
     elementTypes: [
@@ -70,11 +70,15 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "OperationalActor",
       "OperationalActivity",
     ],
-    relationshipTypes: ["OperationalExchange", "Allocation"],
+    relationshipTypes: [
+      "CommunicationMean",
+      "FunctionalExchange",
+      "Allocation",
+    ],
   },
   OAIB: {
     elementTypes: ["OperationalActivity"],
-    relationshipTypes: ["OperationalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   OABD: {
     elementTypes: ["OperationalActivity"],
@@ -82,7 +86,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   OPD: {
     elementTypes: ["OperationalActivity"],
-    relationshipTypes: ["OperationalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   OCB: {
     elementTypes: [
@@ -108,7 +112,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "OperationalActor",
       "OperationalActivity",
     ],
-    relationshipTypes: ["OperationalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   OIS: {
     elementTypes: [
@@ -116,7 +120,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "OperationalActor",
       "OperationalActivity",
     ],
-    relationshipTypes: ["OperationalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   OAAB: {
     elementTypes: [
@@ -124,7 +128,11 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "OperationalActor",
       "OperationalActivity",
     ],
-    relationshipTypes: ["OperationalExchange", "Allocation"],
+    relationshipTypes: [
+      "CommunicationMean",
+      "FunctionalExchange",
+      "Allocation",
+    ],
   },
   // ─── SA ───
   MCB: {
@@ -138,17 +146,12 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   CSA: {
     elementTypes: ["System", "SystemActor"],
-    relationshipTypes: ["SystemExchange"],
+    relationshipTypes: ["ComponentExchange"],
   },
   SAB: {
-    elementTypes: [
-      "System",
-      "SystemActor",
-      "SystemFunction",
-      "FunctionPort",
-    ],
+    elementTypes: ["System", "SystemActor", "SystemFunction", "FunctionPort"],
     relationshipTypes: [
-      "SystemExchange",
+      "ComponentExchange",
       "FunctionalExchange",
       "Allocation",
     ],
@@ -162,11 +165,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     relationshipTypes: [],
   },
   SCD: {
-    elementTypes: [
-      "SystemCapability",
-      "SystemActor",
-      "System",
-    ],
+    elementTypes: ["SystemCapability", "SystemActor", "System"],
     relationshipTypes: ["InvolvementLink"],
   },
   SFB: {
@@ -191,7 +190,6 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     ],
     relationshipTypes: [
       "ComponentExchange",
-      "LogicalExchange",
       "FunctionalExchange",
       "Allocation",
       "ProvidedInterface",
@@ -200,15 +198,15 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   LDFB: {
     elementTypes: ["LogicalFunction", "FunctionPort"],
-    relationshipTypes: ["LogicalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   LCBD: {
     elementTypes: ["LogicalComponent", "LogicalActor"],
-    relationshipTypes: ["Generalization"],
+    relationshipTypes: [],
   },
   LCB: {
     elementTypes: ["LogicalComponent"],
-    relationshipTypes: ["Generalization"],
+    relationshipTypes: [],
   },
   LFBD: {
     elementTypes: ["LogicalFunction"],
@@ -220,11 +218,11 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   LAS: {
     elementTypes: ["LogicalActor", "LogicalFunction"],
-    relationshipTypes: ["LogicalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   LS: {
     elementTypes: ["LogicalActor", "LogicalFunction", "LogicalComponent"],
-    relationshipTypes: ["LogicalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   // ─── PA ───
   PAB: {
@@ -237,7 +235,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
     ],
     relationshipTypes: [
       "ComponentExchange",
-      "PhysicalExchange",
+      "FunctionalExchange",
       "PhysicalLink",
       "DeploymentLink",
       "Allocation",
@@ -245,15 +243,15 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   PDFB: {
     elementTypes: ["PhysicalFunction", "FunctionPort"],
-    relationshipTypes: ["PhysicalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   PCBD: {
     elementTypes: ["PhysicalComponent", "PhysicalNode", "PhysicalActor"],
-    relationshipTypes: ["DeploymentLink", "Generalization"],
+    relationshipTypes: ["DeploymentLink"],
   },
   PCB: {
     elementTypes: ["PhysicalComponent", "PhysicalNode"],
-    relationshipTypes: ["DeploymentLink", "Generalization"],
+    relationshipTypes: ["DeploymentLink"],
   },
   CRB: {
     elementTypes: [
@@ -276,7 +274,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
   },
   PAS: {
     elementTypes: ["PhysicalActor", "PhysicalFunction"],
-    relationshipTypes: ["PhysicalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   PS: {
     elementTypes: [
@@ -285,7 +283,7 @@ const DIAGRAM_PALETTE: Record<DiagramTypeValue, DiagramPalette> = {
       "PhysicalComponent",
       "PhysicalNode",
     ],
-    relationshipTypes: ["PhysicalExchange"],
+    relationshipTypes: ["FunctionalExchange"],
   },
   // ─── EPBS (legacy rendering only — not offered in UI) ───
   EPBB: {
@@ -365,6 +363,12 @@ export function getDiagramPalette(typeValue: string): DiagramPalette {
     };
   }
 
+  // Capability realization is a cross-layer view: both logical and physical
+  // elements must be available from its toolbox.
+  if (typeValue === "CRB") {
+    return { ...DIAGRAM_PALETTE.CRB };
+  }
+
   const validTypes = new Set<string>(
     getElementTypesForLayer(layer).map((e) => e.value),
   );
@@ -385,12 +389,87 @@ export function getDiagramPalette(typeValue: string): DiagramPalette {
   };
 }
 
+/** Existing relations that a diagram may display, including projected relations. */
+export function getDiagramVisibleRelationshipTypes(
+  typeValue: string,
+): string[] {
+  const creationTypes = getDiagramPalette(typeValue).relationshipTypes;
+  // Capella also projects existing communication means into OCB views.
+  return typeValue === "OCB"
+    ? [...creationTypes, "CommunicationMean"]
+    : creationTypes;
+}
+
+const TREE_BREAKDOWN_DIAGRAMS = new Set([
+  "OEBD",
+  "OEB",
+  "OABD",
+  "SFBD",
+  "LFBD",
+  "PFBD",
+]);
+
+export function isTreeBreakdownDiagram(typeValue: string): boolean {
+  return TREE_BREAKDOWN_DIAGRAMS.has(typeValue);
+}
+
+/** A handle gesture on a breakdown view edits containment, not a model edge. */
+export function planHierarchyConnection(
+  child: { id: string; type: string },
+  parent: { id: string; type: string },
+  diagramType: string,
+  elements: ReadonlyArray<{ id: string; parentId?: string | null }>,
+): "valid" | "invalid-pair" | "self" | "cycle" | "already-parent" {
+  if (!canNestOnDiagram(child.type, parent.type, diagramType)) {
+    return "invalid-pair";
+  }
+  if (child.id === parent.id) return "self";
+  const byId = new Map(elements.map((element) => [element.id, element]));
+  if (byId.get(child.id)?.parentId === parent.id) return "already-parent";
+  let current: string | null | undefined = parent.id;
+  const visited = new Set<string>();
+  while (current && !visited.has(current)) {
+    if (current === child.id) return "cycle";
+    visited.add(current);
+    current = byId.get(current)?.parentId;
+  }
+  return "valid";
+}
+
+export function getConnectionFailureMessage(
+  sourceType: string,
+  targetType: string,
+  diagramType: string,
+  isFa: boolean,
+): string {
+  const operationalTypes = ["OperationalEntity", "OperationalActor"];
+  if (
+    (diagramType === "OEBD" || diagramType === "OEB") &&
+    operationalTypes.includes(sourceType) &&
+    operationalTypes.includes(targetType) &&
+    (sourceType === "OperationalEntity" || targetType === "OperationalEntity")
+  ) {
+    return isFa
+      ? "در OEBD/OEB خط اتصال، ساختار والد–فرزند را نشان می‌دهد. برای زیرمجموعه‌کردن، از عنصر فرزند به موجودیت والد وصل کنید؛ برای ارتباط عملیاتی در OAB رابطهٔ Communication Mean بسازید."
+      : "OEBD/OEB shows the parent-child hierarchy. Drag from a child to its parent entity for breakdown; create a Communication Mean in OAB for operational communication.";
+  }
+  if (diagramType === "OABD") {
+    return isFa
+      ? "در OABD از فعالیت فرزند به فعالیت والد وصل کنید تا ساختار شکست ساخته شود؛ برای تبادل بین فعالیت‌ها از OAIB استفاده کنید."
+      : "In OABD, drag from a child activity to its parent for breakdown; use OAIB for exchanges between activities.";
+  }
+  return isFa
+    ? `اتصال این عناصر در دیاگرام ${diagramType} مجاز نیست.`
+    : `Cannot connect these elements in ${diagramType} diagram.`;
+}
+
 /**
  * Determines whether childType may be nested/contained inside parentType on diagramType
  * according to Arcadia / Capella methodology.
  *
  * Rules:
- * - Actors can NEVER contain anything, can NEVER be nested, and have NO children.
+ * - Actors cannot contain children. In OEBD/OEB, an operational actor may be
+ *   contained by an operational entity (Crew contains Cabin Crew in the sample).
  * - OAB (Operational Architecture Blank): Flat canvas — NO structural breakdown (ساختار شکست)
  *   and NO decomposition (تجزیه) of any element (entities, actors, activities).
  *   Allocation of activities to entities/actors is modeled via Allocation relationship links.
@@ -405,7 +484,7 @@ export function canNestOnDiagram(
   parentType: string,
   diagramType: string,
 ): boolean {
-  if (childType.endsWith("Actor") || parentType.endsWith("Actor")) {
+  if (parentType.endsWith("Actor")) {
     return false;
   }
 
@@ -416,9 +495,11 @@ export function canNestOnDiagram(
   }
   if (diagramType === "OEB" || diagramType === "OEBD") {
     return (
-      childType === "OperationalEntity" && parentType === "OperationalEntity"
+      (childType === "OperationalEntity" || childType === "OperationalActor") &&
+      parentType === "OperationalEntity"
     );
   }
+  if (childType.endsWith("Actor")) return false;
   if (diagramType === "OABD") {
     return (
       childType === "OperationalActivity" &&

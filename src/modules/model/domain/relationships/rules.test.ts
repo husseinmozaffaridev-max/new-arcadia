@@ -35,8 +35,7 @@ describe("connection rules", () => {
       "PA",
       "SA",
     ]);
-    expect(connectionLayersFor("Generalization")).toContain("OA");
-    expect(connectionLayersFor("Generalization")).toContain("EPBS");
+    expect(connectionLayersFor("Generalization")).toEqual(["EPBS"]);
     expect(connectionLayersFor("DeploymentLink")).toEqual(["PA"]);
   });
 
@@ -56,14 +55,18 @@ describe("connection rules", () => {
 
   it("does not offer composition in any architecture layer (Capella removes Composition edge)", () => {
     expect(connectionLayersFor("Composition")).toEqual([]);
-    expect(connectionLayersFor("Generalization")).toEqual(
-      expect.arrayContaining(["OA", "SA", "LA", "PA", "EPBS"]),
-    );
+    expect(connectionLayersFor("Generalization")).toEqual(["EPBS"]);
   });
 
   it("supports interaction and functional exchanges across architecture layers", () => {
     expect(connectionLayersFor("OperationalExchange")).toEqual(["OA"]);
-    expect(connectionLayersFor("FunctionalExchange")).toEqual(["SA"]);
+    expect(connectionLayersFor("CommunicationMean")).toEqual(["OA"]);
+    expect(connectionLayersFor("FunctionalExchange")).toEqual([
+      "OA",
+      "SA",
+      "LA",
+      "PA",
+    ]);
     expect(connectionLayersFor("LogicalExchange")).toEqual(["LA"]);
     expect(connectionLayersFor("PhysicalExchange")).toEqual(["PA"]);
   });
@@ -74,19 +77,20 @@ describe("connection rules", () => {
     );
   });
 
-  it("never allows any connection rule between two actors", () => {
-    for (const rule of CONNECTION_RULES) {
-      const hasActorSource = rule.allowedSources.some((s) =>
-        s.endsWith("Actor"),
-      );
-      const hasActorTarget = rule.allowedTargets.some((t) =>
-        t.endsWith("Actor"),
-      );
-      expect(
-        hasActorSource && hasActorTarget,
-        `Rule ${rule.relationshipType} in layer ${rule.layer.value} must not allow both actor source and actor target`,
-      ).toBe(false);
-    }
+  it("permits actor interactions only through the layer's exchange type", () => {
+    const actorPairs = CONNECTION_RULES.filter(
+      (rule) =>
+        rule.allowedSources.some((source) => source.endsWith("Actor")) &&
+        rule.allowedTargets.some((target) => target.endsWith("Actor")),
+    );
+    expect(
+      actorPairs.map((rule) => [rule.layer.value, rule.relationshipType]),
+    ).toEqual([
+      ["OA", "CommunicationMean"],
+      ["SA", "ComponentExchange"],
+      ["LA", "ComponentExchange"],
+      ["PA", "ComponentExchange"],
+    ]);
   });
 });
 

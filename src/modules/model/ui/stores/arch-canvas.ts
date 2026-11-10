@@ -13,6 +13,8 @@ export type ElementNodeData = {
 };
 
 export type RelationshipEdgeData = {
+  hierarchy?: boolean;
+  hierarchyArrow?: boolean;
   name: string;
   modelId: string;
   relationshipId: string;

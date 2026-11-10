@@ -14,12 +14,17 @@ type OAElementValue =
 type SAElementValue =
   | "System"
   | "SystemActor"
+  | "SystemMission"
   | "SystemFunction"
   | "SystemCapability"
   | "SystemComponent"
   | "FunctionPort";
 
-type LAElementValue = "LogicalComponent" | "LogicalActor" | "LogicalFunction";
+type LAElementValue =
+  | "LogicalComponent"
+  | "LogicalActor"
+  | "LogicalFunction"
+  | "LogicalCapability";
 
 type PAElementValue =
   | "PhysicalComponent"
@@ -114,6 +119,12 @@ const META: Record<ElementTypeValue, ElementTypeMeta> = {
     layer: Layer.SA,
     category: "actor",
   },
+  SystemMission: {
+    label: "System Mission",
+    labelFa: "مأموریت سیستم",
+    layer: Layer.SA,
+    category: "mission",
+  },
   SystemFunction: {
     label: "System Function",
     labelFa: "تابع سیستم",
@@ -156,6 +167,12 @@ const META: Record<ElementTypeValue, ElementTypeMeta> = {
     labelFa: "تابع منطقی",
     layer: Layer.LA,
     category: "function",
+  },
+  LogicalCapability: {
+    label: "Logical Capability Realization",
+    labelFa: "تحقق قابلیت منطقی",
+    layer: Layer.LA,
+    category: "capability",
   },
   // PA
   PhysicalComponent: {

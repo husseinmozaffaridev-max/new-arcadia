@@ -70,6 +70,7 @@ export type Diagram = {
   description?: string;
   viewport: Viewport;
   elementLayouts: ElementLayout[];
+  visibleRelationshipIds?: string[] | null;
   createdAt: string;
   updatedAt: string;
 };

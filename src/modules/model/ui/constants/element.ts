@@ -72,6 +72,12 @@ export const ELEMENT_VISUAL: Record<ElementTypeValue, ElementVisualSpec> = {
     fillColorDark: "#2d3436",
     strokeColor: "#717D7E",
   },
+  SystemMission: {
+    shape: "ellipse",
+    fillColor: "#D5F5E3",
+    fillColorDark: "#0d2b1a",
+    strokeColor: "#1D8348",
+  },
   SystemFunction: {
     shape: "rectangle",
     fillColor: "#FAD7A0",
@@ -115,6 +121,12 @@ export const ELEMENT_VISUAL: Record<ElementTypeValue, ElementVisualSpec> = {
     fillColor: "#F9E79F",
     fillColorDark: "#3d3200",
     strokeColor: "#D4AC0D",
+  },
+  LogicalCapability: {
+    shape: "ellipse",
+    fillColor: "#A9DFBF",
+    fillColorDark: "#1a3d2b",
+    strokeColor: "#1E8449",
   },
   // ─── PA ───────────────────────────────────────────────────────────────────
   PhysicalComponent: {

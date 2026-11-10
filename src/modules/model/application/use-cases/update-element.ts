@@ -76,20 +76,57 @@ export class UpdateElementUseCase
       element.rename(payload.name);
 
       if (payload.parentId) {
-        if (element.type.isActor()) {
-          throw new Error(
-            "Actors cannot be decomposed or nested inside other elements",
-          );
+        if (payload.parentId === element.id) {
+          throw new Error("An element cannot contain itself");
         }
         const parent = await this.elementRepository.findElementById({
           id: payload.parentId,
         });
         if (!parent)
           throw new Error(`Parent element "${payload.parentId}" not found`);
+        if (
+          parent.modelId !== element.modelId ||
+          !parent.layer.equals(element.layer)
+        ) {
+          throw new Error("Parent element must be in the same model and layer");
+        }
         if (parent.type.isActor()) {
           throw new Error(
             "Actors cannot be decomposed or contain child elements",
           );
+        }
+        if (
+          element.type.value === "OperationalActivity" &&
+          parent.type.value !== "OperationalActivity"
+        ) {
+          throw new Error(
+            "An operational activity can only be contained by another operational activity",
+          );
+        }
+        if (
+          element.type.isActor() &&
+          !(
+            element.type.value === "OperationalActor" &&
+            parent.type.value === "OperationalEntity"
+          )
+        ) {
+          throw new Error(
+            "Only an operational actor may be contained by an operational entity",
+          );
+        }
+        const elementsById = new Map(
+          siblings.map((sibling) => [sibling.id, sibling]),
+        );
+        let ancestorId: string | null = parent.id;
+        const visited = new Set<string>();
+        while (ancestorId && !visited.has(ancestorId)) {
+          if (ancestorId === element.id) {
+            throw new Error(
+              "An element cannot be placed inside its descendant",
+            );
+          }
+          visited.add(ancestorId);
+          ancestorId = elementsById.get(ancestorId)?.parentId ?? null;
         }
       }
 

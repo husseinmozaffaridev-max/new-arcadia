@@ -1,8 +1,8 @@
 /**
  * ife.seed.ts
  *
- * Complete ARCADIA / Capella-style In-Flight Entertainment (IFE) system seed.
- * Exact reference implementation modeled directly from Thales Capella IFE:
+ * Editable ARCADIA / Capella-style In-Flight Entertainment (IFE) sample seed.
+ * Approximate subset of the Capella IFE reference (see docs/capella-reference-audit.md):
  * - OA: [OABD] All Activities, [OEBD] Entities & Actors, [OCB] Capabilities, [OAB] Architecture
  * - SA: [CSA] Contextual Actors, [MCB] Missions & Capabilities, [SFBD] Functions Breakdown, [SDFB] Data Flow, [SAB] System Architecture
  * - LA: [LCBD] Component Breakdown, [LFBD] Function Breakdown, [LDFB] Data Flow, [LAB] Logical Architecture, [CRB] Capability Realization
@@ -110,10 +110,13 @@ export async function seedIFEProject(input: SeedIFEInput, db: Database) {
     // Actors
     passenger: randomUUID(),
     crew: randomUUID(),
+    pilot: randomUUID(),
     groundOperator: randomUUID(),
     // Entities
     airline: randomUUID(),
     aircraft: randomUUID(),
+    crewEntity: randomUUID(),
+    personalDevice: randomUUID(),
     // Mission & Capabilities
     missionIFE: randomUUID(),
     capabilityEntertainment: randomUUID(),
@@ -143,6 +146,17 @@ export async function seedIFEProject(input: SeedIFEInput, db: Database) {
       parentId: null,
     },
     {
+      id: oa.crewEntity,
+      modelId: modelIds.oa,
+      layer: "OA",
+      type: "OperationalEntity",
+      name: "Crew",
+      description:
+        "Operational crew containing Cabin Crew in the Capella sample",
+      properties: { status: "VALIDATED" },
+      parentId: null,
+    },
+    {
       id: oa.crew,
       modelId: modelIds.oa,
       layer: "OA",
@@ -150,7 +164,17 @@ export async function seedIFEProject(input: SeedIFEInput, db: Database) {
       name: "Cabin Crew",
       description: "Cabin crew managing flight comfort and announcements",
       properties: { status: "VALIDATED" },
-      parentId: null,
+      parentId: oa.crewEntity,
+    },
+    {
+      id: oa.pilot,
+      modelId: modelIds.oa,
+      layer: "OA",
+      type: "OperationalActor",
+      name: "Pilot",
+      description: "Flight crew member operating the aircraft",
+      properties: { status: "VALIDATED" },
+      parentId: oa.crewEntity,
     },
     {
       id: oa.groundOperator,
@@ -179,6 +203,16 @@ export async function seedIFEProject(input: SeedIFEInput, db: Database) {
       type: "OperationalEntity",
       name: "Aircraft",
       description: "Physical aircraft hosting passenger cabins",
+      properties: { status: "VALIDATED" },
+      parentId: null,
+    },
+    {
+      id: oa.personalDevice,
+      modelId: modelIds.oa,
+      layer: "OA",
+      type: "OperationalEntity",
+      name: "Personal Device",
+      description: "Passenger-owned device used during the flight",
       properties: { status: "VALIDATED" },
       parentId: null,
     },
@@ -875,16 +909,25 @@ export async function seedIFEProject(input: SeedIFEInput, db: Database) {
     {
       id: randomUUID(),
       modelId: modelIds.oa,
-      type: "OperationalExchange",
-      name: "Announcement Audio",
-      sourceElementId: oa.crew,
-      targetElementId: oa.passenger,
+      type: "CommunicationMean",
+      name: "Crew-Aircraft Digital Network",
+      sourceElementId: oa.crewEntity,
+      targetElementId: oa.aircraft,
       properties: {},
     },
     {
       id: randomUUID(),
       modelId: modelIds.oa,
-      type: "OperationalExchange",
+      type: "CommunicationMean",
+      name: "Maintenance-Aircraft Digital Network",
+      sourceElementId: oa.groundOperator,
+      targetElementId: oa.aircraft,
+      properties: {},
+    },
+    {
+      id: randomUUID(),
+      modelId: modelIds.oa,
+      type: "FunctionalExchange",
       name: "Digital Media Exchange",
       sourceElementId: oa.actWatchMovie,
       targetElementId: oa.actUpdateMediaOffer,
@@ -1490,28 +1533,43 @@ export async function seedIFEProject(input: SeedIFEInput, db: Database) {
       elementLayouts: [
         {
           elementId: oa.airline,
-          position: { x: 80, y: 80 },
-          size: { width: 220, height: 90 },
+          position: { x: 600, y: 80 },
+          size: { width: 180, height: 90 },
         },
         {
           elementId: oa.aircraft,
-          position: { x: 360, y: 80 },
-          size: { width: 220, height: 90 },
+          position: { x: 370, y: 80 },
+          size: { width: 180, height: 90 },
         },
         {
           elementId: oa.passenger,
-          position: { x: 80, y: 260 },
-          size: { width: 180, height: 80 },
+          position: { x: 330, y: 430 },
+          size: { width: 150, height: 80 },
+        },
+        {
+          elementId: oa.crewEntity,
+          position: { x: 160, y: 80 },
+          size: { width: 150, height: 90 },
         },
         {
           elementId: oa.crew,
-          position: { x: 360, y: 260 },
-          size: { width: 180, height: 80 },
+          position: { x: 100, y: 250 },
+          size: { width: 150, height: 80 },
+        },
+        {
+          elementId: oa.pilot,
+          position: { x: 275, y: 250 },
+          size: { width: 150, height: 80 },
         },
         {
           elementId: oa.groundOperator,
-          position: { x: 640, y: 260 },
-          size: { width: 180, height: 80 },
+          position: { x: 100, y: 430 },
+          size: { width: 170, height: 80 },
+        },
+        {
+          elementId: oa.personalDevice,
+          position: { x: 600, y: 430 },
+          size: { width: 170, height: 80 },
         },
       ],
     },
@@ -1576,8 +1634,23 @@ export async function seedIFEProject(input: SeedIFEInput, db: Database) {
           size: { width: 180, height: 80 },
         },
         {
+          elementId: oa.crewEntity,
+          position: { x: 730, y: 80 },
+          size: { width: 230, height: 95 },
+        },
+        {
+          elementId: oa.aircraft,
+          position: { x: 1080, y: 80 },
+          size: { width: 220, height: 95 },
+        },
+        {
+          elementId: oa.groundOperator,
+          position: { x: 1080, y: 300 },
+          size: { width: 190, height: 80 },
+        },
+        {
           elementId: oa.crew,
-          position: { x: 800, y: 100 },
+          position: { x: 750, y: 205 },
           size: { width: 180, height: 80 },
         },
         {

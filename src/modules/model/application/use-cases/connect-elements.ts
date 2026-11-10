@@ -68,6 +68,16 @@ export class ConnectElementsUseCase
           `Element target not found : ${payload.targetElementId}`,
         );
 
+      if (
+        source.modelId !== payload.modelId ||
+        target.modelId !== payload.modelId ||
+        !source.layer.equals(target.layer)
+      ) {
+        throw new Error(
+          "Both relationship endpoints must belong to the selected model and layer; use a trace link between layers.",
+        );
+      }
+
       const sourceType = ElementType.from(source.type.value);
       const targetType = ElementType.from(target.type.value);
       const relationshipType = RelationshipType.from(payload.relationshipType);
