@@ -30,9 +30,7 @@ export function useSaveManager() {
   const updateClassDiagramLayout = useUpdateClassDiagramLayout();
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const { setSaveStatus, incrementPending, resetPending, pendingChanges } =
-    useModelStore();
+  const pendingChanges = useModelStore((s) => s.pendingChanges);
 
   const flush = useCallback(async () => {
     const currentDiagramId = useCanvasStore.getState().diagramId;
@@ -41,7 +39,7 @@ export function useSaveManager() {
     if (!currentDiagramId) return;
     if (timerRef.current) clearTimeout(timerRef.current);
 
-    setSaveStatus("saving");
+    useModelStore.getState().setSaveStatus("saving");
 
     // Determine which mutation to use based on node type
     const isClassDiagram =
@@ -62,11 +60,11 @@ export function useSaveManager() {
         },
         {
           onSuccess: () => {
-            resetPending();
-            setSaveStatus("saved");
+            useModelStore.getState().resetPending();
+            useModelStore.getState().setSaveStatus("saved");
           },
           onError: ({ message }) => {
-            setSaveStatus("error");
+            useModelStore.getState().setSaveStatus("error");
             toast.error(message || "Error saving diagram");
           },
         },
@@ -79,33 +77,28 @@ export function useSaveManager() {
         },
         {
           onSuccess: () => {
-            resetPending();
-            setSaveStatus("saved");
+            useModelStore.getState().resetPending();
+            useModelStore.getState().setSaveStatus("saved");
           },
           onError: ({ message }) => {
-            setSaveStatus("error");
+            useModelStore.getState().setSaveStatus("error");
             toast.error(message || "Error saving diagram");
           },
         },
       );
     }
-  }, [
-    setSaveStatus,
-    resetPending,
-    updateDiagramLayout,
-    updateClassDiagramLayout,
-  ]);
+  }, [updateDiagramLayout, updateClassDiagramLayout]);
 
   // نگه‌داشتن آخرین نسخه‌ی flush برای فراخوانی هنگام unmount
   const flushRef = useRef(flush);
   flushRef.current = flush;
 
   const notifyChange = useCallback(() => {
-    incrementPending();
+    useModelStore.getState().incrementPending();
 
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(flush, DEBOUNCE_MS);
-  }, [incrementPending, flush]);
+  }, [flush]);
 
   useEffect(() => {
     if (pendingChanges >= MAX_PENDING) {
