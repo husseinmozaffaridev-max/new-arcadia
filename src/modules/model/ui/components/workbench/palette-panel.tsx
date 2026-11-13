@@ -43,7 +43,16 @@ export function PalettePanel({ modelData }: { modelData: PaletteModelData }) {
 
   const layer = activeTab?.layer ?? currentLayer;
   const isClassDiagram = activeTab?.type === "CDB";
-  const isScenario = ["OIS", "SS", "LS", "PS"].includes(activeTab?.type ?? "");
+  const isScenario = [
+    "OIS",
+    "OAS",
+    "SS",
+    "SAS",
+    "LS",
+    "LAS",
+    "PS",
+    "PAS",
+  ].includes(activeTab?.type ?? "");
 
   /**
    * RBAC: the palette creates new model elements, so it is only rendered when

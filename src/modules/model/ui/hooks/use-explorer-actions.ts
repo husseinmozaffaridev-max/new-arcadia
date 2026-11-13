@@ -280,12 +280,22 @@ export function useExplorerActions({
           },
         );
       } else if (SCENARIO_TYPES.has(values.type)) {
+        const scenarioType =
+          values.type === "OAS"
+            ? "OIS"
+            : values.type === "SAS"
+              ? "SS"
+              : values.type === "LAS"
+                ? "LS"
+                : values.type === "PAS"
+                  ? "PS"
+                  : values.type;
         createScenario.mutate(
           {
             name: values.name,
             modelId: model.id,
             description: values.description,
-            scenarioType: values.type,
+            scenarioType,
           },
           {
             onSuccess: ({ data }) => {
